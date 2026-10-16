@@ -13,6 +13,17 @@
 @media(max-width:650px){.hero{min-height:256px;background-position:57% center}.hero-inner{padding:36px 19px}.hero h1{font-size:65px}.hero h2{max-width:250px;line-height:1.5;font-size:11px}.hero-sub{margin-top:17px;font-size:10px}.hero-mark{right:15px;font-size:8px}.container{padding:16px 12px 75px}.base-title{font-size:17px}.toolbar{gap:10px}.controls{width:100%}.controls .select{flex:1}.section-head h2{font-size:17px}.grid,.strip{gap:9px}.tile{padding:14px}.number{font-size:30px}.number em{font-size:12px}.strip{grid-template-columns:repeat(2,1fr)}.source-grid,.days{grid-template-columns:1fr}.baro canvas{height:245px}.panel{padding:14px}.alert{flex-wrap:wrap}.alert a{margin-left:33px}.form-row{grid-template-columns:1fr}.map-frame{height:315px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .observatory-nav{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}.observatory-nav a{padding:9px 14px;color:#f4f8f7;background:rgba(5,21,31,.8);border:1px solid rgba(146,205,210,.57);border-radius:8px;text-decoration:none;font-size:12px;font-weight:650;min-height:41px;display:inline-flex;align-items:center}.observatory-nav a[aria-current="page"]{background:#1a6266;border-color:#69c9c9}.observatory-nav a:hover{border-color:#fff}@media(max-width:580px){.observatory-nav a{flex:1;justify-content:center}.hero-inner{padding-top:18px}}
+
+.camera-layout{display:grid;grid-template-columns:minmax(0,650px) minmax(205px,1fr);gap:20px;align-items:start}
+.camera-main{min-width:0}
+.camera-live-list{background:#0a1c2a;border:1px solid #315064;border-radius:11px;padding:16px;display:flex;flex-direction:column;gap:9px}
+.camera-live-list h3{margin:0 0 4px;color:#e9f6f8;font-size:16px}
+.camera-live-list p{margin:0 0 8px;color:#a6c0cc;font-size:12px;line-height:1.5}
+.camera-live-list a{display:block;padding:11px 12px;border-radius:8px;border:1px solid #355468;color:#d7f4f3;background:#123145;text-decoration:none;font-size:13px;font-weight:600}
+.camera-live-list a:hover,.camera-live-list a:focus-visible{background:#205267;border-color:#72c5c7}
+.camera-live-list a:first-of-type{background:#19575f;border-color:#55a6a6}
+.camera-live-list small{color:#a6c0cc;font-size:11px;line-height:1.45}
+@media(max-width:760px){.camera-layout{grid-template-columns:1fr}.camera-live-list{margin-top:4px}}
 </style>
 
 <style>
@@ -67,7 +78,7 @@
     </select>
    </label>
   </div>
-  <div class="camera-display" id="cameraDisplay" aria-live="polite">
+  <div class="camera-layout"><div class="camera-main"><div class="camera-display" id="cameraDisplay" aria-live="polite">
    <div class="camera-unavailable"><strong>Camera image awaiting provider embed code</strong>Open the source feed using the button below.</div>
   </div>
   <div class="camera-meta">
@@ -80,7 +91,7 @@
    <a class="pill primary" id="cameraLiveLink" href="https://www.skylinewebcams.com/es/webcam/espana/islas-baleares/ibiza/sant-antoni-de-portmany.html" target="_blank" rel="noopener noreferrer">Watch live video ↗</a>
    <button class="pill" id="cameraReload" type="button">↻ Refresh image</button>
   </div>
-  <p class="footnote">SkylineWebcams permits its official five-minute image embeds when the provider's Share → Embed code is used. The actual capture time is not provided by this prototype. A refreshed page is <strong>not</strong> proof of a newly captured image. The Ibiza Style port feed requires separate permission. Webcam views are supplementary and do not establish safe offshore conditions.</p>
+  </div><aside class="camera-live-list" aria-label="External live webcams"><h3>◉ Live webcams ↗</h3><p>Open the original live camera in a new tab.</p><a href="https://ibiza-style.com/en/webcam-livecam-ibiza-port/" target="_blank" rel="noopener noreferrer">Ibiza Town · Port ↗</a><a href="https://www.skylinewebcams.com/es/webcam/espana/islas-baleares/ibiza/sant-antoni-de-portmany.html" target="_blank" rel="noopener noreferrer">Sant Antoni · Harbour ↗</a><a href="https://www.skylinewebcams.com/en/webcam/espana/islas-baleares/ibiza/cala-vadella.html" target="_blank" rel="noopener noreferrer">Cala Vadella · Bay ↗</a><a href="https://www.skylinewebcams.com/en/webcam/espana/islas-baleares/formentera/playa-es-pujols.html" target="_blank" rel="noopener noreferrer">Es Pujols · Beach ↗</a><a href="https://www.skylinewebcams.com/en/webcam/espana/islas-baleares/formentera/playa-es-pujols-formentera.html" target="_blank" rel="noopener noreferrer">Es Pujols · Second View ↗</a><small>External video feeds. Availability and latency depend on the provider.</small></aside></div>\n  <p class="footnote">SkylineWebcams permits its official five-minute image embeds when the provider's Share → Embed code is used. The actual capture time is not provided by this prototype. A refreshed page is <strong>not</strong> proof of a newly captured image. The Ibiza Style port feed requires separate permission. Webcam views are supplementary and do not establish safe offshore conditions.</p>
  </div>
 </section>
 <section aria-label="Authoritative weather services"><div class="section-head"><h2>Official bulletins &amp; specialist sources</h2><small>Direct source links · verify valid times</small></div><div class="source-grid">
