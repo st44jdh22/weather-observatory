@@ -20,7 +20,7 @@ a{color:#ead4a4} .links{display:flex;gap:16px;flex-wrap:wrap}.tag{color:#dec79b;
 </style></head><body><main>
 <div class="eyebrow">Personal meteorological observatory · Maritime edition</div><h1>STEPHEN'S WEATHER OBSERVATORY</h1>
 <p class="muted">Traditional recording barograph · Hourly weather · Synoptic analysis</p>
-<div class="controls"><input id="place" value="Aldbrough St John" aria-label="Location"><button id="find">Find location</button><button id="refresh">Update weather</button><select id="period"><option value="72">72-hour trace</option><option value="48">48-hour trace</option><option value="24">24-hour trace</option><option value="168">7-day trace</option></select></div>
+<div class="controls"><input id="place" value="Aldbrough St John" aria-label="Location"><button id="find">Find location</button><button id="ibiza-preset" type="button">Ibiza weather</button><button id="refresh">Update weather</button><select id="period"><option value="72">72-hour trace</option><option value="48">48-hour trace</option><option value="24">24-hour trace</option><option value="168">7-day trace</option></select></div>
 <nav aria-label="Quick weather links" style="display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 17px"><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer" style="background:#dfc99b;color:#17262a;padding:10px 14px;border-radius:5px;font-weight:700;text-decoration:none">⚓ AEMET · Balearic Marine ↗</a><a href="https://www.windguru.cz/6481" target="_blank" rel="noopener noreferrer" style="background:#dfc99b;color:#17262a;padding:10px 14px;border-radius:5px;font-weight:700;text-decoration:none">🌬 Windguru · Ibiza ↗</a><a href="#shipping" style="border:1px solid #b6aa90;color:#ead4a4;padding:10px 14px;border-radius:5px;text-decoration:none">Shipping Forecast ↓</a></nav>
 <div id="status" class="status" role="status">Ready to load pressure history.</div>
 <section class="panel"><div class="eyebrow">Instrument 01 / Digital barograph</div><h2>Atmospheric pressure record</h2>
@@ -97,8 +97,23 @@ let names=['UKMO','ECMWF'],ids=[['ukrain','ukgust'],['ecrain','ecgust']];
 results.forEach((r,i)=>{if(r.status==='fulfilled')statsModel(r.value,...ids[i]);else errors.push(names[i]+': '+r.reason.message)});
 $('compare').textContent=results.every(r=>r.status==='fulfilled')?'Both model feeds loaded. Compare their rainfall totals and peak gusts over the next 24 hours.':'One or both forecast model feeds unavailable; see status.';
 if(errors.length)setStatus((history?'Pressure loaded. ':'')+'Some feeds unavailable: '+errors.join('; '));}
-async function find(){let name=$('place').value.trim();if(!name)return;setStatus('Finding '+name+'…');try{let d=await get(url('https://geocoding-api.open-meteo.com/v1/search',{name,count:5,language:'en',format:'json'}));let x=d.results?.[0];if(!x)throw Error('No matching location');loc={name:x.name+(x.admin1?', '+x.admin1:''),lat:x.latitude,lon:x.longitude};history=null;draw();refresh()}catch(e){setStatus('Location lookup failed: '+e.message)}}
-$('refresh').onclick=refresh;$('find').onclick=find;$('period').onchange=draw;
+async function find(){
+ let name=$('place').value.trim();if(!name)return;
+ const normalized=name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ // Reliable Ibiza island/city preset: geocoding services may list it as Eivissa.
+ if(['ibiza','eivissa','ibiza town','ibiza spain','ibiza island'].includes(normalized)){
+   loc={name:'Ibiza (Eivissa), Balearic Islands',lat:38.9067,lon:1.4206};
+   $('place').value=loc.name;history=null;draw();await refresh();return;
+ }
+ setStatus('Finding '+name+'…');
+ try{
+   let d=await get(url('https://geocoding-api.open-meteo.com/v1/search',{name,count:10,language:'en',format:'json'}));
+   let x=d.results?.[0];if(!x)throw Error('No matching location');
+   loc={name:x.name+(x.admin1?', '+x.admin1:''),lat:x.latitude,lon:x.longitude};
+   $('place').value=loc.name;history=null;draw();await refresh();
+ }catch(e){setStatus('Location lookup failed: '+e.message+'. Try Ibiza or Eivissa for the built-in preset.')}
+}
+$('ibiza-preset').onclick=()=>{ $('place').value='Ibiza';find() };$('refresh').onclick=refresh;$('find').onclick=find;$('period').onchange=draw;
 $('fullpaste').onclick=()=>{try{let d=JSON.parse($('fulljson').value);handleHistory(d);forecastRender(d);setStatus('Historical pressure and three-day forecast loaded from pasted JSON. Model comparison requires separate feeds.')}catch(e){setStatus('Combined data invalid: '+e.message)}};
 $('paste').onclick=()=>{try{handleHistory(JSON.parse($('json').value))}catch(e){setStatus('Pasted data invalid: '+e.message)}};
 function shippingDisplay(){let raw;try{raw=JSON.parse(localStorage.getItem('stephen_shipping_bulletin')||'null')}catch(e){};if(!raw)return;let stale=Date.now()-raw.saved>12*3600000;$('shipping-status').textContent='Manually imported bulletin · '+(raw.issued||'issue time not entered')+(stale?' · STORED COPY MAY BE STALE':' · Not a live feed');$('gales-text').textContent=raw.gales||'No warning text imported. Check official warnings.';$('synopsis-text').textContent=raw.synopsis||'No synopsis imported.';$('area-text').textContent=raw.area||'No sea-area text imported.';$('sea-area').value=raw.areaName||'Tyne';}
