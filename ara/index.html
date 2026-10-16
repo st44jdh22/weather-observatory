@@ -14,6 +14,21 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .observatory-nav{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}.observatory-nav a{padding:9px 14px;color:#f4f8f7;background:rgba(5,21,31,.8);border:1px solid rgba(146,205,210,.57);border-radius:8px;text-decoration:none;font-size:12px;font-weight:650;min-height:41px;display:inline-flex;align-items:center}.observatory-nav a[aria-current="page"]{background:#1a6266;border-color:#69c9c9}.observatory-nav a:hover{border-color:#fff}@media(max-width:580px){.observatory-nav a{flex:1;justify-content:center}.hero-inner{padding-top:18px}}
 </style>
+
+<style>
+.coastal-camera{max-width:1120px;margin:0 auto}
+.camera-controls{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:13px}
+.camera-controls label{flex:1;min-width:220px}
+.camera-controls select{margin-top:5px}
+.camera-display{max-width:650px;aspect-ratio:16/9;background:#06131e;border:1px solid #34535f;border-radius:11px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.camera-display iframe,.camera-display img{width:100%;height:100%;border:0;object-fit:contain}
+.camera-unavailable{padding:22px;text-align:center;color:#aebfc8;max-width:440px}
+.camera-unavailable strong{display:block;color:#e8f2f3;font-size:17px;margin-bottom:8px}
+.camera-meta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:12px 0;color:#afc5cc;font-size:12px}
+.camera-meta strong{color:#dcebec}
+.camera-actions{display:flex;gap:9px;flex-wrap:wrap}
+@media(max-width:650px){.camera-display{max-width:100%}}
+</style>
 </head>
 <body>
 <header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION</span></header>
@@ -37,6 +52,37 @@
 <section aria-label="Three day forecast"><div class="section-head"><h2>72-hour forecast</h2><small>Forecast days use Ibiza local time</small></div><div class="days" id="days"><div class="day">Loading daily forecast…</div></div><div class="panel" style="margin-top:13px"><h3>Three-hourly weather, wind &amp; waves</h3><div class="scroller" id="hourly">Loading hourly data…</div><div class="footnote">Wind in knots, significant wave and swell in metres. Three-hourly point forecasts may miss short-lived gusts and local sea effects.</div></div></section>
 <section aria-label="Model comparison"><div class="section-head"><h2>Forecast model comparison</h2><small>ECMWF IFS versus UKMO · model availability may differ</small></div><div class="columns"><div class="panel"><h3>ECMWF <span class="source-chip">MODEL</span></h3><div id="ecmwf">Retrieving comparison…</div></div><div class="panel"><h3>UK Met Office <span class="source-chip">MODEL</span></h3><div id="ukmo">Retrieving comparison…</div></div></div></section>
 <section aria-label="Interactive maps"><div class="section-head"><h2>Interactive synoptic &amp; marine maps</h2><small>External Windy embed · loads on request</small></div><div class="panel"><div class="split-actions" style="margin-top:0;margin-bottom:13px"><button class="pill selected" type="button" data-map="wind">Wind map</button><button class="pill" type="button" data-map="waves">Wave map</button><button class="pill" type="button" data-map="pressure">Pressure map</button><a class="pill" id="windyLink" href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Full-screen Windy ↗</a></div><div id="mapHost" class="map-placeholder"><div style="font-size:28px">◉</div><div>Load an interactive third-party map when needed.<br><small>Windy content requires internet access.</small></div><button class="pill primary" id="loadMap">Load Windy map</button></div><div class="footnote">Maps are forecasts, not certified navigation charts. Map availability and embedding are controlled by Windy.</div></div></section>
+
+<section aria-label="Coastal camera monitor" id="coastal-cameras">
+ <div class="section-head"><h2>Coastal Camera Monitor</h2><small>Visual observations · external providers</small></div>
+ <div class="panel coastal-camera">
+  <div class="camera-controls">
+   <label class="field" for="coastalCamera">Select camera
+    <select id="coastalCamera">
+     <option value="sant">Sant Antoni · Beach &amp; Bay</option>
+     <option value="port">Ibiza Town · Port</option>
+     <option value="vadella">Cala Vadella · Bay</option>
+     <option value="pujols">Formentera · Es Pujols Beach</option>
+     <option value="pujols2">Formentera · Es Pujols Alternative</option>
+    </select>
+   </label>
+  </div>
+  <div class="camera-display" id="cameraDisplay" aria-live="polite">
+   <div class="camera-unavailable"><strong>Camera image awaiting provider embed code</strong>Open the source feed using the button below.</div>
+  </div>
+  <div class="camera-meta">
+   <span><strong>Source:</strong> <span id="cameraProvider">SkylineWebcams</span></span>
+   <span><strong>Provider image interval:</strong> <span id="cameraInterval">approximately 5 minutes</span></span>
+   <span><strong>Image captured:</strong> <span id="cameraCaptured">not supplied</span></span>
+   <span><strong>Last display request:</strong> <span id="cameraRequested">not requested</span></span>
+  </div>
+  <div class="camera-actions">
+   <a class="pill primary" id="cameraLiveLink" href="https://www.skylinewebcams.com/es/webcam/espana/islas-baleares/ibiza/sant-antoni-de-portmany.html" target="_blank" rel="noopener noreferrer">Watch live video ↗</a>
+   <button class="pill" id="cameraReload" type="button">↻ Refresh image</button>
+  </div>
+  <p class="footnote">SkylineWebcams permits its official five-minute image embeds when the provider's Share → Embed code is used. The actual capture time is not provided by this prototype. A refreshed page is <strong>not</strong> proof of a newly captured image. The Ibiza Style port feed requires separate permission. Webcam views are supplementary and do not establish safe offshore conditions.</p>
+ </div>
+</section>
 <section aria-label="Authoritative weather services"><div class="section-head"><h2>Official bulletins &amp; specialist sources</h2><small>Direct source links · verify valid times</small></div><div class="source-grid">
 <div class="panel source-card"><div><h3>AEMET · Ibiza coastal waters</h3><p>Primary official marine forecast and warnings. Read the bulletin for Aguas costeras de Ibiza and the intended route.</p></div><a class="link" href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&opc2=martot&opc3=1&area=bal1" target="_blank" rel="noopener noreferrer">Open coastal bulletin ↗</a></div>
 <div class="panel source-card"><div><h3>AEMET · Weather warnings</h3><p>Spanish official adverse weather warnings. Confirm active time, region and relevance offshore.</p></div><a class="link" href="https://www.aemet.es/es/eltiempo/prediccion/avisos" target="_blank" rel="noopener noreferrer">Open official warnings ↗</a></div>
@@ -54,4 +100,47 @@
 <footer class="fineprint"><strong>ARA Weather App · Development V2</strong> · Forecast guidance, not operational clearance. Open-Meteo weather and marine data are numerical models, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Warning feeds are <strong>not</strong> yet automated. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather &amp; marine data: Open-Meteo</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
 </main>
 <script src="app.js" defer></script>
+
+<script>
+(() => {
+  // Only paste official, authorised embed image URLs obtained from the provider's Share > Embed tool.
+  // Do not use extracted stream URLs or bypass the provider's embed restrictions.
+  const cameras = {
+    sant:{name:'Sant Antoni · Beach & Bay',provider:'SkylineWebcams',url:'https://www.skylinewebcams.com/es/webcam/espana/islas-baleares/ibiza/sant-antoni-de-portmany.html',embed:'https://embed.skylinewebcams.com/img/1110.jpg'},
+    port:{name:'Ibiza Town · Port',provider:'Ibiza Style',url:'https://ibiza-style.com/en/webcam-livecam-ibiza-port/',embed:null},
+    vadella:{name:'Cala Vadella · Bay',provider:'SkylineWebcams',url:'https://www.skylinewebcams.com/en/webcam/espana/islas-baleares/ibiza/cala-vadella.html',embed:'https://embed.skylinewebcams.com/img/713.jpg'},
+    pujols:{name:'Formentera · Es Pujols Beach',provider:'SkylineWebcams',url:'https://www.skylinewebcams.com/en/webcam/espana/islas-baleares/formentera/playa-es-pujols.html',embed:'https://embed.skylinewebcams.com/img/4727.jpg'},
+    pujols2:{name:'Formentera · Es Pujols Alternative',provider:'SkylineWebcams',url:'https://www.skylinewebcams.com/en/webcam/espana/islas-baleares/formentera/playa-es-pujols-formentera.html',embed:'https://embed.skylinewebcams.com/img/4731.jpg'}
+  };
+  const $ = id => document.getElementById(id);
+  function showCamera(){
+    const cam=cameras[$('coastalCamera').value], host=$('cameraDisplay');
+    host.replaceChildren();
+    $('cameraProvider').textContent=cam.provider;
+    $('cameraInterval').textContent=cam.provider==='SkylineWebcams'?'approximately 5 minutes':'not confirmed';
+    $('cameraCaptured').textContent='not supplied';
+    $('cameraRequested').textContent='not requested';
+    $('cameraLiveLink').href=cam.url;
+    if(cam.embed && /^https:\/\/embed\.skylinewebcams\.com\/img\/\d+\.jpg$/.test(cam.embed)){
+      const img=document.createElement('img');
+      img.alt='Provider webcam image: '+cam.name;
+      img.loading='lazy';
+      img.referrerPolicy='no-referrer-when-downgrade';
+      img.onload=()=>{$('cameraRequested').textContent=new Date().toLocaleTimeString('en-GB')+' (not capture time)'};
+      img.onerror=()=>{host.replaceChildren(makeFallback(cam))};
+      img.src=cam.embed+(cam.embed.includes('?')?'&':'?')+'refresh='+Math.floor(Date.now()/300000);
+      host.append(img);
+    } else host.append(makeFallback(cam));
+  }
+  function makeFallback(cam){
+    const div=document.createElement('div');div.className='camera-unavailable';
+    const heading=document.createElement('strong');heading.textContent=cam.name;
+    const text=document.createElement('span');text.textContent='An embedded still image is not available for this camera. Use Watch live video to view the source.';
+    div.append(heading,text);return div;
+  }
+  $('coastalCamera').addEventListener('change',showCamera);
+  $('cameraReload').addEventListener('click',showCamera);
+  showCamera();
+})();
+</script>
 </body></html>
