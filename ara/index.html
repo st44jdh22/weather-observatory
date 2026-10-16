@@ -50,6 +50,13 @@
 .hourly-details[open] .expand-hint{font-size:0}
 .hourly-details[open] .expand-hint::after{content:"Hide forecast ▴";font-size:12px}
 </style>
+
+<style>
+.marine-quick-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0 6px}
+.marine-quick-links a{display:flex;align-items:center;justify-content:center;min-height:46px;padding:9px 18px;border-radius:8px;border:1px solid #4a9396;background:#17464f;color:#e9f8f8;text-decoration:none;text-align:center;font-size:14px;font-weight:650;line-height:1.25;transition:background .15s,border-color .15s}
+.marine-quick-links a:hover,.marine-quick-links a:focus-visible{background:#23626b;border-color:#8ddbd9;outline-offset:2px}
+@media(max-width:650px){.marine-quick-links{grid-template-columns:1fr;gap:8px}.marine-quick-links a{min-height:43px}}
+</style>
 </head>
 <body>
 <header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION</span></header>
@@ -57,6 +64,11 @@
 <section class="toolbar" aria-label="Operating location and refresh"><div><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div></div><div class="controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></section>
 <div class="live-line"><span id="dataIndicator"><span class="dot"></span> Loading forecasts</span><span id="dataUpdated">Connecting to forecast providers…</span><span id="offlineNote" class="warning-text" hidden>Internet unavailable · figures must not be assumed current.</span></div>
 <div class="alert" role="status"><span class="alert-icon">⚠</span><div class="alert-content"><strong>Official AEMET marine warning status: <span class="warning-text">NOT AUTOMATICALLY VERIFIED</span></strong><p>Captain must open the current Balearic coastal bulletin, check issue time and active warnings before any departure. Unverified does not mean no warnings.</p></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&opc2=martot&opc3=1&area=bal1" target="_blank" rel="noopener noreferrer">AEMET ↗</a></div>
+<nav class="marine-quick-links" aria-label="Primary marine weather sources">
+<a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">AEMET · Ibiza Coastal Waters ↗</a>
+<a href="https://www.windguru.cz/" target="_blank" rel="noopener noreferrer" title="Select San Antonio / Sant Antoni on Windguru">Windguru · San Antonio ↗</a>
+<a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
+</nav>
 <section aria-labelledby="now-title"><div class="section-head"><h2 id="now-title">Operational weather picture</h2><small>Numerical model guidance · not measured onboard</small></div><div class="grid">
 <div class="tile key"><div class="lbl">Wind</div><div class="number" id="wind">—</div><div class="detail" id="windDir">Direction unavailable</div><div class="mini-note">10 m wind · model estimate</div></div>
 <div class="tile key"><div class="lbl">Peak gust</div><div class="number" id="gust">—</div><div class="detail" id="gustSub">10 m gust · model estimate</div><div class="mini-note">Check local effects and squalls</div></div>
