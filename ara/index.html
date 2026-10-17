@@ -26,6 +26,10 @@
 @media(max-width:760px){.camera-layout{grid-template-columns:1fr}.camera-live-list{margin-top:4px}}
  
 #ara-outlook{margin:22px 0 27px}.ara-version{display:inline-block;font-size:11px;color:#e7fffc;border:1px solid #3dbdb8;border-radius:6px;padding:3px 7px;vertical-align:middle}.ara-outlook-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 11px;font-size:12px;color:#c0d6dc}.ara-outlook-toolbar input{background:#102e3b;color:#fff;border:1px solid #4d8991;border-radius:7px;padding:9px}.ara-outlook-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.ara-outlook-item{min-height:84px;padding:14px 11px;border:1px solid #2b6170;background:#103040;border-radius:11px}.ara-outlook-item small{display:block;font-size:11px;color:#a5c8d0;margin-bottom:9px}.ara-outlook-item strong{display:block;font-size:20px;line-height:1.2;color:#f0fcff}.ara-confidence{border-color:#58b7ac;background:#174b50}.ara-outlook-evidence{font-size:12px;color:#c1d6df;margin:10px 0 3px}.ara-outlook-disclaimer{font-size:11px;color:#92b6bf;margin:5px 0 0}.ara-outlook-row[data-level="Very poor"] .ara-outlook-item:first-child,.ara-outlook-row[data-level="Unsettled"] .ara-outlook-item:first-child{border-color:#db7d62;background:#633a39}.ara-outlook-row[data-level="Mixed"] .ara-outlook-item:first-child{border-color:#b9a15c;background:#564e30}.ara-outlook-row[data-level="Fine"] .ara-outlook-item:first-child,.ara-outlook-row[data-level="Very good"] .ara-outlook-item:first-child{border-color:#67bd9e;background:#1e594b}@media(max-width:950px){.ara-outlook-row{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:600px){.ara-outlook-row{grid-template-columns:repeat(2,minmax(0,1fr))}.ara-outlook-item strong{font-size:17px}}
+ 
+#now-title{font-size:clamp(21px,2vw,28px)}section[aria-labelledby="now-title"] .lbl{font-size:13px!important;font-weight:800!important;letter-spacing:.045em!important;color:#b9e2e5!important}section[aria-labelledby="now-title"] .tile.key .lbl{font-size:15px!important}section[aria-labelledby="now-title"] .mini-note{font-size:12px!important}
+
+#captain-weather-summary{margin:0 0 28px;padding:19px;border:1px solid #438b91;border-radius:16px;background:linear-gradient(120deg,#102c3a,#153c46)}.captain-summary-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.captain-summary-card{display:flex;gap:9px;min-width:0;padding:14px 10px;border-radius:12px;background:rgba(4,24,34,.58);border:1px solid #2c6470}.captain-summary-icon{font-size:23px;flex:none}.captain-summary-card>div{min-width:0;width:100%}.captain-summary-card small{display:block;color:#a6c9d1;font-size:11px;margin-bottom:8px}.captain-summary-card strong{display:block;color:#f3fcff;font-size:17px;line-height:1.2;overflow-wrap:anywhere}.captain-summary-detail{display:block;color:#b7dadf;font-size:12px;line-height:1.35;margin-top:5px}.captain-summary-confidence{border-color:#60b7aa}.captain-confidence-track{height:7px;border-radius:6px;background:#284957;margin-top:10px;overflow:hidden}.captain-confidence-track>div{height:100%;width:0;background:#60c5b0;transition:width .3s}.captain-caution{margin:13px 0 4px;padding:10px 13px;border-left:3px solid #edbd76;background:#223b42;border-radius:4px;font-size:13px;color:#f1e8d7}@media(max-width:1050px){.captain-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:650px){.captain-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.captain-summary-card strong{font-size:15px}}
 </style>
 
 <style>
@@ -91,7 +95,7 @@
 <a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
 </nav>
 <section id="ara-outlook" aria-labelledby="ara-outlook-title">
- <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V4.1</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5</span></h2><small>Numerical forecast · not live observed conditions</small></div>
  <div class="ara-outlook-toolbar"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period">Ibiza local · 08:00–18:00</span></div>
  <div class="ara-outlook-row" aria-live="polite">
  <div class="ara-outlook-item"><small>Conditions</small><strong id="ara-outlook-state">Loading…</strong></div>
@@ -103,17 +107,29 @@
  <p id="ara-outlook-evidence" class="ara-outlook-evidence">Comparing ECMWF and GFS forecast guidance…</p>
  <p class="ara-outlook-disclaimer">* Experimental <b>model agreement</b> percentage (ECMWF IFS versus NOAA GFS), not a verified probability that the forecast will be correct. Wave conditions from Open-Meteo Marine. AEMET warnings not automatically checked.</p>
  </section>
+<section id="captain-weather-summary" aria-labelledby="captain-summary-title">
+ <div class="section-head"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5</span></h2><small>Forecast overview · Ibiza local 08:00–18:00</small></div>
+ <div class="captain-summary-grid" aria-live="polite">
+  <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
+  <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
+  <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">💨</span><div><small>Wind</small><strong id="cs-wind">—</strong><span id="cs-wind-force" class="captain-summary-detail">—</span></div></div>
+  <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌬️</span><div><small>Peak gusts</small><strong id="cs-gust">—</strong><span id="cs-gust-force" class="captain-summary-detail">—</span></div></div>
+  <div class="captain-summary-card captain-summary-confidence"><span class="captain-summary-icon" aria-hidden="true">📊</span><div><small>Forecast confidence*</small><strong id="cs-confidence">—</strong><div class="captain-confidence-track"><div id="cs-confidence-fill"></div></div></div></div>
+ </div>
+ <p id="cs-caution" class="captain-caution">Captain’s caution: Check local conditions and official AEMET warnings before departure.</p>
+ <p class="ara-outlook-disclaimer">* Confidence is experimental ECMWF–GFS model agreement, not the probability the forecast is correct. Beaufort force for gusts describes the instantaneous speed equivalent, not sustained wind conditions.</p>
+</section>
 <section aria-labelledby="now-title"><div class="section-head"><h2 id="now-title">Operational weather picture</h2><small>Numerical model guidance · not measured onboard</small></div><div class="grid">
 <div class="tile key"><div class="lbl">Wind</div><div class="number" id="wind">—</div><div class="detail" id="windDir">Direction unavailable</div><div class="mini-note">10 m wind · model estimate</div></div>
 <div class="tile key"><div class="lbl">Peak gust</div><div class="number" id="gust">—</div><div class="detail" id="gustSub">10 m gust · model estimate</div><div class="mini-note">Check local effects and squalls</div></div>
 <div class="tile key"><div class="lbl">Significant wave height</div><div class="number" id="wave">—</div><div class="detail" id="waveDir">Offshore grid · direction pending</div><div class="mini-note">Not a harbour or berth reading</div></div>
-<div class="tile key"><div class="lbl">Wave period</div><div class="number" id="wavePeriod">—</div><div class="detail" id="waveSource">Marine model guidance</div><div class="mini-note">Consider exposed passages</div></div>
+<div class="tile key"><div class="lbl">Chance of rain</div><div class="number" id="rain">—</div><div class="detail" id="rainSub">Forecast probability</div><div class="mini-note">Probability at the selected forecast hour</div></div>
 </div><div class="strip">
-<div class="smalltile"><div class="lbl">Swell height / direction</div><strong id="swell">—</strong><span class="detail" id="swellDir">Offshore model</span></div>
+<div class="smalltile"><div class="lbl">Beaufort wind force</div><strong id="beaufort">—</strong><span class="detail" id="beaufortSub">Based on forecast wind · gusts shown separately</span></div>
 <div class="smalltile"><div class="lbl">Barometric pressure</div><strong id="press">—</strong><span class="detail" id="pressureTrend">3 h / 6 h / 24 h tendencies</span></div>
 <div class="smalltile"><div class="lbl">Air temperature</div><strong id="temp">—</strong><span class="detail" id="sky">Model conditions</span></div>
-<div class="smalltile"><div class="lbl">Rain probability</div><strong id="rain">—</strong><span class="detail" id="rainSub">Next forecast hour</span></div>
-</div></section>
+<div class="smalltile"><div class="lbl">Forecast weather</div><strong id="weatherCondition">—</strong><span class="detail">Based on the model weather description</span></div>
+</div><div hidden aria-hidden="true"><span id="wavePeriod"></span><span id="waveSource"></span><span id="swell"></span><span id="swellDir"></span></div></section>
 <section aria-label="Forecast synopsis"><div class="section-head"><h2>Captain's quick read</h2><small>Forecast-derived prompts, not a go / no-go instruction</small></div><div class="panel"><div id="quickRead">Forecast data is loading. Check the official coastal forecast independently.</div><p class="footnote">Wind, swell, thunderstorm and exposure implications depend on route, sea area, vessel condition, crew and onboard observations. Captain retains full operational discretion.</p></div></section>
 <section aria-label="Interactive maps"><div class="section-head"><h2>Interactive synoptic &amp; marine maps</h2><small>External Windy embed · loads on request</small></div><div class="panel"><div class="split-actions" style="margin-top:0;margin-bottom:13px"><button class="pill selected" type="button" data-map="wind">Wind map</button><button class="pill" type="button" data-map="waves">Wave map</button><button class="pill" type="button" data-map="pressure">Pressure map</button><a class="pill" id="windyLink" href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Full-screen Windy ↗</a></div><div id="mapHost" class="map-placeholder"><div style="font-size:28px">◉</div><div>Load an interactive third-party map when needed.<br><small>Windy content requires internet access.</small></div><button class="pill primary" id="loadMap">Load Windy map</button></div><div class="footnote">Maps are forecasts, not certified navigation charts. Map availability and embedding are controlled by Windy.</div></div></section>
 
@@ -220,9 +236,9 @@ window.ARA_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.worker
 /* ARA Weather Desk — Sr. AI Capitán. No secrets in client-side code. Forecast supplied by backend. */
 (()=>{'use strict';
 const endpoint = window.ARA_AI_BRIEFING_ENDPOINT || null;
-const launch=document.createElement('button');launch.id='ara-ai-launch';launch.type='button';launch.textContent='⚓ Sr. AI Capitán · V4.1';launch.setAttribute('aria-controls','ara-ai-panel');launch.setAttribute('aria-expanded','false');
+const launch=document.createElement('button');launch.id='ara-ai-launch';launch.type='button';launch.textContent='⚓ Sr. AI Capitán · V5';launch.setAttribute('aria-controls','ara-ai-panel');launch.setAttribute('aria-expanded','false');
 const panel=document.createElement('aside');panel.id='ara-ai-panel';panel.setAttribute('aria-label','Sr. AI Capitán passage planning');panel.setAttribute('aria-hidden','true');
-panel.innerHTML=`<header><div><h2>⚓ Sr. AI Capitán · V4.1</h2><div class="sub">ARA Weather Desk · Captain's intelligence · V4.1</div></div><button id="ara-ai-close" type="button" aria-label="Close panel">×</button></header><main><p><strong>INTERFACE v4.1 · Forecast-first</strong> — Select the trip details below. The briefing request is optional.</p><label for="ara-ai-request">Optional briefing instructions</label><textarea id="ara-ai-request" placeholder="Who, what, where and how? Optional: describe training, route or special concerns."></textarea><div class="actions"><button id="ara-ai-mic" type="button">🎙 Speak</button><button id="ara-ai-stop" type="button" disabled>Stop</button><button id="ara-ai-clear" type="button">Clear</button></div><div id="ara-ai-status" role="status" aria-live="polite">Ready. Browser microphone support varies.</div><label for="ara-ai-access">Private access code</label><input id="ara-ai-access" type="password" autocomplete="off" placeholder="Enter private code (not stored)"><label for="ara-ai-date">Trip date</label><input id="ara-ai-date" type="date"><label for="ara-ai-departure">Departure</label><select id="ara-ai-departure"><option value="" selected disabled>Select departure…</option><option>Sant Antoni Marina — D6</option><option>Ibiza Town</option><option>Santa Eulària</option><option>La Savina</option><option>Other (specify in request)</option></select><label for="ara-ai-duration">Operating period</label><select id="ara-ai-duration"><option value="" selected disabled>Select operating period…</option><option>Morning (08:00–12:00)</option><option>Afternoon (12:00–18:00)</option><option>All day (08:00–18:00)</option><option>Evening / night (18:00–23:00)</option><option>Overnight (23:00–08:00)</option></select><label for="ara-ai-tolerance">People aboard / tolerance</label><select id="ara-ai-tolerance"><option value="" selected disabled>Select crew / tolerance…</option><option>Experienced crew — high tolerance</option><option>Leisure guests — medium tolerance</option><option>Vulnerable/nervous guests — low tolerance</option></select><label for="ara-ai-speed">Planned cruising speed (5–50 knots)</label><input id="ara-ai-speed" type="number" min="5" max="50" step="1" value="25"><label for="ara-ai-radius">Maximum one-way cruising distance (1–70 NM)</label><input id="ara-ai-radius" type="number" min="1" max="70" step="1" value="15"><label for="ara-ai-destination">Destination (optional)</label><select id="ara-ai-destination"><option value="">Undecided — suggest suitable places</option><option>Ses Illetes</option><option>Cala Saona</option><option>Platja de Migjorn</option><option>Es Caló</option><option>Es Pujols</option><option>Cala Jondal</option><option>Ses Salines</option><option>Playa d'en Bossa</option><option>Talamanca</option><option>Santa Eulària</option><option>Tagomago</option><option>Portinatx</option><option>Benirràs</option><option>Cala Xarraca</option><option>Ses Margalides</option><option>Cala Gració</option><option>Sant Antoni</option><option>Cala Bassa</option><option>Cala Conta</option><option>Cala Tarida</option><option>Es Vedrà</option><option>Es Cubells</option><option value="other">Other — specify in instructions</option></select><button id="ara-ai-generate" type="button">✨ Generate Captain's Briefing</button><button id="ara-ai-clear-result" type="button" style="margin-top:9px;width:100%;border:1px solid #66d6d0;background:#164350;color:white;padding:11px;border-radius:9px">Clear briefing</button><div id="ara-ai-summary" aria-live="polite"></div><div id="ara-ai-result" class="hidden" aria-live="polite"></div><p class="note">Operational advice only. Verify official AEMET bulletins, navigational information and current conditions. The captain retains command. Never enter private passenger details on a public site.</p></main>`;
+panel.innerHTML=`<header><div><h2>⚓ Sr. AI Capitán · V5</h2><div class="sub">ARA Weather Desk · Captain's intelligence · V5</div></div><button id="ara-ai-close" type="button" aria-label="Close panel">×</button></header><main><p><strong>INTERFACE v5 · Forecast-first</strong> — Select the trip details below. The briefing request is optional.</p><label for="ara-ai-request">Optional briefing instructions</label><textarea id="ara-ai-request" placeholder="Who, what, where and how? Optional: describe training, route or special concerns."></textarea><div class="actions"><button id="ara-ai-mic" type="button">🎙 Speak</button><button id="ara-ai-stop" type="button" disabled>Stop</button><button id="ara-ai-clear" type="button">Clear</button></div><div id="ara-ai-status" role="status" aria-live="polite">Ready. Browser microphone support varies.</div><label for="ara-ai-access">Private access code</label><input id="ara-ai-access" type="password" autocomplete="off" placeholder="Enter private code (not stored)"><label for="ara-ai-date">Trip date</label><input id="ara-ai-date" type="date"><label for="ara-ai-departure">Departure</label><select id="ara-ai-departure"><option value="" selected disabled>Select departure…</option><option>Sant Antoni Marina — D6</option><option>Ibiza Town</option><option>Santa Eulària</option><option>La Savina</option><option>Other (specify in request)</option></select><label for="ara-ai-duration">Operating period</label><select id="ara-ai-duration"><option value="" selected disabled>Select operating period…</option><option>Morning (08:00–12:00)</option><option>Afternoon (12:00–18:00)</option><option>All day (08:00–18:00)</option><option>Evening / night (18:00–23:00)</option><option>Overnight (23:00–08:00)</option></select><label for="ara-ai-tolerance">People aboard / tolerance</label><select id="ara-ai-tolerance"><option value="" selected disabled>Select crew / tolerance…</option><option>Experienced crew — high tolerance</option><option>Leisure guests — medium tolerance</option><option>Vulnerable/nervous guests — low tolerance</option></select><label for="ara-ai-speed">Planned cruising speed (5–50 knots)</label><input id="ara-ai-speed" type="number" min="5" max="50" step="1" value="25"><label for="ara-ai-radius">Maximum one-way cruising distance (1–70 NM)</label><input id="ara-ai-radius" type="number" min="1" max="70" step="1" value="15"><label for="ara-ai-destination">Destination (optional)</label><select id="ara-ai-destination"><option value="">Undecided — suggest suitable places</option><option>Ses Illetes</option><option>Cala Saona</option><option>Platja de Migjorn</option><option>Es Caló</option><option>Es Pujols</option><option>Cala Jondal</option><option>Ses Salines</option><option>Playa d'en Bossa</option><option>Talamanca</option><option>Santa Eulària</option><option>Tagomago</option><option>Portinatx</option><option>Benirràs</option><option>Cala Xarraca</option><option>Ses Margalides</option><option>Cala Gració</option><option>Sant Antoni</option><option>Cala Bassa</option><option>Cala Conta</option><option>Cala Tarida</option><option>Es Vedrà</option><option>Es Cubells</option><option value="other">Other — specify in instructions</option></select><button id="ara-ai-generate" type="button">✨ Generate Captain's Briefing</button><button id="ara-ai-clear-result" type="button" style="margin-top:9px;width:100%;border:1px solid #66d6d0;background:#164350;color:white;padding:11px;border-radius:9px">Clear briefing</button><div id="ara-ai-summary" aria-live="polite"></div><div id="ara-ai-result" class="hidden" aria-live="polite"></div><p class="note">Operational advice only. Verify official AEMET bulletins, navigational information and current conditions. The captain retains command. Never enter private passenger details on a public site.</p></main>`;
 document.querySelector('.toolbar .controls').before(launch);document.body.append(panel);
 const $=s=>panel.querySelector(s),request=$('#ara-ai-request'),status=$('#ara-ai-status'),result=$('#ara-ai-result'),generate=$('#ara-ai-generate');
 const setOpen=v=>{if(!v){result.textContent='';result.classList.add('hidden');$('#ara-ai-summary').classList.remove('visible')}panel.setAttribute('aria-hidden',String(!v));launch.setAttribute('aria-expanded',String(v));document.body.classList.toggle('ara-ai-open',v);if(v)$('#ara-ai-date').focus();else launch.focus()};
@@ -237,7 +253,7 @@ generate.addEventListener('click',async()=>{const missing=[['#ara-ai-date','trip
 </script>
 
 <script>
-/* V4.1 weather outlook: client-side forecast comparison. No AI or private access code required. */
+/* V5 weather outlook: client-side forecast comparison. No AI or private access code required. */
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
@@ -287,4 +303,43 @@ $('location').addEventListener('change',()=>$('ara-outlook-refresh').click());
 $('ara-outlook-refresh').click();
 })();
 </script>
-</body></html>
+<script>
+/* V5 read-only presentation derived from existing forecast tiles; no new weather API calls. */
+(()=>{const el=id=>document.getElementById(id);const beaufort=k=>{const limits=[1,3,6,10,16,21,27,33,40,47,55,63,71];for(let i=0;i<limits.length;i++)if(k<limits[i])return i;return 12};
+let previous='';
+function update(){
+ const wind=el('wind')?.textContent||'';
+ const numeric=Number.parseFloat(wind.replace(',','.'));
+ const sky=el('sky')?.textContent?.trim()||'';
+ const signature=wind+'|'+sky;
+ if(signature===previous)return;previous=signature;
+ if(Number.isFinite(numeric)){el('beaufort').textContent='Force '+beaufort(numeric);el('beaufortSub').textContent='From sustained wind · gusts may be stronger'}
+ else{el('beaufort').textContent='—';el('beaufortSub').textContent='Wind forecast unavailable'}
+ el('weatherCondition').textContent=sky&&sky!=='Model conditions'?sky:'Unavailable';
+}
+const observer=new MutationObserver(update);
+['wind','sky'].forEach(id=>{const node=el(id);if(node)observer.observe(node,{childList:true,characterData:true,subtree:true})});
+update();
+})();
+</script><script>
+/* V5 summary mirrors existing forecast outlook. No separate weather requests. */
+(()=>{
+ const $=id=>document.getElementById(id);
+ const labels=['Calm','Light air','Light breeze','Gentle breeze','Moderate breeze','Fresh breeze','Strong breeze','Near gale','Gale','Strong gale','Storm','Violent storm','Hurricane force'];
+ const cutoffs=[1,4,7,11,17,22,28,34,41,48,56,64];
+ function force(kn){let f=0;while(f<12&&kn>=cutoffs[f])f++;return 'F'+f+' · '+labels[f]}
+ function update(){
+  const get=id=>$(id)?.textContent?.trim()||'—';
+  $('cs-conditions').textContent=get('ara-outlook-state');$('cs-weather').textContent=get('ara-outlook-weather');
+  const wind=get('ara-outlook-wind'),gust=get('ara-outlook-gust'),confidence=get('ara-outlook-confidence');
+  $('cs-wind').textContent=wind;$('cs-gust').textContent=gust;$('cs-confidence').textContent=confidence;
+  const numbers=wind.match(/\d+(?:\.\d+)?/g)?.map(Number)||[];
+  $('cs-wind-force').textContent=numbers.length>=2?force(numbers[0])+' to '+force(numbers[1]):numbers.length===1?force(numbers[0]):'Awaiting wind data';
+  const gn=Number(gust.match(/\d+(?:\.\d+)?/)?.[0]);$('cs-gust-force').textContent=Number.isFinite(gn)?force(gn)+' equivalent gust':'Awaiting gust data';
+  const p=Number.parseFloat(confidence);$('cs-confidence-fill').style.width=Number.isFinite(p)?Math.max(0,Math.min(100,p))+'%':'0%';
+  const caution=gn>=22?'Captain’s caution: Stronger gusts are forecast. Consider vessel, passengers, exposure and local sea conditions before departure.':get('ara-outlook-state')==='Unsettled'||get('ara-outlook-state')==='Very poor'?'Captain’s caution: Unsettled conditions are forecast. Review local exposure and official warnings before departure.':'Captain’s caution: Forecast guidance is not a substitute for local assessment and checking official AEMET warnings.';
+  $('cs-caution').textContent=caution;
+ }
+ ['ara-outlook-state','ara-outlook-weather','ara-outlook-wind','ara-outlook-gust','ara-outlook-confidence'].forEach(id=>{const node=$(id);if(node)new MutationObserver(update).observe(node,{childList:true,subtree:true,characterData:true})});update();
+})();
+</script></body></html>
