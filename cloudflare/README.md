@@ -67,3 +67,14 @@ Screenshots reviewed, **not a live API readback**:
 - No production Worker, secrets, bindings or website were changed during these checks.
 
 **Action remaining:** inspect Worker **Domains** and production **Deployments/Versions** screens, check existing namespace ID in Cloudflare, verify GitHub environment protections, and have IT review soft KV concurrency risk. Keep draft PR unmerged until cleared.
+
+## 17 October 2026 — production domains screenshot review
+
+The owner's Cloudflare **Domains → Production** screenshot shows:
+- `ara-sr-ai-capitan.stevehullock.workers.dev` is enabled for production.
+- `*.ara-sr-ai-capitan.stevehullock.workers.dev` preview URL switch is off.
+- **No custom domains or routes** appear in the table.
+- Therefore the `workers_dev = true` setting in this PR corresponds to the existing production address; no custom route should be added as part of this deployment.
+- This is screenshot evidence only; no Cloudflare settings were changed.
+
+**Still pending:** verify recoverable latest production deployment/source and rollback, independently confirm GitHub environment controls, and resolve or accept the soft KV request-counter concurrency risk before deploying.
