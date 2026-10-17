@@ -1,0 +1,73 @@
+name: ARA Worker — approved production deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type DEPLOY_ARA_WORKER to request production deployment'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ara-worker-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.actor == 'st44jdh22' && github.ref == 'refs/heads/main' && inputs.confirmation == 'DEPLOY_ARA_WORKER'
+    runs-on: ubuntu-latest
+    environment: ara-production
+    steps:
+      - name: Check out exact approved commit
+        uses: actions/checkout@v4
+
+      - name: Fail closed unless production source and bindings are verified
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s cloudflare/worker.js
+          test -s cloudflare/wrangler.toml
+          if grep -R -n 'REPLACE_EXISTING_' cloudflare/wrangler.toml; then
+            echo "::error::Existing Cloudflare production configuration has not been fully verified"
+            exit 1
+          fi
+          grep -q 'name = "ara-sr-ai-capitan"' cloudflare/wrangler.toml
+          grep -q 'binding = "AI_USAGE"' cloudflare/wrangler.toml
+          node --check cloudflare/worker.js
+          test -n "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
+          echo "Approved commit: ${GITHUB_SHA}"
+
+      - name: Validate Worker bundle without deploying
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: cloudflare
+          command: deploy --dry-run
+
+      - name: Deploy approved Worker to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: cloudflare
+          command: deploy
+
+      - name: Check Worker endpoint (non-destructive)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --max-time 30 \
+            --retry 2 --retry-delay 3 \
+            'https://ara-sr-ai-capitan.stevehullock.workers.dev/metar' \
+            -o /tmp/ara-metar.json
+          python3 - <<'PY'
+          import json
+          with open('/tmp/ara-metar.json', encoding='utf-8') as f:
+              result = json.load(f)
+          assert isinstance(result, (dict, list)), 'METAR endpoint did not return JSON'
+          print('Worker METAR endpoint responded with JSON')
+          PY
