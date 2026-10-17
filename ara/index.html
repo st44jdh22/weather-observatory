@@ -713,7 +713,6 @@ window.addEventListener('load',()=>{
  $('global-en').addEventListener('click',()=>changeLang('en'));$('global-es').addEventListener('click',()=>changeLang('es'));
  function renderWarnings(){
   const wr=warningResponse,box=$('aemet-warning-details');box.replaceChildren();
-  if(!wr?.verified){set('aemet-status',language==='en'?'Unable to verify warnings':'No se pueden verificar los avisos');return}
   const marineAvisos=bulletin?.avisos||[];
   const en=language==='en';
   if(marineAvisos.length){
@@ -728,6 +727,9 @@ window.addEventListener('load',()=>{
    const p=document.createElement('div');
    p.textContent=en?'Open the official AEMET coastal bulletin for the exact warning text. CAP alerts below are not the maritime bulletin.':'Abra el boletín costero oficial de AEMET para leer los avisos literales. Los avisos CAP siguientes no son el boletín marítimo.';
    box.append(p);
+  }
+  if(!wr?.verified){
+   const note=document.createElement('small');note.textContent=en?'CAP warning data unavailable; this does not override the maritime Avisos above.':'Avisos CAP no disponibles; los Avisos marítimos anteriores no se ven afectados.';box.append(note);return;
   }
   const now=Date.now(),groups=new Map();let ambiguous=0;
   for(const a of warningAlerts){
