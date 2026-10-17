@@ -78,3 +78,22 @@ The owner's Cloudflare **Domains → Production** screenshot shows:
 - This is screenshot evidence only; no Cloudflare settings were changed.
 
 **Still pending:** verify recoverable latest production deployment/source and rollback, independently confirm GitHub environment controls, and resolve or accept the soft KV request-counter concurrency risk before deploying.
+
+## 17 October 2026 — manual Cloudflare deployment-history screenshot
+
+Owner-supplied production **Deployments** screenshot (21:00 UTC approximate screenshot; user local 22:00 BST):
+- Active deployment version shown: `c55b402e`, **100% traffic**, manually deployed about five hours before screenshot.
+- Immediately prior listed version: `aced450f`, listed **Ready**, manually deployed about six hours before screenshot.
+- Several earlier versions shown Ready, including separate secret/KV-binding creation history.
+- Observed panel displays **0% error rate** at screenshot time and **0 req/sec** (point-in-time only, not performance validation).
+- These UI version labels are truncated; exact full version IDs, source hash, and confirmed rollback action still require verification.
+- RTF export source **not yet compared with the actual code of active production version** `c55b402e`.
+- No rollback or deploy action has been executed; no production changes made.
+
+### Non-destructive rollback plan (unverified until evidence obtained)
+1. Open currently deployed `c55b402e` version and record its complete version identifier. Export/retrieve source and settings into authorised private backup storage, read it back, and compare against proposed commit.
+2. Verify Cloudflare **Deployments** version menu explicitly offers rollback to that exact saved version. Record whether restoring a version also restores necessary settings/bindings; do not assume it restores deleted secrets.
+3. If a *separately approved* future production deployment fails: use Cloudflare's version/deployment rollback controls to restore `c55b402e` at 100% traffic; check ARA API with allowed Origin and the existing secret + KV binding names; log restored version and health results.
+4. Never test rollback on production without specific user approval.
+
+**Current release gate:** Remains on hold until live source is independently compared, exact version and rollback mechanism confirmed, GitHub approvals confirmed, and rate-limiting risk disposition recorded.
