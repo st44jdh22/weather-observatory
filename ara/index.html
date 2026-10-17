@@ -30,6 +30,16 @@
 #now-title{font-size:clamp(21px,2vw,28px)}section[aria-labelledby="now-title"] .lbl{font-size:13px!important;font-weight:800!important;letter-spacing:.045em!important;color:#b9e2e5!important}section[aria-labelledby="now-title"] .tile.key .lbl{font-size:15px!important}section[aria-labelledby="now-title"] .mini-note{font-size:12px!important}
 
 #captain-weather-summary{margin:0 0 28px;padding:19px;border:1px solid #438b91;border-radius:16px;background:linear-gradient(120deg,#102c3a,#153c46)}.captain-summary-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.captain-summary-card{display:flex;gap:9px;min-width:0;padding:14px 10px;border-radius:12px;background:rgba(4,24,34,.58);border:1px solid #2c6470}.captain-summary-icon{font-size:23px;flex:none}.captain-summary-card>div{min-width:0;width:100%}.captain-summary-card small{display:block;color:#a6c9d1;font-size:11px;margin-bottom:8px}.captain-summary-card strong{display:block;color:#f3fcff;font-size:17px;line-height:1.2;overflow-wrap:anywhere}.captain-summary-detail{display:block;color:#b7dadf;font-size:12px;line-height:1.35;margin-top:5px}.captain-summary-confidence{border-color:#60b7aa}.captain-confidence-track{height:7px;border-radius:6px;background:#284957;margin-top:10px;overflow:hidden}.captain-confidence-track>div{height:100%;width:0;background:#60c5b0;transition:width .3s}.captain-caution{margin:13px 0 4px;padding:10px 13px;border-left:3px solid #edbd76;background:#223b42;border-radius:4px;font-size:13px;color:#f1e8d7}@media(max-width:1050px){.captain-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:650px){.captain-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.captain-summary-card strong{font-size:15px}}
+
+.ara-now-caution{padding:12px 15px;border:1px solid #47828c;border-radius:10px;background:#143a44;color:#d9edf1;font-size:13px;line-height:1.5;margin:0 0 13px}.ara-now-wind .ara-now-primary{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap;margin:14px 0 8px}.ara-now-wind .ara-now-primary span{font-size:clamp(22px,2.8vw,36px);font-weight:750;line-height:1.1;letter-spacing:-.03em;color:#f6feff}.ara-now-wind .ara-now-primary .ara-now-speed{white-space:nowrap}.ara-now-wind .ara-now-description{font-size:16px;font-weight:600;color:#aee3df;margin-bottom:9px}.ara-now-wind .detail{font-size:12px;color:#94b6bf}.ara-now-wind .lbl{display:flex;align-items:center;gap:7px}
+
+#ara-outlook[hidden]{display:none!important}
+#captain-weather-summary .ara-outlook-toolbar{margin:3px 0 18px;display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+#captain-weather-summary .ara-outlook-toolbar label{font-weight:650;color:#d9eef1}
+#captain-weather-summary #ara-outlook-period{display:inline-flex;padding:9px 12px;border:1px solid #458b90;border-radius:8px;background:#103944;color:#e3f4f5;min-height:41px;align-items:center}
+#captain-weather-summary #ara-outlook-date{min-height:41px}
+.ara-sky-small{border-color:#448e91;background:linear-gradient(120deg,#133541,#102a37)}.ara-sky-small strong{font-size:22px}
+#ara-now-valid{max-width:500px}
 </style>
 
 <style>
@@ -82,7 +92,18 @@
 @media(max-width:950px){.toolbar{grid-template-columns:1fr auto}.toolbar>.controls{grid-column:1/-1;justify-self:stretch}.toolbar>#ara-ai-launch{justify-self:end}}
 @media(max-width:650px){.toolbar{grid-template-columns:1fr}.toolbar>#ara-ai-launch{justify-self:stretch;width:100%;grid-row:2}.toolbar>.controls{grid-row:3}}
 </style>
-</head>
+<style>
+/* V5.4 operational-now cards */
+.ara-now-wind .ara-tile-top,.ara-now-weather .ara-tile-top{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:39px}
+.ara-now-wind .ara-big-icon,.ara-now-weather .ara-big-icon{font-size:clamp(30px,3.4vw,48px);line-height:1;filter:drop-shadow(0 2px 8px rgba(88,206,222,.15))}
+.ara-now-wind .ara-now-primary{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:12px 0 8px}
+.ara-now-wind .ara-now-primary span{font-size:clamp(27px,2.7vw,38px);font-weight:760;line-height:1.14;color:#f4fdff}
+.ara-now-wind .ara-now-primary .ara-now-speed{font-size:clamp(21px,2.1vw,29px);white-space:nowrap;letter-spacing:-.035em}
+.ara-now-wind .ara-now-primary .ara-dir-name{font-size:clamp(19px,1.7vw,25px);font-weight:650;color:#c8f0ef}
+.ara-now-wind .ara-now-description{font-size:16px;color:#b7e4e1}
+.ara-temp-reading{font-size:clamp(32px,3.1vw,45px);font-weight:750;color:#f4fdff;line-height:1.2;margin:16px 0 10px}
+.ara-weather-reading{font-size:clamp(24px,2.5vw,34px);font-weight:720;color:#f4fdff;line-height:1.2;margin:17px 0 12px}
+</style></head>
 <body>
 <header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION</span></header>
 <main class="container">
@@ -94,9 +115,9 @@
 <a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer" title="Select San Antonio / Sant Antoni on Windguru">Windguru · San Antonio ↗</a>
 <a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
 </nav>
-<section id="ara-outlook" aria-labelledby="ara-outlook-title">
- <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5</span></h2><small>Numerical forecast · not live observed conditions</small></div>
- <div class="ara-outlook-toolbar"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period">Ibiza local · 08:00–18:00</span></div>
+<section id="ara-outlook" aria-labelledby="ara-outlook-title" hidden aria-hidden="true">
+ <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.4</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ 
  <div class="ara-outlook-row" aria-live="polite">
  <div class="ara-outlook-item"><small>Conditions</small><strong id="ara-outlook-state">Loading…</strong></div>
  <div class="ara-outlook-item"><small>Weather</small><strong id="ara-outlook-weather">—</strong></div>
@@ -108,7 +129,8 @@
  <p class="ara-outlook-disclaimer">* Experimental <b>model agreement</b> percentage (ECMWF IFS versus NOAA GFS), not a verified probability that the forecast will be correct. Wave conditions from Open-Meteo Marine. AEMET warnings not automatically checked.</p>
  </section>
 <section id="captain-weather-summary" aria-labelledby="captain-summary-title">
- <div class="section-head"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5</span></h2><small>Forecast overview · Ibiza local 08:00–18:00</small></div>
+ <div class="section-head"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.4</span></h2><small>Forecast overview · Ibiza local 08:00–18:00</small></div>
+<div class="ara-outlook-toolbar"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period">Ibiza local · 08:00–18:00</span></div>
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
@@ -119,17 +141,17 @@
  <p id="cs-caution" class="captain-caution">Captain’s caution: Check local conditions and official AEMET warnings before departure.</p>
  <p class="ara-outlook-disclaimer">* Confidence is experimental ECMWF–GFS model agreement, not the probability the forecast is correct. Beaufort force for gusts describes the instantaneous speed equivalent, not sustained wind conditions.</p>
 </section>
-<section aria-labelledby="now-title"><div class="section-head"><h2 id="now-title">Operational weather picture</h2><small>Numerical model guidance · not measured onboard</small></div><div class="grid">
-<div class="tile key"><div class="lbl">Wind</div><div class="number" id="wind">—</div><div class="detail" id="windDir">Direction unavailable</div><div class="mini-note">10 m wind · model estimate</div></div>
-<div class="tile key"><div class="lbl">Peak gust</div><div class="number" id="gust">—</div><div class="detail" id="gustSub">10 m gust · model estimate</div><div class="mini-note">Check local effects and squalls</div></div>
-<div class="tile key"><div class="lbl">Significant wave height</div><div class="number" id="wave">—</div><div class="detail" id="waveDir">Offshore grid · direction pending</div><div class="mini-note">Not a harbour or berth reading</div></div>
-<div class="tile key"><div class="lbl">Chance of rain</div><div class="number" id="rain">—</div><div class="detail" id="rainSub">Forecast probability</div><div class="mini-note">Probability at the selected forecast hour</div></div>
+<section aria-labelledby="now-title"><div class="section-head"><h2 id="now-title">Operational weather picture</h2><small id="ara-now-valid">Expected conditions at the current Ibiza forecast hour · not live observations</small></div><p class="ara-now-caution">⚠️ <b>Expected now — not live measurements.</b> Compare with the wind, sea and sky you actually observe. Significant differences mean conditions need reassessment.</p><div class="grid">
+<div class="tile key ara-now-wind"><div class="ara-tile-top"><div class="lbl">Expected wind now</div><span class="ara-big-icon" aria-hidden="true">🌬️</span></div><div class="ara-now-primary"><span id="wind" class="ara-now-speed">—</span><span id="ara-now-force">F—</span><span id="ara-now-compass">—</span><span id="ara-now-direction-name" class="ara-dir-name">—</span></div><div class="ara-now-description" id="ara-now-description">Waiting for forecast</div><div class="detail" id="windDir">Direction unavailable</div></div>
+<div class="tile key ara-now-wind"><div class="ara-tile-top"><div class="lbl">Expected peak gust</div><span class="ara-big-icon" aria-hidden="true">💨</span></div><div class="ara-now-primary"><span id="gust" class="ara-now-speed">—</span><span id="ara-now-gust-force">F—</span></div><div class="ara-now-description" id="ara-now-gust-description">Waiting for forecast</div><div class="detail" id="gustSub">Gust forecast at the selected hour</div></div>
+<div class="tile key ara-now-weather"><div class="ara-tile-top"><div class="lbl">Chance of rain</div><span class="ara-big-icon" aria-hidden="true">🌦️</span></div><div class="ara-temp-reading" id="rain">—</div><div class="ara-now-description" id="rainSub">At the forecast hour</div></div>
+<div class="tile key ara-now-weather"><div class="ara-tile-top"><div class="lbl">Expected air temperature</div><span class="ara-big-icon" aria-hidden="true">🌡️</span></div><div class="ara-temp-reading" id="temp">—</div><div class="ara-now-description">At the forecast hour</div></div>
 </div><div class="strip">
-<div class="smalltile"><div class="lbl">Beaufort wind force</div><strong id="beaufort">—</strong><span class="detail" id="beaufortSub">Based on forecast wind · gusts shown separately</span></div>
+<div class="smalltile"><div class="lbl">Swell height / direction</div><strong id="swell">—</strong><span class="detail" id="swellDir">Offshore model</span></div>
 <div class="smalltile"><div class="lbl">Barometric pressure</div><strong id="press">—</strong><span class="detail" id="pressureTrend">3 h / 6 h / 24 h tendencies</span></div>
-<div class="smalltile"><div class="lbl">Air temperature</div><strong id="temp">—</strong><span class="detail" id="sky">Model conditions</span></div>
-<div class="smalltile"><div class="lbl">Forecast weather</div><strong id="weatherCondition">—</strong><span class="detail">Based on the model weather description</span></div>
-</div><div hidden aria-hidden="true"><span id="wavePeriod"></span><span id="waveSource"></span><span id="swell"></span><span id="swellDir"></span></div></section>
+<div class="smalltile ara-sky-small"><div class="lbl">Forecast weather <span id="ara-sky-icon" aria-hidden="true">⛅</span></div><strong id="sky">Loading…</strong><span class="detail">Compare with observed sky</span></div>
+<div class="smalltile"><div class="lbl">Additional observation</div><strong>To be decided</strong><span class="detail">Reserved for a useful non-duplicate metric</span></div>
+</div><div hidden aria-hidden="true"><span id="wave"></span><span id="waveDir"></span><span id="wavePeriod"></span><span id="waveSource"></span><span id="beaufort"></span><span id="beaufortSub"></span><span id="weatherCondition"></span></div></section>
 <section aria-label="Forecast synopsis"><div class="section-head"><h2>Captain's quick read</h2><small>Forecast-derived prompts, not a go / no-go instruction</small></div><div class="panel"><div id="quickRead">Forecast data is loading. Check the official coastal forecast independently.</div><p class="footnote">Wind, swell, thunderstorm and exposure implications depend on route, sea area, vessel condition, crew and onboard observations. Captain retains full operational discretion.</p></div></section>
 <section aria-label="Interactive maps"><div class="section-head"><h2>Interactive synoptic &amp; marine maps</h2><small>External Windy embed · loads on request</small></div><div class="panel"><div class="split-actions" style="margin-top:0;margin-bottom:13px"><button class="pill selected" type="button" data-map="wind">Wind map</button><button class="pill" type="button" data-map="waves">Wave map</button><button class="pill" type="button" data-map="pressure">Pressure map</button><a class="pill" id="windyLink" href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Full-screen Windy ↗</a></div><div id="mapHost" class="map-placeholder"><div style="font-size:28px">◉</div><div>Load an interactive third-party map when needed.<br><small>Windy content requires internet access.</small></div><button class="pill primary" id="loadMap">Load Windy map</button></div><div class="footnote">Maps are forecasts, not certified navigation charts. Map availability and embedding are controlled by Windy.</div></div></section>
 
@@ -260,12 +282,12 @@ const $=id=>document.getElementById(id);
 const sites={san:[38.978,1.301],ibiza:[38.908,1.443],vedr:[38.868,1.195],form:[38.733,1.418]};
 const get=async url=>{const c=new AbortController(),t=setTimeout(()=>c.abort(),14000);try{const r=await fetch(url,{signal:c.signal});if(!r.ok)throw Error('Forecast service HTTP '+r.status);return await r.json()}finally{clearTimeout(t)}};
 const mean=xs=>xs.reduce((a,b)=>a+b,0)/xs.length;
-function entries(h){if(!h?.time)return [];return h.time.map((time,i)=>({time,w:h.wind_speed_10m?.[i],g:h.wind_gusts_10m?.[i],rain:h.precipitation_probability?.[i],code:h.weather_code?.[i]})).filter(x=>Number(x.time.slice(11,13))>=8&&Number(x.time.slice(11,13))<18&&Number.isFinite(x.w)&&Number.isFinite(x.g))}
+function entries(h){if(!h?.time)return [];return h.time.map((time,i)=>({time,w:h.wind_speed_10m?.[i],g:h.wind_gusts_10m?.[i],rain:h.precipitation_probability?.[i],code:h.weather_code?.[i],dir:h.wind_direction_10m?.[i]})).filter(x=>Number(x.time.slice(11,13))>=8&&Number(x.time.slice(11,13))<18&&Number.isFinite(x.w)&&Number.isFinite(x.g))}
 function put(id,value){$(id).textContent=value}
 async function update(){
  const day=$('ara-outlook-date').value,site=sites[$('location').value]||sites.san;
  put('ara-outlook-state','Loading…');put('ara-outlook-confidence','—');put('ara-outlook-evidence','Fetching ECMWF, GFS and marine forecasts for '+day+'…');
- const q=`latitude=${site[0]}&longitude=${site[1]}&timezone=Europe%2FMadrid&start_date=${day}&end_date=${day}&wind_speed_unit=kn&hourly=wind_speed_10m,wind_gusts_10m,precipitation_probability,weather_code`;
+ const q=`latitude=${site[0]}&longitude=${site[1]}&timezone=Europe%2FMadrid&start_date=${day}&end_date=${day}&wind_speed_unit=kn&hourly=wind_speed_10m,wind_gusts_10m,precipitation_probability,weather_code,wind_direction_10m`;
  const models=['ecmwf_ifs025','gfs_seamless'];
  const results=await Promise.allSettled([
   ...models.map(m=>get('https://api.open-meteo.com/v1/forecast?'+q+'&models='+m)),
@@ -281,6 +303,14 @@ async function update(){
   const penalties=pairs.map(([x,y])=>Math.min(100,Math.abs(x.w-y.w)*4+Math.abs(x.g-y.g)*2+Math.abs((x.rain??50)-(y.rain??50))*.12));
   confidence=Math.max(0,Math.min(100,Math.round(100-mean(penalties))));
  }
+ const compass=(degrees)=>{const points=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];return points[Math.round(((degrees%360)+360)%360/22.5)%16]};
+ const dirs=available.filter(x=>Number.isFinite(x.dir));
+ let windDirection='Direction unavailable';
+ if(dirs.length){
+  const weighted=dirs.reduce((a,x)=>{const r=x.dir*Math.PI/180,w=Math.max(1,x.w);a.sin+=Math.sin(r)*w;a.cos+=Math.cos(r)*w;return a},{sin:0,cos:0});
+  const coherence=Math.hypot(weighted.sin,weighted.cos)/dirs.reduce((a,x)=>a+Math.max(1,x.w),0);
+  windDirection=coherence<0.45?'Variable':compass(Math.atan2(weighted.sin,weighted.cos)*180/Math.PI);
+ }
  const windRange=Math.round(Math.min(...available.map(x=>x.w)))+'–'+Math.round(Math.max(...available.map(x=>x.w)))+' kn';
  const gust=Math.round(Math.max(...available.map(x=>x.g)));
  const rain=Math.max(...available.map(x=>x.rain??0));
@@ -291,7 +321,7 @@ async function update(){
  const codes=available.map(x=>x.code).filter(Number.isFinite);
  const weather=codes.some(c=>c>=95)?'⛈ Thunderstorms':codes.some(c=>c>=61&&c<=82)?'🌧 Rain/showers':rain>=55?'🌦 Showers likely':codes.some(c=>c>=45&&c<=48)?'🌫 Fog':codes.some(c=>c>=2&&c<=3)?'⛅ Cloudy spells':'☀ Mostly clear';
  put('ara-outlook-state',severity);document.querySelector('.ara-outlook-row').dataset.level=severity;
- put('ara-outlook-weather',weather);put('ara-outlook-wind',windRange);put('ara-outlook-gust','Up to '+gust+' kn');
+ put('ara-outlook-weather',weather);put('ara-outlook-wind',windDirection==='Direction unavailable'?windRange:windDirection+' · '+windRange);put('ara-outlook-gust','Up to '+gust+' kn');
  put('ara-outlook-confidence',confidence===null?'Unavailable':confidence+'%');
  put('ara-outlook-evidence',(confidence===null?'Only one model returned usable hourly data; no confidence score.':'ECMWF IFS + NOAA GFS compared across '+pairs.length+' matching forecast hours. '+(confidence>=85?'High':confidence>=65?'Moderate':'Low')+' model agreement.')+(maxWave===null?' Marine wave data unavailable.':' Peak modelled wave height '+maxWave.toFixed(1)+' m.')+' Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+'.');
 }
@@ -316,6 +346,7 @@ function update(){
  if(Number.isFinite(numeric)){el('beaufort').textContent='Force '+beaufort(numeric);el('beaufortSub').textContent='From sustained wind · gusts may be stronger'}
  else{el('beaufort').textContent='—';el('beaufortSub').textContent='Wind forecast unavailable'}
  el('weatherCondition').textContent=sky&&sky!=='Model conditions'?sky:'Unavailable';
+ const icon=el('ara-sky-icon');if(icon){const t=sky.toLowerCase();icon.textContent=/thunder|storm/.test(t)?'⛈️':/rain|shower|drizzle/.test(t)?'🌧️':/fog|mist/.test(t)?'🌫️':/clear|sunny/.test(t)?'☀️':'⛅';}
 }
 const observer=new MutationObserver(update);
 ['wind','sky'].forEach(id=>{const node=el(id);if(node)observer.observe(node,{childList:true,characterData:true,subtree:true})});
@@ -341,5 +372,34 @@ update();
   $('cs-caution').textContent=caution;
  }
  ['ara-outlook-state','ara-outlook-weather','ara-outlook-wind','ara-outlook-gust','ara-outlook-confidence'].forEach(id=>{const node=$(id);if(node)new MutationObserver(update).observe(node,{childList:true,subtree:true,characterData:true})});update();
+})();
+</script><script>
+/* V5.4: enhance current forecast tile presentation without changing the forecast source. */
+(()=>{
+ const $=id=>document.getElementById(id);
+ const names=['Calm','Light air','Light breeze','Gentle breeze','Moderate breeze','Fresh breeze','Strong breeze','Near gale','Gale','Strong gale','Storm','Violent storm','Hurricane force'];
+ const limits=[1,4,7,11,17,22,28,34,41,48,56,64];
+ const force=k=>{for(let i=0;i<limits.length;i++)if(k<limits[i])return i;return 12};
+ const directions=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+ let last='';
+ function update(){
+  const wind=$('wind')?.textContent||'',gust=$('gust')?.textContent||'',dir=$('windDir')?.textContent||'';
+  const sig=wind+'|'+gust+'|'+dir;if(sig===last)return;last=sig;
+  const w=Number.parseFloat(wind.replace(',','.')),g=Number.parseFloat(gust.replace(',','.'));
+  if(Number.isFinite(w)){const f=force(w);$('ara-now-force').textContent='F'+f;$('ara-now-description').textContent=names[f];}
+  else {$('ara-now-force').textContent='F—';$('ara-now-description').textContent='Wind unavailable';}
+  if(Number.isFinite(g)){const f=force(g);$('ara-now-gust-force').textContent='F'+f;$('ara-now-gust-description').textContent=names[f]+' · instantaneous gust equivalent';}
+  else {$('ara-now-gust-force').textContent='F—';$('ara-now-gust-description').textContent='Gust unavailable';}
+  const bearing=dir.match(/(?:^|[·\s])([0-9]{1,3})°/);
+  const compass=bearing?directions[Math.round((Number(bearing[1])%360)/22.5)%16]:(dir.match(/\b(NNE|ENE|ESE|SSE|SSW|WSW|WNW|NNW|NE|SE|SW|NW|N|E|S|W)\b/)||[])[1];
+  $('ara-now-compass').textContent=compass||'—';
+  const longNames={N:'Northerly',NNE:'North-northeasterly',NE:'Northeasterly',ENE:'East-northeasterly',E:'Easterly',ESE:'East-southeasterly',SE:'Southeasterly',SSE:'South-southeasterly',S:'Southerly',SSW:'South-southwesterly',SW:'Southwesterly',WSW:'West-southwesterly',W:'Westerly',WNW:'West-northwesterly',NW:'Northwesterly',NNW:'North-northwesterly'};
+  $('ara-now-direction-name').textContent=longNames[compass]||'Direction unavailable';
+  if(Number.isFinite(w)&&!wind.endsWith(' kn'))$('wind').textContent=wind.replace(/\s*kn\s*$/i,'')+' kn';
+  if(Number.isFinite(g)&&!gust.endsWith(' kn'))$('gust').textContent=gust.replace(/\s*kn\s*$/i,'')+' kn';
+ }
+ const obs=new MutationObserver(update);
+ ['wind','gust','windDir'].forEach(id=>{const el=$(id);if(el)obs.observe(el,{subtree:true,childList:true,characterData:true})});
+ update();
 })();
 </script></body></html>
