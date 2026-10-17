@@ -225,7 +225,7 @@ export default {async fetch(request,env){
   const lat=Number(route.searchParams.get('lat')),lon=Number(route.searchParams.get('lon'));
   if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<38.5||lat>39.3||lon<1.0||lon>1.9)return json({error:'Unsupported forecast coordinates'},400,h);
   try{return json(await metNorwayForecast(lat,lon),200,{...h,'Cache-Control':'public, max-age=600'});}
-  catch(e){return json({error:'MET Norway forecast unavailable',detail:String(e.message||e)},502,h)}
+  catch{return json({error:'MET Norway forecast unavailable'},502,h)}
  }
  if(request.method==='GET'&&route.pathname==='/metar'){
   const deadline=async(url,opts={},ms=9000)=>{const c=new AbortController(),t=setTimeout(()=>c.abort(),ms);try{return await fetch(url,{...opts,signal:c.signal})}finally{clearTimeout(t)}};
@@ -249,9 +249,13 @@ export default {async fetch(request,env){
   }
  }
  if(request.method!=='POST')return json({error:'Method not allowed'},405,h);
+ // The current live ARA website submits briefings to the Worker root.
+ // Do not allow POST to the public weather-proxy endpoints or unknown paths.
+ if(route.pathname!=='/')return json({error:'Not found'},404,h);
  if(!env.OPENAI_API_KEY||!env.ARA_ACCESS_CODE||!env.AI_USAGE)return json({error:'Missing secrets or KV binding'},503,h);
  if(!eq(request.headers.get('X-ARA-Access')||'',env.ARA_ACCESS_CODE))return json({error:'Access code incorrect'},401,h);
  let d;try{const raw=await request.text();if(raw.length>12000)return json({error:'Request too large'},413,h);d=JSON.parse(raw)}catch{return json({error:'Invalid request JSON'},400,h)}
+ if(d===null||typeof d!=='object'||Array.isArray(d))return json({error:'Request JSON must be an object'},400,h);
  for(const k of ['request','date','departure','duration','tolerance'])if(typeof d[k]!=='string'||d[k].length>3000)return json({error:'Invalid '+k},400,h);
  const speed=Number(d.speed_knots),radius=Number(d.max_distance_nm);
  if(!Number.isFinite(speed)||speed<5||speed>50||!Number.isFinite(radius)||radius<1||radius>70)return json({error:'Speed must be 5–50 knots and radius 1–70 NM'},400,h);
@@ -260,8 +264,13 @@ export default {async fetch(request,env){
  if(!departure)return json({error:'Unsupported departure; choose a listed port'},400,h);
  const candidates=POINTS.filter(p=>p!==departure&&nm(departure,p)<=radius).map(p=>({name:p.name,straight_line_nm:Number(nm(departure,p).toFixed(1)),planning_minutes_lower_bound:Math.ceil(nm(departure,p)/speed*60)})).sort((a,b)=>a.straight_line_nm-b.straight_line_nm);
  const selected=POINTS.find(p=>p.name===d.destination);
+ const selectedStraightLineNm=selected?Number(nm(departure,selected).toFixed(1)):null;
+ const selectedExceedsRadius=selectedStraightLineNm!==null&&selectedStraightLineNm>radius;
  const weatherLocations=[departure,...POINTS.filter(p=>candidates.slice(0,14).some(c=>c.name===p.name))].slice(0,15);
  if(!/^\d{4}-\d{2}-\d{2}$/.test(d.date))return json({error:'Select a valid date'},400,h);
+ // Cloudflare KV is eventually consistent and get+put is not atomic: this is
+ // a soft daily budget, not a guaranteed limit under concurrent requests.
+ // Production clearance requires a separate atomic usage-control decision.
  const day=new Date().toISOString().slice(0,10),key='requests:'+day,used=Number(await env.AI_USAGE.get(key)||0);
  if(used>=30)return json({error:'Daily request allowance reached'},429,h);
  await env.AI_USAGE.put(key,String(used+1),{expirationTtl:172800});
@@ -271,10 +280,10 @@ export default {async fetch(request,env){
  let confidence={percentage:null,label:'Not available',method:'Model comparison not available'};
  try{confidence=await modelAgreement(d.date,d.duration,departure)}catch{}
  const outlook=quickLook(forecast,d.duration,confidence);
- const instructions=`You are Sr. AI Capitán, a concise weather-first marine planning assistant for Ibiza and Formentera. Use clear British English and short sections: Weather; Local implications; Options; Watch-outs. Base advice only on supplied forecasts and user trip details. Distinguish forecasts from observations and official warnings; do not claim AEMET warnings were checked. Do not invent missing wind, gust, sea-state, weather, shelter or warning data. State uncertainty, especially for local gusts, waves and exposure. Never describe straight-line distances as navigable passage distances, give precise ETAs from them, or assert a destination is within the permitted radius without chart-based route verification. Treat user speed as a planning assumption, not a guarantee. Model agreement is not forecast accuracy; do not invent confidence figures. Only discuss training, anchoring or swimming if the user asks. For an unspecified destination, offer at most two provisional options when supported by forecast evidence. The captain retains command. Local context: ${KNOWLEDGE}`;
+ const instructions=`You are Sr. AI Capitán, a concise weather-first marine planning assistant for Ibiza and Formentera. Use clear British English and short sections: Weather; Local implications; Options; Watch-outs. Base advice only on supplied forecasts and user trip details. Distinguish forecasts from observations and official warnings; do not claim AEMET warnings were checked. Do not invent missing wind, gust, sea-state, weather, shelter or warning data. State uncertainty, especially for local gusts, waves and exposure. Never describe straight-line distances as navigable passage distances, give precise ETAs from them, or assert a destination is within the permitted radius without chart-based route verification. Treat user speed as a planning assumption, not a guarantee. If a selected destination's straight-line distance exceeds the permitted radius, explicitly flag this conflict and do not recommend it as an option. Straight lines crossing land are NOT navigable passages; require real chart-based routing and never propose transits through land. Do not assume east-facing coasts are sheltered in strong easterly winds. Model agreement is not forecast accuracy; do not invent confidence figures. Only discuss training, anchoring or swimming if the user asks. For an unspecified destination, offer at most two provisional options when supported by forecast evidence. The captain retains command. Local context: ${KNOWLEDGE}`;
  try{
- const upstream=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_MODEL||'gpt-5.1',instructions,input:JSON.stringify({trip:d,departure_reference:departure,selected_destination:selected||null,forecast_status:forecastStatus,forecast,confidence,outlook,distances,forecast_retrieved_at_utc:new Date().toISOString(),official_AEMET_warnings:'NOT VERIFIED'}),max_output_tokens:2100,store:false})});
- if(!upstream.ok){return json({error:'OpenAI request failed',provider_status:upstream.status},502,h)}
+ const upstream=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_MODEL||'gpt-5.1',instructions,input:JSON.stringify({trip:d,departure_reference:departure,selected_destination:selected||null,selected_straight_line_nm:selectedStraightLineNm,selected_exceeds_radius:selectedExceedsRadius,forecast_status:forecastStatus,forecast,confidence,outlook,distances,forecast_retrieved_at_utc:new Date().toISOString(),official_AEMET_warnings:'NOT VERIFIED'}),max_output_tokens:2100,store:false})});
+ if(!upstream.ok){return json({error:'OpenAI request failed'},502,h)}
  const r=await upstream.json();const briefing=(r.output||[]).flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('\n');
  return json({briefing:briefing||'No briefing returned. Retry.',model:r.model||env.OPENAI_MODEL||'gpt-5.1',knowledge_version:'2026-10-16 v0.4',forecast_status:forecastStatus,confidence,outlook,weather_verified:false},200,h)
  }catch{return json({error:'AI request failed'},502,h)}
