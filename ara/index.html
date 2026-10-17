@@ -194,7 +194,7 @@
 </section>
 
 <section id="ara-outlook" aria-labelledby="ara-outlook-title" hidden aria-hidden="true">
- <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.18</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.19</span></h2><small>Numerical forecast · not live observed conditions</small></div>
  
  <div class="ara-outlook-row" aria-live="polite">
  <div class="ara-outlook-item"><small>Conditions</small><strong id="ara-outlook-state">Loading…</strong></div>
@@ -207,7 +207,7 @@
  <p class="ara-outlook-disclaimer">* Experimental <b>model agreement</b> percentage (ECMWF IFS versus NOAA GFS), not a verified probability that the forecast will be correct. Wave conditions from Open-Meteo Marine. AEMET warnings not automatically checked.</p>
  </section>
 <section id="captain-weather-summary" aria-labelledby="captain-summary-title">
- <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.18</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
+ <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.19</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
@@ -218,7 +218,7 @@
  <p id="cs-caution" class="captain-caution">Captain’s caution: Check local conditions and official AEMET warnings before departure.</p>
  <p class="ara-outlook-disclaimer">* Confidence is experimental ECMWF–GFS model agreement, not the probability the forecast is correct. It is unavailable when the required models cannot be compared. <span id="cs-source-note">Checking forecast sources…</span></p>
 </section>
-<section class="panel" id="windguru-panel"><h3>Windy · Sant Antoni point forecast</h3><p>Official Windy forecast table for Sant Antoni Marina. Scroll within the widget to explore the available forecast hours. This is Windy's own forecast, not data used by our model-agreement calculation.</p><iframe title="Windy official Sant Antoni point forecast" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="width:100%;height:250px;border:0;border-radius:10px;background:#fff" src="https://embed.windy.com/embed.html?type=forecast&amp;location=coordinates&amp;detail=true&amp;detailLat=38.978&amp;detailLon=1.301&amp;metricTemp=%C2%B0C&amp;metricRain=mm&amp;metricWind=kt"></iframe><p class="footnote">Source: Windy.com official forecast embed. Windguru's multi-model forecasts are not ingested or scraped. <a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Windguru Sant Antoni ↗</a></p></section>
+<section class="panel" id="windguru-panel"><h3 id="windy-point-title">Windy · Sant Antoni point forecast</h3><p><span id="windy-point-description">Official Windy forecast table for Sant Antoni Marina.</span> Scroll within the widget to explore the available forecast hours. This is Windy's own forecast, not data used by our model-agreement calculation.</p><iframe id="windy-point-iframe" title="Windy official Sant Antoni point forecast" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="width:100%;height:250px;border:0;border-radius:10px;background:#fff" src="https://embed.windy.com/embed.html?type=forecast&amp;location=coordinates&amp;detail=true&amp;detailLat=38.978&amp;detailLon=1.301&amp;metricTemp=%C2%B0C&amp;metricRain=mm&amp;metricWind=kt"></iframe><p class="footnote">Source: Windy.com official forecast embed. Windguru's multi-model forecasts are not ingested or scraped. <a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Windguru Sant Antoni ↗</a></p></section>
 
 <nav class="marine-quick-links" aria-label="Primary marine weather sources">
 <a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">AEMET · Ibiza Coastal Waters ↗</a>
@@ -282,7 +282,7 @@
 <label class="checkpoint"><input type="checkbox" id="checkReality"><span>I considered current observations, available vessel/crew information and forecast limitations.</span></label>
 <div class="form-row"><div><label class="field" for="assess">Captain's provisional assessment</label><select id="assess"><option value="">Select an assessment</option><option>Suitable for proposed operation, subject to normal checks</option><option>Restrictions / further assessment required</option><option>Do not depart / postpone</option><option>Decision pending</option></select></div><div><label class="field" for="reviewName">Captain (free text · not verified)</label><input id="reviewName" type="text" autocomplete="off" maxlength="80" placeholder="Captain's name"></div></div><label class="field" for="comments">Operational notes / restrictions / planned sea area</label><textarea id="comments" maxlength="1200" placeholder="Optional: route, forecast issue time, warning details, local conditions…"></textarea><div class="split-actions"><button class="pill primary" type="button" id="copyReview">Copy draft review</button><button class="pill" type="button" id="resetReview">Clear</button></div><p class="footnote" id="copyStatus" aria-live="polite">No information is transmitted or stored by this checklist. Never treat it as proof of compliance.</p></div>
 <div class="panel"><h3>Command, accountability &amp; reporting</h3><p><strong>Captain</strong> · confirms weather and warnings, independently assesses conditions and makes all operational departure, diversion and cancellation decisions.</p><div class="divider"></div><p><strong>Marine Operations / IFO</strong> · reviews the existing handover and operational evidence trail, coordinates exceptions and escalations; does not replace the captain's judgement.</p><div class="divider"></div><p><strong>Future authenticated records</strong> · subject to Joe's approval and integration with the existing ODIN / Roger architecture. No duplicate master records.</p><div class="divider"></div><p class="footnote">A morning review must be repeated if conditions, warnings, route or operating plan materially change. This dashboard is supplementary; consult official forecasts and onboard instruments.</p></div></div></section>
-<footer class="fineprint"><strong>ARA Weather App · V5.18</strong> · Forecast guidance, not operational clearance. Open-Meteo weather is primary; MET Norway Locationforecast is the automatic fallback. Marine wave data remains a separate Open-Meteo feed. These are numerical forecasts, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Primary weather &amp; marine: Open-Meteo</a> · <a href="https://api.met.no/" target="_blank" rel="noopener noreferrer">Backup weather: MET Norway</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
+<footer class="fineprint"><strong>ARA Weather App · V5.19</strong> · Forecast guidance, not operational clearance. Open-Meteo weather is primary; MET Norway Locationforecast is the automatic fallback. Marine wave data remains a separate Open-Meteo feed. These are numerical forecasts, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Primary weather &amp; marine: Open-Meteo</a> · <a href="https://api.met.no/" target="_blank" rel="noopener noreferrer">Backup weather: MET Norway</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
 <aside id="captain-review-drawer" role="dialog" aria-modal="true" aria-label="Captain's Passage and Weather Declaration" hidden><div class="review-head"><strong>⚠ Captain's Passage & Weather Declaration</strong><button type="button" id="captain-review-close" aria-label="Close">✕</button></div><div class="review-body"><p>Pre-departure review and passage details. <strong>This prototype copies a draft; it does not submit or save an operational record.</strong></p><label>Captain <input id="rv-captain" maxlength="90" placeholder="Captain's name" required></label><label>Vessel <select id="rv-vessel"><option value="ARA — Wallypower 58">ARA — Wallypower 58</option><option value="Other vessel">Other vessel</option></select></label><label id="rv-vessel-other-wrap" hidden>Other vessel name<input id="rv-vessel-other" maxlength="100" placeholder="Enter vessel name"></label><label>Planned departure <input id="rv-departure" type="datetime-local"></label><label>Departure port <select id="rv-port"><option>Sant Antoni</option><option>Ibiza Town</option><option>Marina Botafoch</option><option>Santa Eulària</option><option>Portinatx</option><option>La Savina · Formentera</option><option>Other</option></select></label><label id="rv-port-other-wrap" hidden>Other departure port<input id="rv-port-other" maxlength="100" placeholder="Enter port or anchorage"></label><label>Intended destination / operating area <select id="rv-route"><option value="">Select area</option><option>Formentera · La Savina / Illetes</option><option>Formentera · Es Pujols</option><option>Es Vedrà / Cala d'Hort</option><option>Cala Bassa / Cala Comte</option><option>Benirràs / North coast</option><option>Portinatx / North coast</option><option>Santa Eulària / East coast</option><option>Ibiza Town / South coast</option><option>Es Freus</option><option>Other / multiple stops</option></select></label><label id="rv-route-other-wrap" hidden>Other destination<input id="rv-route-other" maxlength="160" placeholder="Enter destination or area"></label><label>Additional route details (optional)<input id="rv-route-extra" maxlength="180" placeholder="Stops, return route, other destination"></label><div class="rv-counts"><label>Captain<input id="rv-count-captain" type="number" min="1" max="2" value="1"></label><label>Crew (excluding captain)<input id="rv-count-crew" type="number" min="0" max="40" value="0"></label><label>Adult guests<input id="rv-count-guests" type="number" min="0" max="50" value="1"></label><label>Children under 16<input id="rv-children" type="number" min="0" max="30" value="0"></label></div><p id="rv-total"><strong>Total souls on board: 2</strong></p><div id="rv-child-safety" hidden><strong>Children's safety</strong><p>Enter number of children in each age group. The sum must match children aboard.</p><div class="rv-counts"><label>0–2 years<input id="rv-age-0" type="number" min="0" max="30" value="0"></label><label>3–5 years<input id="rv-age-3" type="number" min="0" max="30" value="0"></label><label>6–11 years<input id="rv-age-6" type="number" min="0" max="30" value="0"></label><label>12–15 years<input id="rv-age-12" type="number" min="0" max="30" value="0"></label></div><label class="review-check"><input id="rv-jackets" type="checkbox"> I confirm that a correctly fitted lifejacket for each child has been checked and is on board</label></div><label>Passage and weather assessment <select id="rv-assessment"><option value="">Select assessment</option><option>Reviewed — acceptable subject to ongoing assessment</option><option>Additional precautions required</option><option>Postpone / do not depart</option><option>Decision pending</option></select></label><label>Precautions / notes <textarea id="rv-notes" maxlength="2000" placeholder="Weather, sea state, guests, route restrictions, contingency…"></textarea></label><label class="review-check"><input id="rv-ack" type="checkbox"> I have personally checked official warnings, forecasts, observed conditions and passage implications.</label><button type="button" id="rv-copy" class="pill primary">Copy declaration draft</button><p id="rv-status" role="status">No record has been submitted.</p></div></aside><div id="review-shade" hidden></div></main>
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
 window.ARA_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.workers.dev'; // Set to your deployed https://ara-ai-capitan.<account>.workers.dev URL
@@ -665,7 +665,7 @@ const update=()=>{const value=src.textContent.trim();dst.textContent=value&&valu
 new MutationObserver(update).observe(src,{childList:true,subtree:true,characterData:true});update();})();
 </script>
 <script>
-/* V5.18 automatic fallback with 30-second recovery probes, provider-aware refresh and backoff. */
+/* V5.19 automatic fallback with 30-second recovery probes, provider-aware refresh and backoff. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id),sites={san:[38.978,1.301,'Sant Antoni · Ibiza'],ibiza:[38.908,1.443,'Ibiza Town · Ibiza'],vedr:[38.868,1.195,'Es Vedrà · Ibiza'],form:[38.733,1.418,'Formentera']};
 const put=(id,t)=>{if($(id))$(id).textContent=t};
@@ -676,7 +676,7 @@ const compass=d=>['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW'
 const windName={N:'Northerly',NNE:'North-northeasterly',NE:'Northeasterly',ENE:'East-northeasterly',E:'Easterly',ESE:'East-southeasterly',SE:'Southeasterly',SSE:'South-southeasterly',S:'Southerly',SSW:'South-southwesterly',SW:'Southwesterly',WSW:'West-southwesterly',W:'Westerly',WNW:'West-northwesterly',NW:'Northwesterly',NNW:'North-northwesterly'};
 const weather=c=>c>=95?'Thunderstorms':c>=80?'Showers':c>=61?'Rain':c>=51?'Drizzle':c>=45?'Fog':c>=3?'Overcast':c===2?'Partly cloudy':c===1?'Mostly clear':'Clear';
 const timeout=async(url,ms=16000)=>{const ac=new AbortController(),timer=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(url,{signal:ac.signal,cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}finally{clearTimeout(timer)}};
-let seq=0,lastWeatherRefresh=0,lastFullAttempt=0,activeProvider='Checking',fullRefreshRunning=false,probeRunning=false;
+let seq=0,lastWeatherRefresh=0,lastFullAttempt=0,activeProvider='Checking',fullRefreshRunning=false,probeRunning=false,pendingAreaRefresh=false;
 let nextPrimaryCheck=0,primaryFailures=0;
 const THIRTY_SECONDS=30*1000,FIVE_MINUTES=5*60*1000,TEN_MINUTES=10*60*1000;
 function retryDelay(error){
@@ -803,7 +803,7 @@ async function refresh(){
  }
  if($('ecmwf'))$('ecmwf').textContent='See Captain’s Weather Summary for separate ECMWF/GFS comparison.';
  if($('ukmo'))$('ukmo').textContent='UKMO model feed not configured; do not infer agreement.';
- }finally{fullRefreshRunning=false}
+ }finally{fullRefreshRunning=false;if(pendingAreaRefresh){pendingAreaRefresh=false;queueMicrotask(()=>{refresh();airport()})}}
 }
 // Probe the PRIMARY only while backup is in use; never overwrite good backup data on a failed probe.
 async function probePrimary(){
@@ -836,7 +836,7 @@ function scheduledWeatherCheck(){
  }
 }
 const area=$('location');if(area){
- area.addEventListener('change',()=>{refresh();airport()});
+ area.addEventListener('change',()=>{if(fullRefreshRunning){pendingAreaRefresh=true;seq++;}else{refresh();airport()}});
  $('refresh')?.addEventListener('click',()=>{refresh();airport()});
  setTimeout(refresh,1100);
  setInterval(scheduledWeatherCheck,THIRTY_SECONDS);
@@ -886,4 +886,38 @@ const data=`ARA Captain's Passage & Weather Declaration — DRAFT ONLY\nCaptain:
 try{await navigator.clipboard.writeText(data);put('rv-status','Draft copied. NOT submitted or filed.')}catch{put('rv-status','Clipboard unavailable. No record saved.')}
 });
 })();
-</script></body></html>
+</script>
+<script>
+/* V5.19: keep the selected operating area and the official Windy point forecast in sync.
+   Coordinates are approximate forecast-grid reference points, not navigational positions. */
+(()=>{'use strict';
+ const areas={
+  san:{label:'Sant Antoni · Ibiza',point:'Sant Antoni Marina',lat:38.978,lon:1.301},
+  ibiza:{label:'Ibiza Town · Ibiza',point:'Ibiza Town',lat:38.908,lon:1.443},
+  vedr:{label:'Es Vedrà · Ibiza',point:'Es Vedrà area (approximate grid point)',lat:38.868,lon:1.195},
+  form:{label:'Formentera',point:'La Savina · Formentera',lat:38.733,lon:1.418}
+ };
+ const area=document.getElementById('location'),heading=document.getElementById('areaName');
+ const panelTitle=document.getElementById('windy-point-title'),description=document.getElementById('windy-point-description');
+ const iframe=document.getElementById('windy-point-iframe'),windyLink=document.getElementById('windyLink');
+ if(!area||!heading||!iframe)return;
+ function sync(){
+  const selected=areas[area.value]||areas.san;
+  heading.textContent=selected.label;
+  if(panelTitle)panelTitle.textContent='Windy · '+selected.point+' point forecast';
+  if(description)description.textContent='Official Windy forecast table for '+selected.point+'.';
+  iframe.title='Windy official point forecast · '+selected.point;
+  const u=new URL('https://embed.windy.com/embed.html');
+  u.searchParams.set('type','forecast');u.searchParams.set('location','coordinates');
+  u.searchParams.set('detail','true');u.searchParams.set('detailLat',String(selected.lat));
+  u.searchParams.set('detailLon',String(selected.lon));
+  u.searchParams.set('metricTemp','°C');u.searchParams.set('metricRain','mm');u.searchParams.set('metricWind','kt');
+  if(iframe.src!==u.href)iframe.src=u.href;
+  if(windyLink)windyLink.href='https://www.windy.com/'+selected.lat.toFixed(3)+'/'+selected.lon.toFixed(3);
+ }
+ area.addEventListener('change',sync);
+ document.getElementById('refresh')?.addEventListener('click',sync);
+ sync();
+})();
+</script>
+</body></html>
