@@ -157,11 +157,33 @@
 </style><style>
 .ara-toolbar{display:grid!important;grid-template-columns:minmax(230px,1fr) auto minmax(150px,.8fr);align-items:start;gap:20px}.ara-area-controls{margin-top:10px;max-width:275px}.ara-area-controls .select{width:100%;max-width:275px}.ara-utility{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap}.ara-signoff{background:#9a5918!important;border:2px solid #ffd07b!important;color:#fff!important;font-weight:800!important;align-self:center;white-space:normal}.ara-ai{justify-self:end;align-self:center;background:#124352!important;font-size:13px!important}.coastal-camera{max-width:none!important;width:100%;margin:0!important}.camera-layout{grid-template-columns:minmax(0,2fr) minmax(230px,1fr)!important}.camera-display{max-width:none!important;width:100%}.rv-counts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.rv-counts label{min-width:0}.review-body .review-check input{width:auto}.review-body .review-check{margin:14px 0}.review-body input[type=number]{width:100%}#rv-child-safety{border:1px solid #527684;border-radius:9px;padding:12px;margin:12px 0}#rv-child-safety[hidden]{display:none!important}
 @media(max-width:820px){.ara-toolbar{grid-template-columns:1fr!important}.ara-ai{justify-self:start}.ara-signoff{justify-self:start}.camera-layout{grid-template-columns:1fr!important}}@media(max-width:460px){.rv-counts{grid-template-columns:1fr 1fr}}
+</style><style>
+/* V5.17 forecast cards and honest provider attribution */
+.forecast-source-badge{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font-weight:750;font-size:11px;letter-spacing:.01em;border:1px solid #448d88;background:#153d42;color:#c4f7ed}
+.forecast-source-badge[data-source="met"]{border-color:#e4b469;background:#4c341c;color:#ffe4af}
+.forecast-source-badge[data-source="failed"]{border-color:#d46f72;background:#452b34;color:#ffd0d0}
+.forecast-days-source{font-size:12px;color:#a9cad4;margin:0 0 12px}
+.days{align-items:stretch}
+.day{padding:17px 18px;background:linear-gradient(145deg,#153447,#0c202e);border:1px solid #315464;box-shadow:0 8px 20px #0002}
+.day .day-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-bottom:1px solid #345464;padding-bottom:12px;margin-bottom:14px}
+.day .day-date{font-size:16px;font-weight:750;margin:0;color:#f1faff}
+.day .day-coverage{font-size:10px;color:#aac4d0;margin-top:4px}
+.day .day-icon{font-size:37px;line-height:1.2;filter:drop-shadow(0 4px 7px #0005)}
+.day .day-temp{font-size:27px;font-weight:750;letter-spacing:-.035em;color:#fff;margin:5px 0 14px}
+.day .day-weather{font-size:12px;color:#b9d9e1;margin:4px 0 10px}
+.day .day-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.day .day-stat{border:1px solid #31515d;border-radius:9px;padding:9px 10px;background:#091f2d}
+.day .day-stat small{display:block;font-size:10px;color:#9bb9c4;margin-bottom:5px}
+.day .day-stat strong{font-size:15px;color:#f0fbff;font-weight:750}
+.day .day-stat.warn strong{color:#ffd09c}
+.day .day-source{font-size:10px;color:#a3c4cd;border-top:1px solid #345464;padding-top:11px;margin-top:13px}
+@media(max-width:850px){.days{grid-template-columns:1fr}.day .day-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:851px) and (max-width:1120px){.days{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style></head>
 <body>
-<header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION <span style="opacity:.7;font-size:.8em;white-space:nowrap">· v5.15</span></span><div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div></header>
+<header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION <span style="opacity:.7;font-size:.8em;white-space:nowrap">· v5.17</span></span><div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div></header>
 <main class="container">
-<section class="toolbar ara-toolbar" aria-label="Operating location and refresh"><div class="ara-area"><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div><div class="ara-area-controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><div class="ara-utility"><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></div></div><button class="pill ara-signoff" id="captain-review-open" type="button">⚠ Captain's Passage & Weather Declaration</button><a class="pill ara-ai" href="#ai-capitan">⚓ Interactive AI Captain</a></section>
+<section class="toolbar ara-toolbar" aria-label="Operating location and refresh"><div class="ara-area"><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div><div class="ara-area-controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><div class="ara-utility"><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></div></div><button class="pill ara-signoff" id="captain-review-open" type="button">⚠ Captain's Passage & Weather Declaration</button><button class="pill ara-ai" id="ara-ai-launch" type="button">⚓ Interactive AI Captain</button></section>
 
 <section class="alert aemet-fixed" aria-label="Official AEMET maritime bulletin">
  <div class="aemet-header"><div><div class="eyebrow" data-en="Official source · AEMET OpenData" data-es="Fuente oficial · AEMET OpenData">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px" data-en="⚓ AEMET maritime forecast" data-es="⚓ Predicción marítima AEMET">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div>
@@ -170,13 +192,9 @@
  <div id="aemet-shared" class="aemet-shared" hidden><strong>Shared Balearic coastal bulletin</strong><p id="aemet-shared-text"></p></div>
  <p class="aemet-disclaimer">Official data is shown only when retrievable. A shared regional bulletin must not be mistaken for separate island forecasts. Warning status is not an all-clear unless applicable alerts and validity periods are fully checked.</p>
 </section>
-<nav class="marine-quick-links" aria-label="Primary marine weather sources">
-<a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">AEMET · Ibiza Coastal Waters ↗</a>
-<a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer" title="Select San Antonio / Sant Antoni on Windguru">Windguru · San Antonio ↗</a>
-<a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
-</nav>
+
 <section id="ara-outlook" aria-labelledby="ara-outlook-title" hidden aria-hidden="true">
- <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.14</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.17</span></h2><small>Numerical forecast · not live observed conditions</small></div>
  
  <div class="ara-outlook-row" aria-live="polite">
  <div class="ara-outlook-item"><small>Conditions</small><strong id="ara-outlook-state">Loading…</strong></div>
@@ -189,7 +207,7 @@
  <p class="ara-outlook-disclaimer">* Experimental <b>model agreement</b> percentage (ECMWF IFS versus NOAA GFS), not a verified probability that the forecast will be correct. Wave conditions from Open-Meteo Marine. AEMET warnings not automatically checked.</p>
  </section>
 <section id="captain-weather-summary" aria-labelledby="captain-summary-title">
- <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.14</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
+ <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.17</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
@@ -198,10 +216,17 @@
   <div class="captain-summary-card captain-summary-confidence"><span class="captain-summary-icon" aria-hidden="true">📊</span><div><small>Forecast confidence*</small><strong id="cs-confidence">—</strong><div class="captain-confidence-track"><div id="cs-confidence-fill"></div></div></div></div>
  </div>
  <p id="cs-caution" class="captain-caution">Captain’s caution: Check local conditions and official AEMET warnings before departure.</p>
- <p class="ara-outlook-disclaimer">* Confidence is experimental ECMWF–GFS model agreement, not the probability the forecast is correct.</p>
+ <p class="ara-outlook-disclaimer">* Confidence is experimental ECMWF–GFS model agreement, not the probability the forecast is correct. It is unavailable when the required models cannot be compared. <span id="cs-source-note">Checking forecast sources…</span></p>
 </section>
-<div class="live-line" id="model-source-status"><span id="dataIndicator"><span class="dot"></span> Loading forecasts</span><span id="dataUpdated">Connecting to forecast providers…</span><span id="offlineNote" class="warning-text" hidden>Internet unavailable · figures must not be assumed current.</span></div>
-<section class="panel" id="airport-panel" aria-label="Ibiza Airport observed weather"><h3>✈ Ibiza Airport · Actual observations (LEIB METAR)</h3><p id="airport-data">Retrieving latest published METAR…</p><p class="footnote">Measured at Ibiza Airport, not Sant Antoni or offshore. Observation age is shown when available. <a href="https://aviationweather.gov/api/data/metar?ids=LEIB&amp;format=json" target="_blank" rel="noopener">Official aviation data ↗</a></p></section>
+<section class="panel" id="windguru-panel"><h3>Windy · Sant Antoni point forecast</h3><p>Official Windy forecast table for Sant Antoni Marina. Scroll within the widget to explore the available forecast hours. This is Windy's own forecast, not data used by our model-agreement calculation.</p><iframe title="Windy official Sant Antoni point forecast" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="width:100%;height:250px;border:0;border-radius:10px;background:#fff" src="https://embed.windy.com/embed.html?type=forecast&amp;location=coordinates&amp;detail=true&amp;detailLat=38.978&amp;detailLon=1.301&amp;metricTemp=%C2%B0C&amp;metricRain=mm&amp;metricWind=kt"></iframe><p class="footnote">Source: Windy.com official forecast embed. Windguru's multi-model forecasts are not ingested or scraped. <a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Windguru Sant Antoni ↗</a></p></section>
+
+<nav class="marine-quick-links" aria-label="Primary marine weather sources">
+<a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">AEMET · Ibiza Coastal Waters ↗</a>
+<a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer" title="Select San Antonio / Sant Antoni on Windguru">Windguru · San Antonio ↗</a>
+<a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
+</nav>
+<div class="live-line" id="model-source-status"><span id="dataIndicator"><span class="dot"></span> Loading forecasts</span><span id="dataUpdated">Connecting to forecast providers…</span><span id="active-source" class="forecast-source-badge" data-source="loading">Source: checking…</span><span id="offlineNote" class="warning-text" hidden>Internet unavailable · figures must not be assumed current.</span></div>
+<section class="panel" id="airport-panel" aria-label="Ibiza Airport observed weather"><h3>✈ Ibiza Airport · Actual observations (LEIB METAR)</h3><p id="airport-data" role="status" aria-live="polite">Retrieving latest published METAR…</p><p class="footnote">Measured at Ibiza Airport, not Sant Antoni or offshore. Observation age is shown when available. <a href="https://aviationweather.gov/api/data/metar?ids=LEIB&amp;format=json" target="_blank" rel="noopener">Official aviation data ↗</a></p></section>
 <section aria-labelledby="now-title"><div class="section-head"><h2 id="now-title">Forecast Conditions — Current Hour</h2><small id="ara-now-valid">Expected conditions at the current Ibiza forecast hour · not live observations</small></div><p class="ara-now-caution">⚠️ <b>Predicted for the stated forecast hour — not live measurements.</b> Compare with the wind, sea and sky you actually observe. Significant differences mean conditions need reassessment.</p><div class="grid">
 <div class="tile key ara-now-wind"><div class="ara-tile-top"><div class="lbl">Expected wind now</div><span class="ara-big-icon" aria-hidden="true">🌬️</span></div><div class="ara-now-primary"><span id="wind" class="ara-now-speed">—</span><span id="ara-now-force">F—</span><span id="ara-now-compass" style="display:none">—</span><span id="ara-now-direction-name" class="ara-dir-name">—</span></div><div class="ara-now-description" id="ara-now-description">Waiting for forecast</div><div class="detail" id="windDir" hidden></div></div>
 <div class="tile key ara-now-wind"><div class="ara-tile-top"><div class="lbl">Expected peak gust</div><span class="ara-big-icon" aria-hidden="true">💨</span></div><div class="ara-now-primary"><span id="gust" class="ara-now-speed">—</span><span id="ara-now-gust-force">F—</span><span id="ara-gust-direction" class="ara-dir-name"></span></div><div class="ara-now-description" id="ara-now-gust-description">Waiting for forecast</div><div class="detail" id="gustSub" hidden></div></div>
@@ -213,11 +238,9 @@
 <div class="smalltile ara-sky-small"><div class="lbl">Chance of rain <span id="ara-sky-icon" aria-hidden="true">🌦️</span></div><strong id="rain">—</strong><span class="detail" id="rainSub">At the forecast hour</span></div>
 <div class="smalltile"><div class="lbl">Expected cloud cover</div><strong id="cloud-cover">—</strong><span class="detail">At the forecast hour · modelled</span></div>
 </div><div hidden aria-hidden="true"><span id="wave"></span><span id="waveDir"></span><span id="wavePeriod"></span><span id="waveSource"></span><span id="beaufort"></span><span id="beaufortSub"></span><span id="weatherCondition"></span></div></section>
-<section aria-label="Forecast synopsis"><div class="section-head"><h2>Captain's quick read</h2><small>Forecast-derived prompts, not a go / no-go instruction</small></div><div class="panel"><div id="quickRead">Forecast data is loading. Check the official coastal forecast independently.</div><p class="footnote">Wind, swell, thunderstorm and exposure implications depend on route, sea area, vessel condition, crew and onboard observations. Captain retains full operational discretion.</p></div></section>
 <section aria-label="Interactive maps"><div class="section-head"><h2>Interactive synoptic &amp; marine maps</h2><small>External Windy forecast · automatically loads</small></div><div class="panel"><div class="split-actions" style="margin-top:0;margin-bottom:13px"><button class="pill selected" type="button" data-map="wind">Wind map</button><button class="pill" type="button" data-map="waves">Wave map</button><button class="pill" type="button" data-map="pressure">Pressure map</button><a class="pill" id="windyLink" href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Full-screen Windy ↗</a></div><div id="mapHost" class="map-placeholder"><div style="font-size:28px">◉</div><div>Loading the Windy wind map automatically.<br><small>Windy content requires internet access.</small></div><button class="pill primary" id="loadMap">Reload Windy map</button></div><div class="footnote">Maps are forecasts, not certified navigation charts. Map availability and embedding are controlled by Windy.</div></div></section>
 
-<section class="panel" id="windguru-panel"><h3>Windy · Sant Antoni point forecast</h3><p>Official Windy forecast table for Sant Antoni Marina. Scroll within the widget to explore the available forecast hours. This is Windy's own forecast, not data used by our model-agreement calculation.</p><iframe title="Windy official Sant Antoni point forecast" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="width:100%;height:250px;border:0;border-radius:10px;background:#fff" src="https://embed.windy.com/embed.html?type=forecast&amp;location=coordinates&amp;detail=true&amp;detailLat=38.978&amp;detailLon=1.301&amp;metricTemp=%C2%B0C&amp;metricRain=mm&amp;metricWind=kt"></iframe><p class="footnote">Source: Windy.com official forecast embed. Windguru's multi-model forecasts are not ingested or scraped. <a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Windguru Sant Antoni ↗</a></p></section>
-<section aria-label="Three day forecast"><div class="section-head"><h2>72-hour forecast</h2><small>Forecast days use Ibiza local time</small></div><div class="days" id="days"><div class="day">Loading daily forecast…</div></div></section>
+<section aria-label="Three day forecast"><div class="section-head"><h2>Three-day forecast</h2><small>Today and next two calendar days · Ibiza local time</small></div><p id="days-source" class="forecast-days-source">Forecast provider: checking…</p><div class="days" id="days"><div class="day">Loading daily forecast…</div></div></section>
 <section aria-label="Coastal camera monitor" id="coastal-cameras">
  <div class="section-head"><h2>Coastal Camera Monitor</h2><small>Visual observations · external providers</small></div>
  <div class="panel coastal-camera">
@@ -259,7 +282,7 @@
 <label class="checkpoint"><input type="checkbox" id="checkReality"><span>I considered current observations, available vessel/crew information and forecast limitations.</span></label>
 <div class="form-row"><div><label class="field" for="assess">Captain's provisional assessment</label><select id="assess"><option value="">Select an assessment</option><option>Suitable for proposed operation, subject to normal checks</option><option>Restrictions / further assessment required</option><option>Do not depart / postpone</option><option>Decision pending</option></select></div><div><label class="field" for="reviewName">Captain (free text · not verified)</label><input id="reviewName" type="text" autocomplete="off" maxlength="80" placeholder="Captain's name"></div></div><label class="field" for="comments">Operational notes / restrictions / planned sea area</label><textarea id="comments" maxlength="1200" placeholder="Optional: route, forecast issue time, warning details, local conditions…"></textarea><div class="split-actions"><button class="pill primary" type="button" id="copyReview">Copy draft review</button><button class="pill" type="button" id="resetReview">Clear</button></div><p class="footnote" id="copyStatus" aria-live="polite">No information is transmitted or stored by this checklist. Never treat it as proof of compliance.</p></div>
 <div class="panel"><h3>Command, accountability &amp; reporting</h3><p><strong>Captain</strong> · confirms weather and warnings, independently assesses conditions and makes all operational departure, diversion and cancellation decisions.</p><div class="divider"></div><p><strong>Marine Operations / IFO</strong> · reviews the existing handover and operational evidence trail, coordinates exceptions and escalations; does not replace the captain's judgement.</p><div class="divider"></div><p><strong>Future authenticated records</strong> · subject to Joe's approval and integration with the existing ODIN / Roger architecture. No duplicate master records.</p><div class="divider"></div><p class="footnote">A morning review must be repeated if conditions, warnings, route or operating plan materially change. This dashboard is supplementary; consult official forecasts and onboard instruments.</p></div></div></section>
-<footer class="fineprint"><strong>ARA Weather App · V5.14</strong> · Forecast guidance, not operational clearance. Open-Meteo weather and marine data are numerical models, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather &amp; marine data: Open-Meteo</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
+<footer class="fineprint"><strong>ARA Weather App · V5.17</strong> · Forecast guidance, not operational clearance. Open-Meteo weather is primary; MET Norway Locationforecast is the automatic fallback. Marine wave data remains a separate Open-Meteo feed. These are numerical forecasts, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Primary weather &amp; marine: Open-Meteo</a> · <a href="https://api.met.no/" target="_blank" rel="noopener noreferrer">Backup weather: MET Norway</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
 <aside id="captain-review-drawer" role="dialog" aria-modal="true" aria-label="Captain's Passage and Weather Declaration" hidden><div class="review-head"><strong>⚠ Captain's Passage & Weather Declaration</strong><button type="button" id="captain-review-close" aria-label="Close">✕</button></div><div class="review-body"><p>Pre-departure review and passage details. <strong>This prototype copies a draft; it does not submit or save an operational record.</strong></p><label>Captain <input id="rv-captain" maxlength="90" placeholder="Captain's name" required></label><label>Vessel <select id="rv-vessel"><option value="ARA — Wallypower 58">ARA — Wallypower 58</option><option value="Other vessel">Other vessel</option></select></label><label id="rv-vessel-other-wrap" hidden>Other vessel name<input id="rv-vessel-other" maxlength="100" placeholder="Enter vessel name"></label><label>Planned departure <input id="rv-departure" type="datetime-local"></label><label>Departure port <select id="rv-port"><option>Sant Antoni</option><option>Ibiza Town</option><option>Marina Botafoch</option><option>Santa Eulària</option><option>Portinatx</option><option>La Savina · Formentera</option><option>Other</option></select></label><label id="rv-port-other-wrap" hidden>Other departure port<input id="rv-port-other" maxlength="100" placeholder="Enter port or anchorage"></label><label>Intended destination / operating area <select id="rv-route"><option value="">Select area</option><option>Formentera · La Savina / Illetes</option><option>Formentera · Es Pujols</option><option>Es Vedrà / Cala d'Hort</option><option>Cala Bassa / Cala Comte</option><option>Benirràs / North coast</option><option>Portinatx / North coast</option><option>Santa Eulària / East coast</option><option>Ibiza Town / South coast</option><option>Es Freus</option><option>Other / multiple stops</option></select></label><label id="rv-route-other-wrap" hidden>Other destination<input id="rv-route-other" maxlength="160" placeholder="Enter destination or area"></label><label>Additional route details (optional)<input id="rv-route-extra" maxlength="180" placeholder="Stops, return route, other destination"></label><div class="rv-counts"><label>Captain<input id="rv-count-captain" type="number" min="1" max="2" value="1"></label><label>Crew (excluding captain)<input id="rv-count-crew" type="number" min="0" max="40" value="0"></label><label>Adult guests<input id="rv-count-guests" type="number" min="0" max="50" value="1"></label><label>Children under 16<input id="rv-children" type="number" min="0" max="30" value="0"></label></div><p id="rv-total"><strong>Total souls on board: 2</strong></p><div id="rv-child-safety" hidden><strong>Children's safety</strong><p>Enter number of children in each age group. The sum must match children aboard.</p><div class="rv-counts"><label>0–2 years<input id="rv-age-0" type="number" min="0" max="30" value="0"></label><label>3–5 years<input id="rv-age-3" type="number" min="0" max="30" value="0"></label><label>6–11 years<input id="rv-age-6" type="number" min="0" max="30" value="0"></label><label>12–15 years<input id="rv-age-12" type="number" min="0" max="30" value="0"></label></div><label class="review-check"><input id="rv-jackets" type="checkbox"> I confirm that a correctly fitted lifejacket for each child has been checked and is on board</label></div><label>Passage and weather assessment <select id="rv-assessment"><option value="">Select assessment</option><option>Reviewed — acceptable subject to ongoing assessment</option><option>Additional precautions required</option><option>Postpone / do not depart</option><option>Decision pending</option></select></label><label>Precautions / notes <textarea id="rv-notes" maxlength="2000" placeholder="Weather, sea state, guests, route restrictions, contingency…"></textarea></label><label class="review-check"><input id="rv-ack" type="checkbox"> I have personally checked official warnings, forecasts, observed conditions and passage implications.</label><button type="button" id="rv-copy" class="pill primary">Copy declaration draft</button><p id="rv-status" role="status">No record has been submitted.</p></div></aside><div id="review-shade" hidden></div></main>
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
 window.ARA_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.workers.dev'; // Set to your deployed https://ara-ai-capitan.<account>.workers.dev URL
@@ -313,10 +336,10 @@ window.ARA_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.worker
 /* ARA Weather Desk — Sr. AI Capitán. No secrets in client-side code. Forecast supplied by backend. */
 (()=>{'use strict';
 const endpoint = window.ARA_AI_BRIEFING_ENDPOINT || null;
-const launch=document.createElement('button');launch.id='ara-ai-launch';launch.type='button';launch.textContent='⚓ Sr. AI Capitán · V5';launch.setAttribute('aria-controls','ara-ai-panel');launch.setAttribute('aria-expanded','false');
+const launch=document.getElementById('ara-ai-launch')||document.createElement('button');launch.id='ara-ai-launch';launch.type='button';launch.textContent='⚓ Interactive AI Captain';launch.setAttribute('aria-controls','ara-ai-panel');launch.setAttribute('aria-expanded','false');
 const panel=document.createElement('aside');panel.id='ara-ai-panel';panel.setAttribute('aria-label','Sr. AI Capitán passage planning');panel.setAttribute('aria-hidden','true');
 panel.innerHTML=`<header><div><h2>⚓ Sr. AI Capitán · V5</h2><div class="sub">ARA Weather Desk · Captain's intelligence · V5</div></div><button id="ara-ai-close" type="button" aria-label="Close panel">×</button></header><main><p><strong>INTERFACE v5 · Forecast-first</strong> — Select the trip details below. The briefing request is optional.</p><label for="ara-ai-request">Optional briefing instructions</label><textarea id="ara-ai-request" placeholder="Who, what, where and how? Optional: describe training, route or special concerns."></textarea><div class="actions"><button id="ara-ai-mic" type="button">🎙 Speak</button><button id="ara-ai-stop" type="button" disabled>Stop</button><button id="ara-ai-clear" type="button">Clear</button></div><div id="ara-ai-status" role="status" aria-live="polite">Ready. Browser microphone support varies.</div><label for="ara-ai-access">Private access code</label><input id="ara-ai-access" type="password" autocomplete="off" placeholder="Enter private code (not stored)"><label for="ara-ai-date">Trip date</label><input id="ara-ai-date" type="date"><label for="ara-ai-departure">Departure</label><select id="ara-ai-departure"><option value="" selected disabled>Select departure…</option><option>Sant Antoni Marina — D6</option><option>Ibiza Town</option><option>Santa Eulària</option><option>La Savina</option><option>Other (specify in request)</option></select><label for="ara-ai-duration">Operating period</label><select id="ara-ai-duration"><option value="" selected disabled>Select operating period…</option><option>Morning (08:00–12:00)</option><option>Afternoon (12:00–18:00)</option><option>All day (08:00–18:00)</option><option>Evening / night (18:00–23:00)</option><option>Overnight (23:00–08:00)</option></select><label for="ara-ai-tolerance">People aboard / tolerance</label><select id="ara-ai-tolerance"><option value="" selected disabled>Select crew / tolerance…</option><option>Experienced crew — high tolerance</option><option>Leisure guests — medium tolerance</option><option>Vulnerable/nervous guests — low tolerance</option></select><label for="ara-ai-speed">Planned cruising speed (5–50 knots)</label><input id="ara-ai-speed" type="number" min="5" max="50" step="1" value="25"><label for="ara-ai-radius">Maximum one-way cruising distance (1–70 NM)</label><input id="ara-ai-radius" type="number" min="1" max="70" step="1" value="15"><label for="ara-ai-destination">Destination (optional)</label><select id="ara-ai-destination"><option value="">Undecided — suggest suitable places</option><option>Ses Illetes</option><option>Cala Saona</option><option>Platja de Migjorn</option><option>Es Caló</option><option>Es Pujols</option><option>Cala Jondal</option><option>Ses Salines</option><option>Playa d'en Bossa</option><option>Talamanca</option><option>Santa Eulària</option><option>Tagomago</option><option>Portinatx</option><option>Benirràs</option><option>Cala Xarraca</option><option>Ses Margalides</option><option>Cala Gració</option><option>Sant Antoni</option><option>Cala Bassa</option><option>Cala Conta</option><option>Cala Tarida</option><option>Es Vedrà</option><option>Es Cubells</option><option value="other">Other — specify in instructions</option></select><button id="ara-ai-generate" type="button">✨ Generate Captain's Briefing</button><button id="ara-ai-clear-result" type="button" style="margin-top:9px;width:100%;border:1px solid #66d6d0;background:#164350;color:white;padding:11px;border-radius:9px">Clear briefing</button><div id="ara-ai-summary" aria-live="polite"></div><div id="ara-ai-result" class="hidden" aria-live="polite"></div><p class="note">Operational advice only. Verify official AEMET bulletins, navigational information and current conditions. The captain retains command. Never enter private passenger details on a public site.</p></main>`;
-document.querySelector('.toolbar .controls').before(launch);document.body.append(panel);
+if(!launch.isConnected)(document.querySelector('.ara-toolbar')||document.body).append(launch);document.body.append(panel);
 const $=s=>panel.querySelector(s),request=$('#ara-ai-request'),status=$('#ara-ai-status'),result=$('#ara-ai-result'),generate=$('#ara-ai-generate');
 const setOpen=v=>{if(!v){result.textContent='';result.classList.add('hidden');$('#ara-ai-summary').classList.remove('visible')}panel.setAttribute('aria-hidden',String(!v));launch.setAttribute('aria-expanded',String(v));document.body.classList.toggle('ara-ai-open',v);if(v)$('#ara-ai-date').focus();else launch.focus()};
 launch.addEventListener('click',()=>setOpen(panel.getAttribute('aria-hidden')==='true'));$('#ara-ai-close').addEventListener('click',()=>setOpen(false));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.getAttribute('aria-hidden')==='false')setOpen(false)});$('#ara-ai-clear').addEventListener('click',()=>{request.value='';result.textContent='';result.classList.add('hidden');$('#ara-ai-summary').classList.remove('visible');status.textContent='Request and briefing cleared.'});
@@ -329,6 +352,20 @@ generate.addEventListener('click',async()=>{const missing=[['#ara-ai-date','trip
 
 </script>
 
+<script>
+/* V5.17: Single-flight, time-limited fallback fetch. No private keys in the page. */
+(()=>{'use strict';const pending=new Map();
+ window.araGetMetForecast=(lat,lon)=>{
+  const key=Number(lat).toFixed(3)+','+Number(lon).toFixed(3),now=Date.now(),old=pending.get(key);
+  if(old&&now-old.at<600000)return old.promise;
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),19000);
+  const promise=fetch('https://ara-sr-ai-capitan.stevehullock.workers.dev/forecast?lat='+encodeURIComponent(lat)+'&lon='+encodeURIComponent(lon),{signal:controller.signal,cache:'no-store'})
+   .then(async r=>{if(!r.ok)throw Error('MET Norway fallback HTTP '+r.status);const j=await r.json();if(!j?.hourly?.time?.length||j.provider!=='MET Norway')throw Error('MET Norway returned no usable forecast');return j})
+   .catch(e=>{pending.delete(key);throw e}).finally(()=>clearTimeout(timer));
+  pending.set(key,{at:now,promise});return promise;
+ };
+})();
+</script>
 <script>
 /* V5 weather outlook: client-side forecast comparison. No AI or private access code required. */
 (()=>{
@@ -351,7 +388,26 @@ async function update(){
  const a=results[0].status==='fulfilled'?entries(results[0].value.hourly):[];
  const b=results[1].status==='fulfilled'?entries(results[1].value.hourly):[];
  const available=a.length?a:b;
- if(!available.length){put('ara-outlook-state','Unavailable');['weather','wind','gust','confidence'].forEach(x=>put('ara-outlook-'+x,'—'));put('ara-outlook-evidence','No usable weather forecast returned. Do not infer conditions.');return}
+ if(!available.length){
+  try{
+   const fallback=await window.araGetMetForecast(site[0],site[1]);
+   const fh=fallback.hourly||{},items=(fh.time||[]).map((time,i)=>({time,w:fh.wind_speed_10m?.[i],g:fh.wind_gusts_10m?.[i],code:fh.weather_code?.[i],dir:fh.wind_direction_10m?.[i]}))
+     .filter(x=>x.time.startsWith(day+'T')&&Number(x.time.slice(11,13))>=8&&Number(x.time.slice(11,13))<18&&Number.isFinite(x.w));
+   if(!items.length)throw Error('No MET Norway forecast for selected date');
+   const wind=items.map(x=>x.w),gusts=items.map(x=>x.g).filter(Number.isFinite),codes=items.map(x=>x.code).filter(Number.isFinite);
+   const avgDir=items.find(x=>Number.isFinite(x.dir))?.dir;
+   const points=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+   const dir=Number.isFinite(avgDir)?points[Math.round(((avgDir%360)+360)%360/22.5)%16]+' · ':'';
+   const maxG=gusts.length?Math.max(...gusts):null;
+   const label=codes.some(c=>c>=95)?'⛈ Thunderstorms':codes.some(c=>c>=61&&c<=82)?'🌧 Rain/showers':codes.some(c=>c>=45&&c<=48)?'🌫 Fog':codes.some(c=>c>=2&&c<=3)?'⛅ Cloudy spells':codes.length?'☀ Mostly clear':'Weather description unavailable';
+   put('ara-outlook-state','Forecast available · limited assessment');put('ara-outlook-weather',label);
+   put('ara-outlook-wind',dir+Math.round(Math.min(...wind))+'–'+Math.round(Math.max(...wind))+' kn');
+   put('ara-outlook-gust',maxG===null?'Gust data unavailable':'Up to '+Math.round(maxG)+' kn');
+   put('ara-outlook-confidence','Unavailable');
+   put('ara-outlook-evidence','MET Norway fallback for '+day+' · model issued '+(fallback.forecast_issued_at_utc||'unknown')+' · retrieved '+(fallback.retrieved_at_utc||'unknown')+'. ECMWF/GFS comparison unavailable; no confidence score. Gusts may be unavailable in the global forecast.');
+   return;
+  }catch(e){put('ara-outlook-state','Unavailable');['weather','wind','gust','confidence'].forEach(x=>put('ara-outlook-'+x,'—'));put('ara-outlook-evidence','Open-Meteo models unavailable and MET Norway fallback failed: '+e.message+'. Do not infer conditions.');return}
+ }
  const bm=new Map(b.map(x=>[x.time,x]));const pairs=a.map(x=>[x,bm.get(x.time)]).filter(x=>x[1]);
  let confidence=null;
  if(pairs.length>=2){
@@ -397,7 +453,14 @@ async function loadSummaryTemp(){
   const v=j.hourly?.temperature_2m?.[idx];if(serial!==tempFetchId)return;
   temp.textContent=Number.isFinite(v)?Math.round(v)+' °C':'Unavailable';
   label.textContent='14:00 '+new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',timeZoneName:'short'}).formatToParts(new Date(day+'T12:00:00Z')).find(x=>x.type==='timeZoneName')?.value;
- }catch{if(serial===tempFetchId)temp.textContent='Unavailable'}
+ }catch{
+  try{
+   const j=await window.araGetMetForecast(lat,lon),idx=(j.hourly?.time||[]).findIndex(x=>x===day+'T14:00');
+   const v=j.hourly?.temperature_2m?.[idx];if(serial!==tempFetchId)return;
+   temp.textContent=Number.isFinite(v)?Math.round(v)+' °C':'Unavailable';
+   label.textContent='14:00 Ibiza local · MET Norway fallback';
+  }catch{if(serial===tempFetchId){temp.textContent='Unavailable';label.textContent='14:00 · both sources unavailable'}}
+ }
 }
 $('ara-outlook-refresh').addEventListener('click',loadSummaryTemp);
 $('location').addEventListener('change',loadSummaryTemp);
@@ -406,6 +469,7 @@ $('ara-outlook-refresh').addEventListener('click',()=>update().catch(e=>{put('ar
 $('ara-outlook-date').addEventListener('change',()=>$('ara-outlook-refresh').click());
 $('location').addEventListener('change',()=>$('ara-outlook-refresh').click());
 $('ara-outlook-refresh').click();
+let lastSummaryProvider=null;window.addEventListener('ara:forecast-provider',event=>{const p=event.detail?.provider;if(p&&p!==lastSummaryProvider){lastSummaryProvider=p;$('ara-outlook-refresh').click()}});
 })();
 </script>
 <script>
@@ -444,9 +508,9 @@ update();
   const gn=Number(gust.match(/\d+(?:\.\d+)?/)?.[0]);
   const p=Number.parseFloat(confidence);$('cs-confidence-fill').style.width=Number.isFinite(p)?Math.max(0,Math.min(100,p))+'%':'0%';
   const caution=gn>=22?'Captain’s caution: Stronger gusts are forecast. Consider vessel, passengers, exposure and local sea conditions before departure.':get('ara-outlook-state')==='Unsettled'||get('ara-outlook-state')==='Very poor'?'Captain’s caution: Unsettled conditions are forecast. Review local exposure and official warnings before departure.':'Captain’s caution: Forecast guidance is not a substitute for local assessment and checking official AEMET warnings.';
-  $('cs-caution').textContent=caution;
+  $('cs-caution').textContent=caution;const evidence=get('ara-outlook-evidence');if($('cs-source-note'))$('cs-source-note').textContent=evidence.includes('MET Norway')?'Weather source: MET Norway fallback.':'Weather source: Open-Meteo model comparison (when available).';
  }
- ['ara-outlook-state','ara-outlook-weather','ara-outlook-wind','ara-outlook-gust','ara-outlook-confidence'].forEach(id=>{const node=$(id);if(node)new MutationObserver(update).observe(node,{childList:true,subtree:true,characterData:true})});update();
+ ['ara-outlook-state','ara-outlook-weather','ara-outlook-wind','ara-outlook-gust','ara-outlook-confidence','ara-outlook-evidence'].forEach(id=>{const node=$(id);if(node)new MutationObserver(update).observe(node,{childList:true,subtree:true,characterData:true})});update();
 })();
 </script><script>
 /* V5.9: enhance current forecast tile presentation without changing the forecast source. */
@@ -487,11 +551,11 @@ window.addEventListener('load',()=>{
 </script>
 
 <script>
-/* Official AEMET V5.14: Spanish original and English glossary translation; warnings never auto-cleared without full CAP validation. */
+/* Official AEMET V5.17: Spanish original and English glossary translation; warnings never auto-cleared without full CAP validation. */
 (async()=>{
  const $=id=>document.getElementById(id),set=(id,v)=>{$(id).textContent=v};
  const clean=v=>String(v??'').replace(/\uFFFD/g,'').replace(/\s+/g,' ').trim();
- let language=localStorage.getItem('ara-language')==='en'?'en':'es',bulletin=null,selectedZone='',warningResponse=null;let warningAlerts=[];
+ let storedLanguage=null;try{storedLanguage=localStorage.getItem('ara-language')}catch{}let language=storedLanguage==='en'?'en':'es',bulletin=null,selectedZone='',warningResponse=null;let warningAlerts=[];
  const esToEn=[
  [/Aguas costeras de/gi,'Coastal waters of'],[/Marejadilla/gi,'slight seas'],[/fuerte marejada/gi,'rough seas'],[/marejada/gi,'moderate seas'],[/mar gruesa/gi,'high seas'],[/mar de fondo/gi,'swell'],[/viento/gi,'wind'],[/rachas/gi,'gusts'],[/chubascos/gi,'showers'],[/aguaceros/gi,'heavy showers'],[/precipitaciones/gi,'precipitation'],[/tormentas/gi,'thunderstorms'],[/tormenta/gi,'thunderstorm'],[/lluvias/gi,'rain'],[/lluvia/gi,'rain'],[/desde la madrugada/gi,'from the early hours'],[/durante la madrugada/gi,'during the early hours'],[/por la noche/gi,'overnight'],[/por la tarde/gi,'in the afternoon'],[/por la mañana/gi,'in the morning'],[/arreciando/gi,'strengthening'],[/amainando/gi,'easing'],[/aumentando/gi,'increasing'],[/disminuyendo/gi,'decreasing'],[/localmente/gi,'locally'],[/temporalmente/gi,'temporarily'],[/variable/gi,'variable'],[/rolando/gi,'veering/shifting'],[/a/gi,'a']
  ];
@@ -539,7 +603,7 @@ window.addEventListener('load',()=>{
   const z=bulletin.zones[Number(selectedZone)];
   if(selectedZone!==''&&z){$('aemet-selected').hidden=false;set('aemet-selected-title',display(z.nombre));set('aemet-selected-text',display(bulletin.zoneText(z)))}else $('aemet-selected').hidden=true;
  }
- const changeLang=l=>{language=l;localStorage.setItem('ara-language',l);render();renderWarnings()};
+ const changeLang=l=>{language=l;try{localStorage.setItem('ara-language',l)}catch{}render();renderWarnings()};
  $('global-en').addEventListener('click',()=>changeLang('en'));$('global-es').addEventListener('click',()=>changeLang('es'));
  function renderWarnings(){
   const wr=warningResponse,box=$('aemet-warning-details');box.replaceChildren();
@@ -595,13 +659,13 @@ window.addEventListener('load',()=>{
 })();
 </script>
 <script>
-/* V5.14: gusts use prevailing wind direction as contextual label, not an independently modelled gust direction. */
+/* V5.17: gusts use prevailing wind direction as contextual label, not an independently modelled gust direction. */
 (()=>{const src=document.getElementById('ara-now-direction-name'),dst=document.getElementById('ara-gust-direction');if(!src||!dst)return;
 const update=()=>{const value=src.textContent.trim();dst.textContent=value&&value!=='—'?value:'';dst.title='Prevailing wind direction; gust direction not independently forecast';};
 new MutationObserver(update).observe(src,{childList:true,subtree:true,characterData:true});update();})();
 </script>
 <script>
-/* V5.14 independent fallback for the legacy app.js forecast tiles; source and times explicit. */
+/* V5.17 independent fallback for the legacy app.js forecast tiles; source and times explicit. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id),sites={san:[38.978,1.301,'Sant Antoni · Ibiza'],ibiza:[38.908,1.443,'Ibiza Town · Ibiza'],vedr:[38.868,1.195,'Es Vedrà · Ibiza'],form:[38.733,1.418,'Formentera']};
 const put=(id,t)=>{if($(id))$(id).textContent=t};
@@ -612,27 +676,132 @@ const compass=d=>['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW'
 const windName={N:'Northerly',NNE:'North-northeasterly',NE:'Northeasterly',ENE:'East-northeasterly',E:'Easterly',ESE:'East-southeasterly',SE:'Southeasterly',SSE:'South-southeasterly',S:'Southerly',SSW:'South-southwesterly',SW:'Southwesterly',WSW:'West-southwesterly',W:'Westerly',WNW:'West-northwesterly',NW:'Northwesterly',NNW:'North-northwesterly'};
 const weather=c=>c>=95?'Thunderstorms':c>=80?'Showers':c>=61?'Rain':c>=51?'Drizzle':c>=45?'Fog':c>=3?'Overcast':c===2?'Partly cloudy':c===1?'Mostly clear':'Clear';
 const timeout=async(url,ms=16000)=>{const ac=new AbortController(),timer=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(url,{signal:ac.signal,cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}finally{clearTimeout(timer)}};
-let seq=0;
-async function refresh(){const serial=++seq;const [lat,lon,name]=sites[$('location').value]||sites.san;put('baro-location',name.toUpperCase());put('airport-data','Retrieving latest published METAR…');
- put('dataIndicator','● Retrieving forecast');put('dataUpdated','Open-Meteo weather + marine · modelled offshore grid · fetching at '+fmt(new Date()));
- const q=`latitude=${lat}&longitude=${lon}&timezone=Europe%2FMadrid&wind_speed_unit=kn&forecast_days=3&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl`;
- const marine=`latitude=${lat}&longitude=${lon}&timezone=Europe%2FMadrid&forecast_days=3&hourly=wave_height,swell_wave_height,swell_wave_direction`;
- const [w,m]=await Promise.allSettled([timeout('https://api.open-meteo.com/v1/forecast?'+q),timeout('https://marine-api.open-meteo.com/v1/marine?'+marine)]);
+let seq=0,lastWeatherRefresh=0;
+const hasForecast=j=>Array.isArray(j?.hourly?.time)&&j.hourly.time.length>0&&Array.isArray(j.hourly.wind_speed_10m)&&j.hourly.wind_speed_10m.some(Number.isFinite);
+const nval=(arr,i)=>Number.isFinite(arr?.[i])?arr[i]:null;
+const ico=c=>!Number.isFinite(c)?'🌤️':c>=95?'⛈️':c>=80?'🌦️':c>=61?'🌧️':c>=51?'🌦️':c>=45?'🌫️':c>=3?'☁️':c===2?'⛅':c===1?'🌤️':'☀️';
+async function refresh(){
+ const serial=++seq,[lat,lon,name]=sites[$('location').value]||sites.san;
+ put('baro-location',name.toUpperCase());put('dataIndicator','● Retrieving forecast');put('dataUpdated','Checking Open-Meteo primary forecast · '+fmt(new Date()));
+ const badge=$('active-source');if(badge){badge.dataset.source='loading';badge.textContent='Source: checking…'}
+ const q=`latitude=${lat}&longitude=${lon}&timezone=Europe%2FMadrid&wind_speed_unit=kn&forecast_days=4&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl`;
+ const marine=`latitude=${lat}&longitude=${lon}&timezone=Europe%2FMadrid&forecast_days=4&hourly=wave_height,swell_wave_height,swell_wave_direction`;
+ // Weather and marine are independent. A marine failure never suppresses a valid weather forecast.
+ const marineJob=timeout('https://marine-api.open-meteo.com/v1/marine?'+marine,14000).then(value=>({value,error:null})).catch(e=>({value:null,error:e.message}));
+ let j,provider='Open-Meteo',primaryFailure='',fallbackFailure='';
+ try{
+  j=await timeout('https://api.open-meteo.com/v1/forecast?'+q,12000);
+  if(!hasForecast(j))throw Error('No usable hourly wind forecast returned');
+ }catch(e){
+  primaryFailure=e.name==='AbortError'?'request timed out':String(e.message||e);
+  put('dataUpdated','Open-Meteo failed ('+primaryFailure+'). Switching to MET Norway…');
+  try{j=await window.araGetMetForecast(lat,lon);if(!hasForecast(j))throw Error('No usable MET Norway hourly forecast');provider='MET Norway'}
+  catch(err){fallbackFailure=String(err.message||err)}
+ }
  if(serial!==seq)return;
- if(w.status!=='fulfilled'){const err=String(w.reason?.message||w.reason||'Unknown failure');put('dataIndicator','● Forecast unavailable');put('dataUpdated','Open-Meteo request failed: '+err+' · last attempt '+fmt(new Date()));put('ara-now-valid','Hourly forecast unavailable; no live observation implied');put('quickRead','Weather forecast unavailable. Check AEMET and onboard instruments.');return}
- const j=w.value,h=j.hourly||{},times=h.time||[],day=localDate(),hour=localHour();let i=times.findIndex(x=>x.startsWith(day+'T')&&Number(x.slice(11,13))===hour);if(i<0)i=times.findIndex(x=>x.startsWith(day));if(i<0){put('dataIndicator','● No current forecast hour');put('dataUpdated','Open-Meteo returned no usable hourly data for '+day);return}
- const v=k=>Number.isFinite(h[k]?.[i])?h[k][i]:null;const speed=v('wind_speed_10m'),gust=v('wind_gusts_10m'),dir=v('wind_direction_10m'),temp=v('temperature_2m'),rain=v('precipitation_probability'),press=v('pressure_msl'),code=v('weather_code');
- put('cloud-cover',v('cloud_cover')===null?'Unavailable':Math.round(v('cloud_cover'))+'%');const bearing=dir===null?'':compass(dir);put('wind',speed===null?'—':Math.round(speed)+' kn');put('gust',gust===null?'—':Math.round(gust)+' kn');put('windDir',dir===null?'':bearing+' · '+Math.round(dir)+'° (from)');put('ara-gust-direction',bearing?windName[bearing]+' (prevailing wind)':'');put('sky',code===null?'Unavailable':weather(code));put('temp',temp===null?'—':Math.round(temp)+' °C');put('rain',rain===null?'—':Math.round(rain)+' %');put('press',press===null?'—':Math.round(press)+' hPa');
- const mt=m.status==='fulfilled'?m.value.hourly:null,mi=mt?.time?.indexOf(times[i])??-1;const swell=mi>=0?mt.swell_wave_height?.[mi]:null;const swDir=mi>=0?mt.swell_wave_direction?.[mi]:null;put('swell',Number.isFinite(swell)?swell.toFixed(1)+' m':'Unavailable');put('swellDir',Number.isFinite(swDir)?compass(swDir)+' · offshore model':'Marine data unavailable');
- put('ara-now-valid','Predicted for '+times[i].replace('T',' ')+' (Ibiza local) · Open-Meteo forecast · '+name+' offshore grid · retrieved '+fmt(new Date()));put('dataIndicator','● Weather model loaded');put('dataUpdated','Open-Meteo Forecast API (model: provider best match) · Marine API '+(m.status==='fulfilled'?'loaded':'unavailable')+' · retrieved '+fmt(new Date())+' · forecast valid '+times[i].slice(11,16)+' local · grid '+lat.toFixed(3)+', '+lon.toFixed(3));
- put('quickRead',`Forecast at ${times[i].slice(11,16)} local: ${code===null?'weather unavailable':weather(code)}; wind ${speed===null?'unavailable':Math.round(speed)+' kn'} ${bearing}; gust ${gust===null?'unavailable':Math.round(gust)+' kn'}. Check AEMET warnings and compare with actual conditions.`);
- if($('hourly')){const root=$('hourly');root.replaceChildren();const table=document.createElement('table');table.className='ara-hourly-table';const fields=[['Time',null],['Weather','weather_code'],['Wind (kn)','wind_speed_10m'],['Direction','wind_direction_10m'],['Gusts (kn)','wind_gusts_10m'],['Temp (°C)','temperature_2m'],['Rain (%)','precipitation_probability'],['Cloud (%)','cloud_cover'],['Wave (m)','wave_height'],['Swell (m)','swell_wave_height']];const indexes=times.map((t,n)=>n).filter(n=>n>=i&&(n-i)%3===0).slice(0,24);const thead=document.createElement('thead'),hr=document.createElement('tr');for(const n of [-1,...indexes]){const th=document.createElement('th');th.textContent=n===-1?'Forecast':times[n].slice(5,10)+' '+times[n].slice(11,16);hr.append(th)}thead.append(hr);table.append(thead);const body=document.createElement('tbody');for(const [label,key] of fields.slice(1)){const tr=document.createElement('tr'),th=document.createElement('th');th.textContent=label;tr.append(th);for(const n of indexes){const td=document.createElement('td');let val=key==='wave_height'||key==='swell_wave_height'?(mt?.time?mt[key]?.[mt.time.indexOf(times[n])]:null):h[key]?.[n];td.textContent=val==null?'—':key==='weather_code'?weather(val):key==='wind_direction_10m'?compass(val):key.includes('wave_height')?Number(val).toFixed(1):String(Math.round(val));tr.append(td)}body.append(tr)}table.append(body);root.append(table);const note=document.createElement('div');note.className='footnote';note.textContent='Forecast valid times: Ibiza local. Open-Meteo hourly forecast sampled every 3 hours; wind in knots, waves in metres. Retrieved '+fmt(new Date())+'.';root.append(note)};
- if($('days')){const root=$('days');root.replaceChildren();const byDay=new Map();times.forEach((t,n)=>{const key=t.slice(0,10);if(!byDay.has(key))byDay.set(key,[]);byDay.get(key).push(n)});for(const [date,indices] of [...byDay.entries()].slice(0,3)){const values=k=>indices.map(n=>h[k]?.[n]).filter(Number.isFinite);const lo=values('temperature_2m'),winds=values('wind_speed_10m'),gusts=values('wind_gusts_10m'),rain=values('precipitation_probability'),cloud=values('cloud_cover');const mean=arr=>arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):null;const range=arr=>arr.length?Math.round(Math.min(...arr))+'–'+Math.round(Math.max(...arr)):'—';const dayName=new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',weekday:'long',day:'numeric',month:'short'}).format(new Date(date+'T12:00:00Z'));const card=document.createElement('article');card.className='day';const title=document.createElement('h3');title.textContent=dayName;card.append(title);const lines=[['Air temperature',lo.length?range(lo)+' °C':'—'],['Wind',winds.length?range(winds)+' kn':'—'],['Peak gust',gusts.length?Math.round(Math.max(...gusts))+' kn':'—'],['Rain chance (highest hourly)',rain.length?Math.round(Math.max(...rain))+'%':'—'],['Cloud cover (mean)',cloud.length?mean(cloud)+'%':'—'],['Source','Open-Meteo hourly forecast']];for(const [label,value] of lines){const row=document.createElement('div');row.className='rowinfo';row.textContent=label+': '+value;card.append(row)}root.append(card)}if(!root.children.length)root.textContent='No forecast days returned by Open-Meteo.';}
- if($('ecmwf'))$('ecmwf').textContent='See Captain’s Weather Summary for separate ECMWF/GFS comparison.';if($('ukmo'))$('ukmo').textContent='UKMO model feed not configured; do not infer agreement.';
+ if(!j||!hasForecast(j)){
+  put('dataIndicator','● Forecast unavailable');put('dataUpdated','Open-Meteo: '+primaryFailure+' · MET Norway: '+fallbackFailure+' · checked '+fmt(new Date()));
+  put('ara-now-valid','Both weather sources unavailable; no current conditions inferred');
+  if(badge){badge.dataset.source='failed';badge.textContent='Both sources unavailable'}
+  ['wind','gust','sky','temp','rain','press','cloud-cover','swell','swellDir'].forEach(id=>put(id,'—'));
+  if($('days'))$('days').textContent='Both weather providers are unavailable. Check the official AEMET forecast and onboard instruments.';
+  if($('hourly'))$('hourly').textContent='No verified forecast data available.';
+  put('days-source','Open-Meteo and MET Norway unavailable · last attempt '+fmt(new Date()));window.dispatchEvent(new CustomEvent('ara:forecast-provider',{detail:{provider:'Unavailable'}}));return;
+ }
+ const h=j.hourly||{},times=h.time||[],day=localDate(),hour=localHour();
+ let i=times.findIndex(t=>t.startsWith(day+'T')&&Number(t.slice(11,13))===hour);
+ if(i<0)i=times.findIndex(t=>t.startsWith(day+'T')&&Number(t.slice(11,13))>=hour);
+ if(i<0)i=times.findIndex(t=>t.startsWith(day+'T'));
+ if(i<0){put('dataIndicator','● No current forecast hour');put('dataUpdated',provider+' returned no usable forecast hour for '+day);return}
+ const v=k=>nval(h[k],i),speed=v('wind_speed_10m'),gust=v('wind_gusts_10m'),dir=v('wind_direction_10m'),temp=v('temperature_2m'),rain=v('precipitation_probability'),rainmm=v('precipitation'),press=v('pressure_msl'),code=v('weather_code');
+ const bearing=dir===null?'':compass(dir);
+ put('cloud-cover',v('cloud_cover')===null?'Unavailable':Math.round(v('cloud_cover'))+'%');
+ put('wind',speed===null?'—':Math.round(speed)+' kn');put('gust',gust===null?'Unavailable':Math.round(gust)+' kn');
+ put('windDir',dir===null?'':bearing+' · '+Math.round(dir)+'° (from)');
+ put('ara-gust-direction',gust!==null&&bearing?windName[bearing]+' (prevailing wind)':'');
+ put('sky',code===null?'Unavailable':weather(code));put('temp',temp===null?'—':Math.round(temp)+' °C');
+ put('rain',rain===null?'Unavailable':Math.round(rain)+' %');
+ put('rainSub',rain===null?(rainmm===null?'Probability not supplied by '+provider:'Rainfall amount '+rainmm.toFixed(1)+' mm (next hour)'):'Chance at forecast hour');
+ put('press',press===null?'—':Math.round(press)+' hPa');
+ const marineResult=await marineJob;if(serial!==seq)return;
+ const mt=marineResult.value?.hourly||null,mi=mt?.time?.indexOf(times[i])??-1;
+ const swell=mi>=0?nval(mt.swell_wave_height,mi):null,swDir=mi>=0?nval(mt.swell_wave_direction,mi):null;
+ put('swell',swell!==null?swell.toFixed(1)+' m':'Unavailable');
+ put('swellDir',swDir!==null?compass(swDir)+' · Open-Meteo Marine':'Marine data unavailable (Open-Meteo)');
+ const retrieved=j.retrieved_at_utc?fmt(new Date(j.retrieved_at_utc)):fmt(new Date());
+ const issued=j.forecast_issued_at_utc?' · model issued '+fmt(new Date(j.forecast_issued_at_utc)):'';
+ const marineText=marineResult.value?'Open-Meteo Marine loaded':'Open-Meteo Marine unavailable';
+ const sourceText=provider==='MET Norway'?'MET Norway Locationforecast · BACKUP (Open-Meteo failed: '+primaryFailure+')':'Open-Meteo Forecast API · PRIMARY';
+ put('ara-now-valid','Predicted for '+times[i].replace('T',' ')+' (Ibiza local) · '+provider+' forecast · '+name+' forecast grid · retrieved '+retrieved+issued);
+ put('dataIndicator','● '+(provider==='MET Norway'?'Backup forecast active':'Primary forecast loaded'));
+ put('dataUpdated',sourceText+' · '+marineText+' · retrieved '+retrieved+' · valid '+times[i].slice(11,16)+' Ibiza local · grid '+lat.toFixed(3)+', '+lon.toFixed(3)+issued);
+ if(badge){badge.dataset.source=provider==='MET Norway'?'met':'open';badge.textContent=provider==='MET Norway'?'Backup active: MET Norway':'Primary: Open-Meteo'}
+ lastWeatherRefresh=Date.now();
+ window.dispatchEvent(new CustomEvent('ara:forecast-provider',{detail:{provider}}));
+ if($('hourly')){
+  const root=$('hourly');root.replaceChildren();const table=document.createElement('table');table.className='ara-hourly-table';
+  const fields=[['Weather','weather_code'],['Wind (kn)','wind_speed_10m'],['Direction','wind_direction_10m'],['Gusts (kn)','wind_gusts_10m'],['Temp (°C)','temperature_2m'],['Rain chance (%)','precipitation_probability'],['Rain amount (mm)','precipitation'],['Cloud (%)','cloud_cover'],['Wave (m)','wave_height'],['Swell (m)','swell_wave_height']];
+  const indexes=times.map((t,n)=>n).filter(n=>n>=i&&(Number(times[n].slice(11,13))%3===0)).slice(0,24);
+  if(!indexes.length)indexes.push(i);
+  const thead=document.createElement('thead'),hr=document.createElement('tr');
+  for(const n of [-1,...indexes]){const th=document.createElement('th');th.textContent=n===-1?'Forecast':times[n].slice(5,10)+' '+times[n].slice(11,16);hr.append(th)}thead.append(hr);table.append(thead);
+  const body=document.createElement('tbody');
+  for(const [label,key] of fields){const tr=document.createElement('tr'),th=document.createElement('th');th.textContent=label;tr.append(th);
+   for(const n of indexes){const td=document.createElement('td');const marineKey=key==='wave_height'||key==='swell_wave_height';const val=marineKey?(mt?.time?nval(mt[key],mt.time.indexOf(times[n])):null):nval(h[key],n);
+    td.textContent=val===null?'—':key==='weather_code'?ico(val)+' '+weather(val):key==='wind_direction_10m'?compass(val):marineKey||key==='precipitation'?val.toFixed(1):String(Math.round(val));tr.append(td)}body.append(tr)}table.append(body);root.append(table);
+  const note=document.createElement('div');note.className='footnote';note.textContent='Atmospheric forecast: '+provider+' · wave/swell: '+marineText+' · valid times Ibiza local · retrieved '+retrieved+'. Missing gust or rain-probability values are not estimated.';root.append(note);
+ }
+ if($('days')){
+  const root=$('days');root.replaceChildren();const byDay=new Map();times.forEach((t,n)=>{const key=t.slice(0,10);if(!byDay.has(key))byDay.set(key,[]);byDay.get(key).push(n)});
+  const ordered=[...byDay.entries()].filter(([d])=>d>=day).slice(0,3);
+  const average=arr=>arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):null;
+  const vals=(indices,key)=>indices.map(n=>nval(h[key],n)).filter(Number.isFinite);
+  const stat=(parent,emoji,label,value,warn=false)=>{const el=document.createElement('div');el.className='day-stat'+(warn?' warn':'');const small=document.createElement('small');small.textContent=emoji+' '+label;const strong=document.createElement('strong');strong.textContent=value;el.append(small,strong);parent.append(el)};
+  for(const [date,indices] of ordered){
+   const temps=vals(indices,'temperature_2m'),winds=vals(indices,'wind_speed_10m'),gusts=vals(indices,'wind_gusts_10m'),rain=vals(indices,'precipitation_probability'),cloud=vals(indices,'cloud_cover'),rainAmount=vals(indices,'precipitation'),codes=vals(indices,'weather_code');
+   const wx=codes.some(c=>c>=95)?95:codes.some(c=>c>=80)?80:codes.some(c=>c>=61)?61:codes.some(c=>c>=45&&c<=48)?45:average(codes)??null;
+   const dayName=new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',weekday:'long',day:'numeric',month:'short'}).format(new Date(date+'T12:00:00Z'));
+   const card=document.createElement('article');card.className='day';const top=document.createElement('div');top.className='day-top';
+   const left=document.createElement('div'),title=document.createElement('h3');title.className='day-date';title.textContent=dayName;
+   const coverage=document.createElement('div');coverage.className='day-coverage';coverage.textContent='Ibiza local · '+indices.length+' forecast times';left.append(title,coverage);
+   const icon=document.createElement('span');icon.className='day-icon';icon.setAttribute('aria-hidden','true');icon.textContent=ico(wx);top.append(left,icon);card.append(top);
+   const tempDiv=document.createElement('div');tempDiv.className='day-temp';tempDiv.textContent=temps.length?Math.round(Math.min(...temps))+'–'+Math.round(Math.max(...temps))+' °C':'Temperature unavailable';card.append(tempDiv);
+   const desc=document.createElement('div');desc.className='day-weather';desc.textContent=wx===null?'Weather detail unavailable':weather(wx);card.append(desc);
+   const stats=document.createElement('div');stats.className='day-stats';
+   stat(stats,'💨','Wind',winds.length?Math.round(Math.min(...winds))+'–'+Math.round(Math.max(...winds))+' kn':'Unavailable');
+   stat(stats,'🌬️','Peak gust',gusts.length?Math.round(Math.max(...gusts))+' kn':'Not supplied',gusts.length&&Math.max(...gusts)>=25);
+   stat(stats,'🌧️','Rain chance',rain.length?Math.round(Math.max(...rain))+'% max':'Not supplied');
+   stat(stats,'☁️','Cloud cover',cloud.length?average(cloud)+'% mean':'Unavailable');
+   if(!rain.length&&rainAmount.length)stat(stats,'💧','Rain amount',rainAmount.reduce((a,b)=>a+b,0).toFixed(1)+' mm sampled');
+   card.append(stats);const source=document.createElement('div');source.className='day-source';source.textContent='Source: '+provider+(provider==='MET Norway'?' · fallback':' · primary')+' · retrieved '+retrieved;card.append(source);root.append(card);
+  }
+  if(!root.children.length)root.textContent='No forecast dates returned.';
+  put('days-source','Atmospheric forecast: '+provider+(provider==='MET Norway'?' (automatic fallback)':' (primary)')+' · model issued '+(j.forecast_issued_at_utc?fmt(new Date(j.forecast_issued_at_utc)):'not provided')+' · retrieved '+retrieved+' · wave/swell: '+marineText);
+ }
+ if($('ecmwf'))$('ecmwf').textContent='See Captain’s Weather Summary for separate ECMWF/GFS comparison.';
+ if($('ukmo'))$('ukmo').textContent='UKMO model feed not configured; do not infer agreement.';
 }
-const area=$('location');if(area){area.addEventListener('change',refresh);$('refresh')?.addEventListener('click',refresh);setTimeout(()=>{const text=$('dataIndicator')?.textContent||'';if(/Loading|Retrieving|Connecting|unavailable/i.test(text)||$('wind')?.textContent?.trim()==='—')refresh()},1800)}
+const area=$('location');if(area){area.addEventListener('change',()=>{refresh();airport()});$('refresh')?.addEventListener('click',()=>{refresh();airport()});
+ setTimeout(refresh,1100);setInterval(()=>{if(!document.hidden){refresh();airport()}},15*60*1000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-lastWeatherRefresh>15*60*1000){refresh();airport()}});
+ window.addEventListener('online',()=>{refresh();airport()});}
 // Airport METAR: fetch when CORS allows, otherwise show a transparent source link.
-async function airport(){put('airport-data','Checking latest published LEIB METAR…');try{const d=await timeout('https://ara-sr-ai-capitan.stevehullock.workers.dev/metar',12000),x=Array.isArray(d)?d[0]:d?.observation||null;if(!x)throw Error('No LEIB report');const observed=x.obsTime||x.reportTime||x.report_time||null;let age='age unavailable';if(observed){const t=typeof observed==='number'?new Date(observed*1000):new Date(observed);if(!isNaN(t))age='observed '+fmt(t)+' · '+Math.round((Date.now()-t.getTime())/60000)+' min old'}put('airport-data','LEIB · '+age+' · wind '+(x.wdir??'—')+'° / '+(x.wspd??'—')+' kt'+(x.wgst?' gust '+x.wgst+' kt':'')+' · temp '+(x.temp??'—')+' °C · pressure '+(x.altim??'—')+' (METAR altimeter; units as provided) · '+(x.rawOb||''));}catch(e){put('airport-data','Airport observation unavailable ('+String(e.name==='AbortError'?'request timed out':e.message||e)+'). METAR proxy or upstream source unavailable; use the official aviation link. No observation inferred.')}}airport();
+async function airport(){
+ put('airport-data','Checking latest published LEIB METAR…');
+ try{
+  const d=await timeout('https://ara-sr-ai-capitan.stevehullock.workers.dev/metar',23000),x=d?.observation||null;
+  if(!x)throw Error('No LEIB report');
+  const observed=x.obsTime||x.reportTime||x.report_time||null;let age='observation time unavailable',stale=false;
+  if(observed){const t=typeof observed==='number'?new Date(observed*1000):new Date(observed);
+   if(!isNaN(t)){const mins=Math.round((Date.now()-t.getTime())/60000);age='observed '+fmt(t)+' · '+mins+' min old';stale=mins>120}}
+  const details=[];if(x.wspd!==null&&x.wspd!==undefined)details.push('wind '+(x.wdir??'variable')+'° / '+x.wspd+' kt');
+  if(x.wgst!==null&&x.wgst!==undefined)details.push('gust '+x.wgst+' kt');
+  if(x.temp!==null&&x.temp!==undefined)details.push('temperature '+x.temp+' °C');
+  if(x.altim!==null&&x.altim!==undefined)details.push('altimeter '+x.altim+' (provider units)');
+  if(x.rawOb)details.push('raw: '+x.rawOb);
+  put('airport-data',(stale?'⚠ STALE OBSERVATION · ':'')+'LEIB · '+age+' · '+(d.source||'aviation report')+' · '+details.join(' · '));
+ }catch(e){put('airport-data','Airport observation unavailable ('+String(e.name==='AbortError'?'request timed out':e.message||e)+'). Check official aviation data; no live reading inferred. Last attempt '+fmt(new Date()))}
+}airport();
 // Barograph: correct selected area and use historical model data; no synthetic trace.
 async function baro(){const [lat,lon,name]=sites[$('location').value]||sites.san;put('baro-location',name.toUpperCase());const canvas=$('barograph');if(!canvas)return;const hours=Number(document.querySelector('#periods .selected')?.dataset.hours||72);const days=Math.ceil(hours/24)+1;try{const end=new Date(),start=new Date(Date.now()-days*86400000),date=d=>d.toISOString().slice(0,10);const url=`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${date(start)}&end_date=${date(new Date(Date.now()-86400000))}&hourly=pressure_msl&timezone=Europe%2FMadrid`;const data=await timeout(url,16000),values=(data.hourly?.pressure_msl||[]).filter(Number.isFinite).slice(-hours);if(!values.length)throw Error('No historical pressure samples');const rect=canvas.getBoundingClientRect(),scale=devicePixelRatio||1;canvas.width=Math.max(400,Math.round(rect.width*scale));canvas.height=Math.max(250,Math.round(rect.height*scale));const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height,pad=55*scale;ctx.fillStyle='#faf9f4';ctx.fillRect(0,0,W,H);for(let p=950;p<=1050;p+=10){const y=pad+(1050-p)/100*(H-2*pad);ctx.strokeStyle=p%20===0?'#c96262':'#e9b7b7';ctx.lineWidth=scale*.7;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();ctx.fillStyle='#b2252c';ctx.font=`${11*scale}px Georgia`;ctx.fillText(String(p),7*scale,y+4*scale)}ctx.strokeStyle='#71322d';ctx.lineWidth=2*scale;ctx.beginPath();values.forEach((v,i)=>{const x=pad+i/(values.length-1)*(W-2*pad),y=pad+(1050-v)/100*(H-2*pad);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();put('baroNote',name+' · Open-Meteo historical model pressure · '+values.length+' hours · retrieved '+fmt(new Date())+' · fixed scale 950–1050 hPa');}catch(e){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);put('baroNote',name+' · historical pressure unavailable: '+String(e.message||e)+' · no trace shown')}}
 $('location')?.addEventListener('change',baro);document.querySelectorAll('#periods button').forEach(b=>b.addEventListener('click',()=>setTimeout(baro,100)));setTimeout(baro,2500);
@@ -652,7 +821,7 @@ if(!$('rv-captain').value.trim()||!$('rv-assessment').value||!$('rv-route').valu
 if(captainCount<1||a+c<1){put('rv-status','At least one person must be aboard.');return}
 if(c>0&&(ages.reduce((x,y)=>x+y,0)!==c||!$('rv-jackets').checked)){put('rv-status','Match child age counts to children aboard and confirm suitable lifejackets.');return}
 if(($('rv-vessel').value==='Other vessel'&&!$('rv-vessel-other').value.trim())||($('rv-port').value==='Other'&&!$('rv-port-other').value.trim())||($('rv-route').value==='Other / multiple stops'&&!$('rv-route-other').value.trim())){put('rv-status','Enter the name or location for each Other selection.');return}
-const data=`ARA Captain's Passage & Weather Declaration — DRAFT ONLY\nCaptain: ${$('rv-captain').value}\nVessel: ${$('rv-vessel').value==='Other vessel'?$('rv-vessel-other').value:$('rv-vessel').value}\nOperating area: ${$('areaName')?.textContent||''}\nDeparture: ${$('rv-departure').value} from ${$('rv-port').value==='Other'?$('rv-port-other').value:$('rv-port').value}\nDestination: ${$('rv-route').value==='Other / multiple stops'?$('rv-route-other').value:$('rv-route').value}\nAdditional route: ${$('rv-route-extra').value}\nCaptain: ${captainCount}; crew: ${crew}; adult guests: ${guests}; children under 16: ${c}; TOTAL SOULS ON BOARD: ${a+c}\nChild age groups (0–2,3–5,6–11,12–15): ${ages.join(', ')}\nChildren's lifejackets: ${c===0?'Not applicable':'Confirmed checked and aboard'}\nAssessment: ${$('rv-assessment').value}\nPrecautions: ${$('rv-notes').value}\nForecast source: Open-Meteo hourly forecast (see dashboard for retrieval time)\nAEMET warning status: ${$('aemet-status')?.textContent||'Unverified'}\nPrepared: ${fmt(new Date())}\nNOT SUBMITTED OR VERIFIED`;
+const data=`ARA Captain's Passage & Weather Declaration — DRAFT ONLY\nCaptain: ${$('rv-captain').value}\nVessel: ${$('rv-vessel').value==='Other vessel'?$('rv-vessel-other').value:$('rv-vessel').value}\nOperating area: ${$('areaName')?.textContent||''}\nDeparture: ${$('rv-departure').value} from ${$('rv-port').value==='Other'?$('rv-port-other').value:$('rv-port').value}\nDestination: ${$('rv-route').value==='Other / multiple stops'?$('rv-route-other').value:$('rv-route').value}\nAdditional route: ${$('rv-route-extra').value}\nCaptain: ${captainCount}; crew: ${crew}; adult guests: ${guests}; children under 16: ${c}; TOTAL SOULS ON BOARD: ${a+c}\nChild age groups (0–2,3–5,6–11,12–15): ${ages.join(', ')}\nChildren's lifejackets: ${c===0?'Not applicable':'Confirmed checked and aboard'}\nAssessment: ${$('rv-assessment').value}\nPrecautions: ${$('rv-notes').value}\nForecast source: See dashboard for active forecast provider and retrieval time\nAEMET warning status: ${$('aemet-status')?.textContent||'Unverified'}\nPrepared: ${fmt(new Date())}\nNOT SUBMITTED OR VERIFIED`;
 try{await navigator.clipboard.writeText(data);put('rv-status','Draft copied. NOT submitted or filed.')}catch{put('rv-status','Clipboard unavailable. No record saved.')}
 });
 })();
