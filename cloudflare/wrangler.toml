@@ -1,0 +1,15 @@
+# STOP: configuration template only. Verify against LIVE Cloudflare Worker
+# before replacing placeholders or approving a production deployment.
+name = "ara-sr-ai-capitan"
+main = "worker.js"
+compatibility_date = "2026-10-16"
+workers_dev = true
+keep_vars = true
+
+[[kv_namespaces]]
+binding = "AI_USAGE"
+id = "REPLACE_EXISTING_AI_USAGE_KV_NAMESPACE_ID"
+
+# Production secrets must stay in Cloudflare:
+# AEMET_API_KEY, ARA_ACCESS_CODE, OPENAI_API_KEY
+# Audit all current bindings, routes, triggers, settings before deployment.
