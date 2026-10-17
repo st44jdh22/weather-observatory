@@ -142,7 +142,7 @@
 @media(max-width:650px){.aemet-two{grid-template-columns:1fr}}
 </style></head>
 <body>
-<header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION <span style="opacity:.7;font-size:.8em;white-space:nowrap">· v5.9</span></span></header>
+<header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION <span style="opacity:.7;font-size:.8em;white-space:nowrap">· v5.9.1</span></span></header>
 <main class="container">
 <section class="toolbar" aria-label="Operating location and refresh"><div><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div></div><div class="controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></section>
 <div class="live-line"><span id="dataIndicator"><span class="dot"></span> Loading forecasts</span><span id="dataUpdated">Connecting to forecast providers…</span><span id="offlineNote" class="warning-text" hidden>Internet unavailable · figures must not be assumed current.</span></div>
@@ -159,7 +159,7 @@
 <a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
 </nav>
 <section id="ara-outlook" aria-labelledby="ara-outlook-title" hidden aria-hidden="true">
- <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.9</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.9.1</span></h2><small>Numerical forecast · not live observed conditions</small></div>
  
  <div class="ara-outlook-row" aria-live="polite">
  <div class="ara-outlook-item"><small>Conditions</small><strong id="ara-outlook-state">Loading…</strong></div>
@@ -172,7 +172,7 @@
  <p class="ara-outlook-disclaimer">* Experimental <b>model agreement</b> percentage (ECMWF IFS versus NOAA GFS), not a verified probability that the forecast will be correct. Wave conditions from Open-Meteo Marine. AEMET warnings not automatically checked.</p>
  </section>
 <section id="captain-weather-summary" aria-labelledby="captain-summary-title">
- <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.9</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
+ <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.9.1</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
@@ -454,10 +454,10 @@ window.addEventListener('load',()=>{
 </script>
 
 <script>
-/* Official AEMET V5.9: parse structured AEMET bulletin; never split raw JSON by island name. */
+/* Official AEMET V5.9.1: parse structured AEMET bulletin; never split raw JSON by island name. */
 (async()=>{
  const $=id=>document.getElementById(id),set=(id,v)=>{$(id).textContent=v};
- const formatDate=(value,sourceLocal=false)=>{if(!value)return 'Not supplied';const raw=String(value);if(sourceLocal&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(raw)){const [y,m,day]=raw.slice(0,10).split('-');const label=(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',timeZoneName:'short'}).formatToParts(new Date(raw.slice(0,10)+'T12:00:00Z')).find(p=>p.type==='timeZoneName')?.value||'local');return `${day}/${m}/${y} · ${raw.slice(11,16)} ${label}`;}const d=new Date(value);return Number.isNaN(d.getTime())?raw:d.toLocaleString('en-GB',{timeZone:'Europe/Madrid',dateStyle:'medium',timeStyle:'short',timeZoneName:'short'});};
+ const formatDate=(value,sourceLocal=false)=>{if(!value)return 'Not supplied';const raw=String(value);if(sourceLocal&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(raw)){const [y,m,day]=raw.slice(0,10).split('-');const label=(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',timeZoneName:'short'}).formatToParts(new Date(raw.slice(0,10)+'T12:00:00Z')).find(p=>p.type==='timeZoneName')?.value||'local');return `${day}/${m}/${y} · ${raw.slice(11,16)} ${label}`;}const d=new Date(value);return Number.isNaN(d.getTime())?raw:d.toLocaleString('en-GB',{timeZone:'Europe/Madrid',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});};
  const clean=v=>String(v??'').replace(/\uFFFD/g,'').replace(/\s+/g,' ').trim();
  function parseBulletin(raw){
    let parsed;try{parsed=JSON.parse(raw)}catch{return null}
@@ -515,7 +515,7 @@ window.addEventListener('load',()=>{
   }
   set('aemet-status',d.warnings?.verified?'Warning feed received — active warnings require classification':'Unable to verify warnings — consult AEMET');
  }catch(e){
-  set('aemet-issue','Bulletin issue: unavailable');set('aemet-checked','AEMET connection failed');
+  set('aemet-issue','Bulletin issue: unavailable');set('aemet-checked','AEMET data/display error: '+String(e.message||'unknown error'));console.error('AEMET panel:',e);
   set('aemet-status','Unable to verify warnings');
   set('aemet-ibiza','Forecast unavailable. Consult official AEMET bulletin.');
   set('aemet-formentera','Forecast unavailable. Consult official AEMET bulletin.');
