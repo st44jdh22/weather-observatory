@@ -140,16 +140,23 @@
 .aemet-shared p{white-space:pre-wrap;overflow-wrap:anywhere;max-height:180px;overflow:auto;margin-top:6px}
 .aemet-disclaimer{font-size:11px;color:#aeb9c2;margin:12px 0 0}
 @media(max-width:650px){.aemet-two{grid-template-columns:1fr}}
+</style>
+<style>
+.aemet-language{display:inline-flex;gap:5px;align-items:center}
+.aemet-language button{font:600 12px/1.2 inherit;background:#321d27;color:#e9dce0;border:1px solid #865b68;border-radius:7px;padding:9px 11px;cursor:pointer;min-height:39px}
+.aemet-language button[aria-pressed="true"]{background:#8a3449;border-color:#f0a3b3;color:white}
+.aemet-warning-row{align-items:baseline}
+.aemet-warning-details{width:100%;font-size:12px;line-height:1.5;color:#ffdadd;white-space:pre-wrap}
 </style></head>
 <body>
-<header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION <span style="opacity:.7;font-size:.8em;white-space:nowrap">· v5.9.1</span></span></header>
+<header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION <span style="opacity:.7;font-size:.8em;white-space:nowrap">· v5.10</span></span></header>
 <main class="container">
 <section class="toolbar" aria-label="Operating location and refresh"><div><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div></div><div class="controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></section>
 <div class="live-line"><span id="dataIndicator"><span class="dot"></span> Loading forecasts</span><span id="dataUpdated">Connecting to forecast providers…</span><span id="offlineNote" class="warning-text" hidden>Internet unavailable · figures must not be assumed current.</span></div>
 <section class="alert aemet-fixed" aria-label="Official AEMET maritime bulletin">
  <div class="aemet-header"><div><div class="eyebrow">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div>
- <div class="aemet-warning-row"><strong>⚠ Weather warnings</strong><span id="aemet-status" class="aemet-warning-value">Checking official warnings…</span></div>
- <div class="aemet-area-controls"><label for="aemet-area">Additional coastal area</label><select id="aemet-area"><option value="">Ibiza &amp; Formentera (default)</option></select></div><div id="aemet-selected" class="aemet-island" hidden style="margin-bottom:12px"><h3 id="aemet-selected-title">Selected area</h3><div id="aemet-selected-text" class="aemet-forecast"></div></div><div class="aemet-two"><article class="aemet-island"><h3>IBIZA</h3><div id="aemet-ibiza" class="aemet-forecast">Retrieving official forecast…</div></article><article class="aemet-island"><h3>FORMENTERA</h3><div id="aemet-formentera" class="aemet-forecast">Retrieving official forecast…</div></article></div>
+ <div class="aemet-warning-row"><strong>⚠ Weather warnings</strong><span id="aemet-status" class="aemet-warning-value">Checking official warnings…</span><div id="aemet-warning-details" class="aemet-warning-details" aria-live="polite"></div></div>
+ <div class="aemet-area-controls"><label for="aemet-area">Additional coastal area</label><select id="aemet-area"><option value="">Ibiza &amp; Formentera (default)</option></select><div class="aemet-language" role="group" aria-label="Forecast language"><button id="aemet-lang-en" type="button" aria-pressed="false" title="English forecast">🇬🇧 English</button><button id="aemet-lang-es" type="button" aria-pressed="true" title="Pronóstico en español">🇪🇸 Español</button></div></div><div id="aemet-selected" class="aemet-island" hidden style="margin-bottom:12px"><h3 id="aemet-selected-title">Selected area</h3><div id="aemet-selected-text" class="aemet-forecast"></div></div><div class="aemet-two"><article class="aemet-island"><h3>IBIZA</h3><div id="aemet-ibiza" class="aemet-forecast">Retrieving official forecast…</div></article><article class="aemet-island"><h3>FORMENTERA</h3><div id="aemet-formentera" class="aemet-forecast">Retrieving official forecast…</div></article></div>
  <div id="aemet-shared" class="aemet-shared" hidden><strong>Shared Balearic coastal bulletin</strong><p id="aemet-shared-text"></p></div>
  <p class="aemet-disclaimer">Official data is shown only when retrievable. A shared regional bulletin must not be mistaken for separate island forecasts. Warning status is not an all-clear unless applicable alerts and validity periods are fully checked.</p>
 </section>
@@ -159,7 +166,7 @@
 <a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
 </nav>
 <section id="ara-outlook" aria-labelledby="ara-outlook-title" hidden aria-hidden="true">
- <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.9.1</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.10</span></h2><small>Numerical forecast · not live observed conditions</small></div>
  
  <div class="ara-outlook-row" aria-live="polite">
  <div class="ara-outlook-item"><small>Conditions</small><strong id="ara-outlook-state">Loading…</strong></div>
@@ -172,7 +179,7 @@
  <p class="ara-outlook-disclaimer">* Experimental <b>model agreement</b> percentage (ECMWF IFS versus NOAA GFS), not a verified probability that the forecast will be correct. Wave conditions from Open-Meteo Marine. AEMET warnings not automatically checked.</p>
  </section>
 <section id="captain-weather-summary" aria-labelledby="captain-summary-title">
- <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.9.1</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
+ <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.10</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
@@ -454,71 +461,82 @@ window.addEventListener('load',()=>{
 </script>
 
 <script>
-/* Official AEMET V5.9.1: parse structured AEMET bulletin; never split raw JSON by island name. */
+/* Official AEMET V5.10: Spanish original and English glossary translation; warnings never auto-cleared without full CAP validation. */
 (async()=>{
  const $=id=>document.getElementById(id),set=(id,v)=>{$(id).textContent=v};
- const formatDate=(value,sourceLocal=false)=>{if(!value)return 'Not supplied';const raw=String(value);if(sourceLocal&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(raw)){const [y,m,day]=raw.slice(0,10).split('-');const label=(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',timeZoneName:'short'}).formatToParts(new Date(raw.slice(0,10)+'T12:00:00Z')).find(p=>p.type==='timeZoneName')?.value||'local');return `${day}/${m}/${y} · ${raw.slice(11,16)} ${label}`;}const d=new Date(value);return Number.isNaN(d.getTime())?raw:d.toLocaleString('en-GB',{timeZone:'Europe/Madrid',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});};
  const clean=v=>String(v??'').replace(/\uFFFD/g,'').replace(/\s+/g,' ').trim();
- function parseBulletin(raw){
-   let parsed;try{parsed=JSON.parse(raw)}catch{return null}
-   if(!parsed||typeof parsed!=='object')return null;
-   const root=Array.isArray(parsed)?parsed[0]:parsed;
-   const pred=root?.prediccion||{};
-   const zones=Array.isArray(pred.zona)?pred.zona:Array.isArray(root?.zona)?root.zona:[];
-   const issue=root?.elaborado||root?.fechaElaboracion||root?.elaboracion||root?.fecha||pred?.inicio||null;
-   const validity=[pred?.inicio,pred?.fin].filter(Boolean);
-   function island(name){
-     const exact=zones.filter(z=>new RegExp(name,'i').test(String(z.nombre||'')));
-     const coast=exact.filter(z=>/aguas costeras/i.test(z.nombre||''));
-     const chosen=coast.length?coast:exact;
-     if(!chosen.length)return null;
-     return chosen.map(z=>{
-       const sections=[];
-       if(z.nombre)sections.push(z.nombre);
-       if(typeof z.texto==='string')sections.push(z.texto);
-       if(Array.isArray(z.subzona))for(const sub of z.subzona){
-         if(typeof sub==='string')sections.push(sub);
-         else if(sub&&typeof sub==='object'){
-           const label=clean(sub.nombre||sub.zona||'');
-           const detail=clean(sub.texto||sub.prediccion||'');
-           if(detail)sections.push((label?label+': ':'')+detail);
-         }
-       }
-       return sections.filter(Boolean).join('\n');
-     }).join('\n\n');
-   }
-   return {issue,issueInferred:!(root?.elaborado||root?.fechaElaboracion||root?.elaboracion||root?.fecha),validity,ibiza:island('Ibiza|Eivissa'),formentera:island('Formentera'),zones};
+ let language='es',bulletin=null,selectedZone='',warningResponse=null;
+ const esToEn=[
+ [/Aguas costeras de/gi,'Coastal waters of'],[/Marejadilla/gi,'slight seas'],[/fuerte marejada/gi,'rough seas'],[/marejada/gi,'moderate seas'],[/mar gruesa/gi,'high seas'],[/mar de fondo/gi,'swell'],[/viento/gi,'wind'],[/rachas/gi,'gusts'],[/chubascos/gi,'showers'],[/aguaceros/gi,'heavy showers'],[/precipitaciones/gi,'precipitation'],[/tormentas/gi,'thunderstorms'],[/tormenta/gi,'thunderstorm'],[/lluvias/gi,'rain'],[/lluvia/gi,'rain'],[/desde la madrugada/gi,'from the early hours'],[/durante la madrugada/gi,'during the early hours'],[/por la noche/gi,'overnight'],[/por la tarde/gi,'in the afternoon'],[/por la mañana/gi,'in the morning'],[/arreciando/gi,'strengthening'],[/amainando/gi,'easing'],[/aumentando/gi,'increasing'],[/disminuyendo/gi,'decreasing'],[/localmente/gi,'locally'],[/temporalmente/gi,'temporarily'],[/variable/gi,'variable'],[/rolando/gi,'veering/shifting'],[/a/gi,'a']
+ ];
+ // Order-sensitive glossary; retain any unsupported technical wording verbatim instead of inventing a translation.
+ esToEn.pop();
+ const translate=txt=>{
+   let out=String(txt||'');
+   for(const [pattern,replacement] of esToEn)out=out.replace(pattern,replacement);
+   out=out.replace(/\bdel\s+(norte|sur|este|oeste)\b/gi,(_,x)=>'from the '+({norte:'north',sur:'south',este:'east',oeste:'west'}[x.toLowerCase()]||x));
+   out=out.replace(/\b([ENSWO]{1,3})\s+(\d+)\s+a\s+(\d+)\b/g,'$1 force $2–$3');
+   out=out.replace(/\b(E|NE|N|NW|W|SW|S|SE)\s+(\d+)\s+a\s+(\d+)\b/g,'$1 force $2–$3');
+   return out;
+ };
+ function labelDate(value,sourceLocal=false){
+  if(!value)return 'Not available';
+  const raw=String(value);
+  if(sourceLocal&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(raw)){
+   const [year,month,day]=raw.slice(0,10).split('-').map(Number);
+   const date=new Date(Date.UTC(year,month-1,day,12));
+   const dayLabel=new Intl.DateTimeFormat('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(date);
+   const tz=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',timeZoneName:'short'}).formatToParts(date).find(p=>p.type==='timeZoneName')?.value||'CET/CEST';
+   return `${dayLabel} · ${raw.slice(11,16)} ${tz}`;
+  }
+  const date=new Date(raw);return Number.isNaN(date.getTime())?raw:date.toLocaleString('en-GB',{timeZone:'Europe/Madrid',day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
  }
+ function parseBulletin(raw){
+  let parsed;try{parsed=JSON.parse(raw)}catch{return null}
+  const root=Array.isArray(parsed)?parsed[0]:parsed;
+  if(!root||typeof root!=='object')return null;
+  const pred=root.prediccion||{};
+  const zones=Array.isArray(pred.zona)?pred.zona:Array.isArray(root.zona)?root.zona:[];
+  function zoneText(z){return [z.nombre,z.texto,...(Array.isArray(z.subzona)?z.subzona.map(x=>typeof x==='string'?x:(x.nombre?x.nombre+': ':'')+(x.texto||'')):[])].filter(Boolean).join('\n');}
+  const island=name=>zones.filter(z=>new RegExp(name,'i').test(z.nombre||'')&&/aguas costeras/i.test(z.nombre||'')).map(zoneText).join('\n\n');
+  return {zones,zoneText,ibiza:island('Ibiza|Eivissa'),formentera:island('Formentera'),start:pred.inicio||null,end:pred.fin||null};
+ }
+ function render(){
+  $('aemet-lang-en').setAttribute('aria-pressed',String(language==='en'));
+  $('aemet-lang-es').setAttribute('aria-pressed',String(language==='es'));
+  if(!bulletin)return;
+  const display=t=>language==='en'?translate(t):t;
+  set('aemet-ibiza',display(bulletin.ibiza)||'Ibiza forecast unavailable');
+  set('aemet-formentera',display(bulletin.formentera)||'Formentera forecast unavailable');
+  const z=bulletin.zones[Number(selectedZone)];
+  if(selectedZone!==''&&z){$('aemet-selected').hidden=false;set('aemet-selected-title',display(z.nombre));set('aemet-selected-text',display(bulletin.zoneText(z)))}else $('aemet-selected').hidden=true;
+ }
+ $('aemet-lang-en').addEventListener('click',()=>{language='en';render()});
+ $('aemet-lang-es').addEventListener('click',()=>{language='es';render()});
  try{
   const r=await fetch('https://ara-sr-ai-capitan.stevehullock.workers.dev/aemet',{cache:'no-store'});
   if(!r.ok)throw Error('HTTP '+r.status);
-  const d=await r.json();
-  set('aemet-checked','Last retrieved: '+formatDate(d.checked_at_utc));
+  const d=await r.json();warningResponse=d.warnings;
+  set('aemet-checked','Last retrieved: '+labelDate(d.checked_at_utc));
   if(d.marine?.verified){
-   const p=parseBulletin(d.marine.bulletin);
-   if(!p){
-    set('aemet-issue','Bulletin issue: unavailable in readable structured data');
-    set('aemet-ibiza','Unable to parse the official AEMET coastal forecast. Open the original bulletin.');
-    set('aemet-formentera','Unable to parse the official AEMET coastal forecast. Open the original bulletin.');
-   }else{
-    set('aemet-issue',(p.issueInferred?'Forecast starts (bulletin issue not supplied): ':'Bulletin issued: ')+formatDate(p.issue,true)+(p.validity[1]?' · Valid until: '+formatDate(p.validity[1],true):''));
-    set('aemet-ibiza',p.ibiza||'No separate Ibiza coastal forecast identified in the official response.');
-    set('aemet-formentera',p.formentera||'No separate Formentera coastal forecast identified in the official response.');
+   bulletin=parseBulletin(d.marine.bulletin);
+   if(!bulletin){set('aemet-issue','Official forecast structure unavailable');set('aemet-ibiza','Unable to parse official forecast');set('aemet-formentera','Unable to parse official forecast')}
+   else{
+    set('aemet-issue','Forecast starts: '+labelDate(bulletin.start,true)+(bulletin.end?' · Valid until: '+labelDate(bulletin.end,true):''));
     const select=$('aemet-area');select.replaceChildren(new Option('Ibiza & Formentera (default)',''));
-    p.zones.filter(z=>z&&z.nombre&&!/^(Aguas costeras de )?(Ibiza|Formentera)$/i.test(z.nombre)).forEach((z,i)=>select.add(new Option(z.nombre,String(p.zones.indexOf(z)))));
-    select.onchange=()=>{const idx=select.value,card=$('aemet-selected');card.hidden=!idx;if(!idx)return;const z=p.zones[Number(idx)];if(!z)return;set('aemet-selected-title',z.nombre||'Coastal area');set('aemet-selected-text',[z.texto,...(z.subzona||[]).map(x=>typeof x==='string'?x:(x.nombre?x.nombre+': ':'')+(x.texto||''))].filter(Boolean).join('\n'));};
+    bulletin.zones.filter(z=>z&&z.nombre&&!/^(Aguas costeras de )?(Ibiza|Formentera)$/i.test(z.nombre)).forEach(z=>select.add(new Option(z.nombre,String(bulletin.zones.indexOf(z)))));
+    select.onchange=()=>{selectedZone=select.value;render()};render();
    }
-  }else{
-   set('aemet-issue','Bulletin issue: unable to verify');
-   set('aemet-ibiza','Official marine forecast unavailable: '+(d.marine?.error||d.error||'Unknown'));
-   set('aemet-formentera','Official marine forecast unavailable: '+(d.marine?.error||d.error||'Unknown'));
+  }else{set('aemet-issue','Official forecast unavailable');set('aemet-ibiza','Marine forecast could not be verified');set('aemet-formentera','Marine forecast could not be verified')}
+  // The V5.6 Worker returns a flattened, truncated warning excerpt, not complete CAP records.
+  // Without complete area codes, start/end times, status and severity, no reliable active/none classification is possible.
+  if(!d.warnings?.verified){set('aemet-status','Unable to verify official warnings');set('aemet-warning-details','Check the AEMET warnings page before departure.')}
+  else{
+   set('aemet-status','Official warning feed retrieved — local status unverified');
+   const excerpt=String(d.warnings.excerpt||'');
+   const mentions=/Ibiza|Eivissa|Formentera|Pitiusas/i.test(excerpt);
+   set('aemet-warning-details',mentions?'Ibiza/Formentera are mentioned in the warning feed. Warning type, severity and validity cannot yet be reliably extracted from the current Worker response. Check official AEMET warnings.':'The current Worker response does not provide complete machine-readable alert records. Do not interpret this as no warnings. Check official AEMET warnings.');
   }
-  set('aemet-status',d.warnings?.verified?'Warning feed received — active warnings require classification':'Unable to verify warnings — consult AEMET');
- }catch(e){
-  set('aemet-issue','Bulletin issue: unavailable');set('aemet-checked','AEMET data/display error: '+String(e.message||'unknown error'));console.error('AEMET panel:',e);
-  set('aemet-status','Unable to verify warnings');
-  set('aemet-ibiza','Forecast unavailable. Consult official AEMET bulletin.');
-  set('aemet-formentera','Forecast unavailable. Consult official AEMET bulletin.');
- }
+ }catch(e){set('aemet-issue','Official forecast unavailable');set('aemet-checked','AEMET retrieval/display failed: '+String(e.message||'unknown'));set('aemet-status','Warnings unverified');set('aemet-warning-details','Check official AEMET warnings before departure.');set('aemet-ibiza','Forecast unavailable');set('aemet-formentera','Forecast unavailable')}
 })();
 </script></body></html>
