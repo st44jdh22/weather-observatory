@@ -97,3 +97,22 @@ Owner-supplied production **Deployments** screenshot (21:00 UTC approximate scre
 4. Never test rollback on production without specific user approval.
 
 **Current release gate:** Remains on hold until live source is independently compared, exact version and rollback mechanism confirmed, GitHub approvals confirmed, and rate-limiting risk disposition recorded.
+
+## 17 October 2026 — active production source backup and line comparison
+
+User exported the **currently selected active** Cloudflare Worker version `c55b402e` using the Cloudflare code editor and supplied `ARA-Worker-c55b402e-backup(1).js` privately. JavaScript syntax checked successfully; source file is 27,137 UTF-8 bytes / 281 lines, with **SHA-256 `a26e2716407231e6100555ab9d0d4c2249eda1921c1b798937b3413d3f068a56`**.
+
+**Privacy:** Backup contains a private Google Docs reference in the historic `KNOWLEDGE` string; do **not** commit or redistribute this backup in this public repository. Backup remains in the user's Mac/Desktop copy and attached privately in the authorised conversation, not the GitHub repo. No API secret values observed in source.
+
+Independent textual line comparison against `cloudflare/worker.js` (GitHub blob `2395f826ef969e95737686c5422b7c4b2dd91dd3`) confirms **276 identical lines**, 5 deleted/replaced source lines and 14 added/replacement lines. Differences exclusively in:
+- Private knowledge string replaced with generic location-safety knowledge, without private master-document URL or personal details.
+- Error response from MET Norway no longer exposes detailed upstream error.
+- Added POST endpoint path restriction `/`, JSON null/object guard, selected-destination distance/radius flag, and explicit explanation that KV usage counter is soft (non-atomic).
+- Reduced / security-reviewed AI response instructions, preserving weather and navigation safeguards.
+- OpenAI structured input includes selected-distance warning fields; provider status omitted from failed response.
+
+**Confirmed unchanged** against operator-exported code: METAR implementation and fallback, AEMET coastal bulletin and CAP archive warning parsing, MET Norway fallback forecast, Open-Meteo wind/marine retrieval, model-agreement calculation and quick-look computations, secret/KV environment references, user-facing response schema, and existing 30-per-day soft budget logic.
+
+**Evidence limitation:** This is a comparison against the user's export made while Cloudflare showed version `c55b402e (Active Latest)`, not an authenticated Cloudflare API content hash. Exact full Cloudflare version ID and Cloudflare rollback-menu behaviour still require readback. The local backup is a recoverable source copy, but it is not proof that restoring all production settings and secrets has been tested.
+
+**Release gate:** Hold merge/deploy until IT verifies rollback/production settings, confirms test evidence, and Stephen separately authorises production. This entry supersedes earlier `source not yet compared` statements above.
