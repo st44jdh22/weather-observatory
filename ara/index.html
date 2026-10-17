@@ -41,7 +41,7 @@
 .ara-sky-small{border-color:#448e91;background:linear-gradient(120deg,#133541,#102a37)}.ara-sky-small strong{font-size:22px}
 #ara-now-valid{max-width:500px}
 
-/* V5.6: summary controls in header; single row on desktop, wraps naturally on mobile */
+/* V5.7: summary controls in header; single row on desktop, wraps naturally on mobile */
 #captain-weather-summary .captain-summary-header{display:flex;align-items:center;justify-content:space-between;gap:14px 22px;flex-wrap:wrap;margin-bottom:17px}
 #captain-weather-summary .captain-summary-header h2{font-size:20px;font-weight:600;margin:0;white-space:nowrap}
 #captain-weather-summary .captain-summary-header .ara-outlook-toolbar{margin:0;justify-content:flex-end;gap:8px}
@@ -102,7 +102,7 @@
 @media(max-width:650px){.toolbar{grid-template-columns:1fr}.toolbar>#ara-ai-launch{justify-self:stretch;width:100%;grid-row:2}.toolbar>.controls{grid-row:3}}
 </style>
 <style>
-/* V5.6 operational-now cards */
+/* V5.7 operational-now cards */
 .ara-now-wind .ara-tile-top,.ara-now-weather .ara-tile-top{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:39px}
 .ara-now-wind .ara-big-icon,.ara-now-weather .ara-big-icon{font-size:clamp(30px,3.4vw,48px);line-height:1;filter:drop-shadow(0 2px 8px rgba(88,206,222,.15))}
 .ara-now-wind .ara-now-primary{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:12px 0 8px}
@@ -112,20 +112,41 @@
 .ara-now-wind .ara-now-description{font-size:16px;color:#b7e4e1}
 .ara-temp-reading{font-size:clamp(32px,3.1vw,45px);font-weight:750;color:#f4fdff;line-height:1.2;margin:16px 0 10px}
 .ara-weather-reading{font-size:clamp(24px,2.5vw,34px);font-weight:720;color:#f4fdff;line-height:1.2;margin:17px 0 12px}
+</style><style>
+.aemet-fixed{display:block!important;padding:17px 20px!important}
+.aemet-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.aemet-header a{color:#f4c37c;white-space:nowrap;font-size:13px}
+.aemet-meta,#aemet-issue{color:#c7d0d6;font-size:12px;line-height:1.5}
+.aemet-warning-row{display:flex;align-items:center;gap:15px;flex-wrap:wrap;border-top:1px solid #59606a;border-bottom:1px solid #59606a;margin:13px 0;padding:10px 0;font-size:14px}
+.aemet-warning-value{font-weight:650;color:#ffd190}
+.aemet-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.aemet-island{border:1px solid #4e5964;border-radius:10px;padding:14px;background:rgba(0,0,0,.12);min-width:0}
+.aemet-island h3{font-size:14px;letter-spacing:.09em;color:#f4d39e;margin:0 0 9px}
+.aemet-forecast{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.55;color:#e6edf1}
+.aemet-shared{border-top:1px solid #59606a;margin-top:13px;padding-top:10px;font-size:12px;color:#c7d0d6}
+.aemet-shared p{white-space:pre-wrap;overflow-wrap:anywhere;max-height:180px;overflow:auto;margin-top:6px}
+.aemet-disclaimer{font-size:11px;color:#aeb9c2;margin:12px 0 0}
+@media(max-width:650px){.aemet-two{grid-template-columns:1fr}}
 </style></head>
 <body>
 <header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION</span></header>
 <main class="container">
 <section class="toolbar" aria-label="Operating location and refresh"><div><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div></div><div class="controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></section>
 <div class="live-line"><span id="dataIndicator"><span class="dot"></span> Loading forecasts</span><span id="dataUpdated">Connecting to forecast providers…</span><span id="offlineNote" class="warning-text" hidden>Internet unavailable · figures must not be assumed current.</span></div>
-<div class="alert" role="status"><span class="alert-icon">⚠</span><div class="alert-content"><strong>Official AEMET marine forecast &amp; warnings: <span id="aemet-status" class="warning-text">CHECKING…</span></strong><p id="aemet-checked">Retrieving official Balearic coastal bulletin and warning feed…</p><details style="margin-top:8px"><summary>Read official marine forecast and warning details</summary><div id="aemet-marine" style="white-space:pre-wrap;max-height:270px;overflow:auto;margin-top:8px;font-size:12px">Loading…</div><div id="aemet-warnings" style="white-space:pre-wrap;max-height:270px;overflow:auto;margin-top:8px;font-size:12px"></div></details><p style="margin-top:8px;font-size:11px">AEMET warning feed may include all Balearic islands. No automatic all-clear is issued; check the applicable island, zone, and validity period.</p></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&opc2=martot&opc3=1&area=bal1" target="_blank" rel="noopener noreferrer">AEMET ↗</a></div>
+<section class="alert aemet-fixed" aria-label="Official AEMET maritime bulletin">
+ <div class="aemet-header"><div><div class="eyebrow">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div>
+ <div class="aemet-warning-row"><strong>⚠ Weather warnings</strong><span id="aemet-status" class="aemet-warning-value">Checking official warnings…</span></div>
+ <div class="aemet-two"><article class="aemet-island"><h3>IBIZA</h3><div id="aemet-ibiza" class="aemet-forecast">Retrieving official forecast…</div></article><article class="aemet-island"><h3>FORMENTERA</h3><div id="aemet-formentera" class="aemet-forecast">Retrieving official forecast…</div></article></div>
+ <div id="aemet-shared" class="aemet-shared" hidden><strong>Shared Balearic coastal bulletin</strong><p id="aemet-shared-text"></p></div>
+ <p class="aemet-disclaimer">Official data is shown only when retrievable. A shared regional bulletin must not be mistaken for separate island forecasts. Warning status is not an all-clear unless applicable alerts and validity periods are fully checked.</p>
+</section>
 <nav class="marine-quick-links" aria-label="Primary marine weather sources">
 <a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">AEMET · Ibiza Coastal Waters ↗</a>
 <a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer" title="Select San Antonio / Sant Antoni on Windguru">Windguru · San Antonio ↗</a>
 <a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
 </nav>
 <section id="ara-outlook" aria-labelledby="ara-outlook-title" hidden aria-hidden="true">
- <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.6</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.7</span></h2><small>Numerical forecast · not live observed conditions</small></div>
  
  <div class="ara-outlook-row" aria-live="polite">
  <div class="ara-outlook-item"><small>Conditions</small><strong id="ara-outlook-state">Loading…</strong></div>
@@ -138,7 +159,7 @@
  <p class="ara-outlook-disclaimer">* Experimental <b>model agreement</b> percentage (ECMWF IFS versus NOAA GFS), not a verified probability that the forecast will be correct. Wave conditions from Open-Meteo Marine. AEMET warnings not automatically checked.</p>
  </section>
 <section id="captain-weather-summary" aria-labelledby="captain-summary-title">
- <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.6</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
+ <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.7</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
@@ -382,7 +403,7 @@ update();
  ['ara-outlook-state','ara-outlook-weather','ara-outlook-wind','ara-outlook-gust','ara-outlook-confidence'].forEach(id=>{const node=$(id);if(node)new MutationObserver(update).observe(node,{childList:true,subtree:true,characterData:true})});update();
 })();
 </script><script>
-/* V5.6: enhance current forecast tile presentation without changing the forecast source. */
+/* V5.7: enhance current forecast tile presentation without changing the forecast source. */
 (()=>{
  const $=id=>document.getElementById(id);
  const names=['Calm','Light air','Light breeze','Gentle breeze','Moderate breeze','Fresh breeze','Strong breeze','Near gale','Gale','Strong gale','Storm','Violent storm','Hurricane force'];
@@ -411,7 +432,7 @@ update();
  update();
 })();
 </script><script>
-/* V5.6: auto-load the existing Windy embed after the deferred app.js has attached its click handler. */
+/* V5.7: auto-load the existing Windy embed after the deferred app.js has attached its click handler. */
 window.addEventListener('load',()=>{
   const load=document.getElementById('loadMap');
   if(!load)return;
@@ -420,21 +441,49 @@ window.addEventListener('load',()=>{
 </script>
 
 <script>
-/* Official AEMET integration V5.6; no API credentials in browser */
+/* Official AEMET V5.7: fixed two-column display; no API credentials in browser. */
 (async()=>{
  const $=id=>document.getElementById(id);
+ const set=(id,v)=>{$(id).textContent=v};
+ const datePattern=/\b(?:\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}-\d{2}-\d{2})(?:\s*(?:a las|at)?\s*\d{1,2}:\d{2})?\b/i;
+ function extractSections(raw){
+   // Only use explicit island labels. Do not manufacture local forecasts from a regional bulletin.
+   const text=String(raw||'').replace(/\\n/g,'\n').replace(/\\t/g,' ').trim();
+   const markers=[...text.matchAll(/\b(?:Ibiza|Eivissa|Formentera)\b\s*[:.\-–]?/gi)];
+   const out={ibiza:[],formentera:[]};
+   for(let i=0;i<markers.length;i++){
+     const m=markers[i],next=markers[i+1];
+     const key=/formentera/i.test(m[0])?'formentera':'ibiza';
+     const chunk=text.slice(m.index,(next?next.index:Math.min(text.length,m.index+1600))).trim();
+     if(chunk.length>=45)out[key].push(chunk.slice(0,1600));
+   }
+   return {ibiza:out.ibiza.slice(0,2).join('\n\n'),formentera:out.formentera.slice(0,2).join('\n\n'),text};
+ }
  try{
   const r=await fetch('https://ara-sr-ai-capitan.stevehullock.workers.dev/aemet',{cache:'no-store'});
-  if(!r.ok)throw Error('AEMET service HTTP '+r.status);
+  if(!r.ok)throw Error('HTTP '+r.status);
   const d=await r.json();
-  $('aemet-checked').textContent='AEMET checked '+(d.checked_at_utc?new Date(d.checked_at_utc).toLocaleString('en-GB',{timeZone:'Europe/Madrid'})+' Ibiza time':'time unavailable')+'. Official bulletin and warning feed are separate sources.';
-  $('aemet-marine').textContent=d.marine?.verified?d.marine.bulletin:'Marine forecast unavailable: '+(d.marine?.error||d.error||'Unknown');
-  $('aemet-warnings').textContent=d.warnings?.verified?'Warning feed (review area and validity): '+d.warnings.excerpt:'Warning verification unavailable: '+(d.warnings?.error||d.error||'Unknown');
-  $('aemet-status').textContent=d.verified?'SOURCES RETRIEVED — REVIEW DETAILS':'PARTIALLY VERIFIED / UNAVAILABLE';
+  const check=d.checked_at_utc?new Date(d.checked_at_utc).toLocaleString('en-GB',{timeZone:'Europe/Madrid',dateStyle:'medium',timeStyle:'short'}):'unavailable';
+  set('aemet-checked','Last retrieved: '+check+' (Ibiza local time)');
+  if(d.marine?.verified){
+    const parsed=extractSections(d.marine.bulletin);
+    const issued=parsed.text.match(/(?:elaborad[oa]|emitid[oa]|fecha de emisión|issue(?:d)?(?: at)?)[^.;\n]{0,75}/i);
+    set('aemet-issue','Bulletin issue: '+(issued?issued[0]:'not supplied separately by API response'));
+    set('aemet-ibiza',parsed.ibiza||'No separately identified Ibiza section in the retrieved bulletin. See the shared regional forecast below.');
+    set('aemet-formentera',parsed.formentera||'No separately identified Formentera section in the retrieved bulletin. See the shared regional forecast below.');
+    if(!parsed.ibiza||!parsed.formentera){$('aemet-shared').hidden=false;set('aemet-shared-text',parsed.text.slice(0,8500));}
+  }else{
+    set('aemet-issue','Bulletin issue: unable to verify');
+    set('aemet-ibiza','Official marine forecast unavailable: '+(d.marine?.error||d.error||'Unknown'));
+    set('aemet-formentera','Official marine forecast unavailable: '+(d.marine?.error||d.error||'Unknown'));
+  }
+  // Raw CAP feed cannot prove a specific island has no current warnings.
+  set('aemet-status',d.warnings?.verified?'Official warning feed retrieved — island-specific status not yet verified':'Unable to verify warnings — consult AEMET');
  }catch(e){
-  $('aemet-status').textContent='UNABLE TO VERIFY';
-  $('aemet-checked').textContent='AEMET connection not verified: '+e.message+'. Check the official AEMET bulletin before departure.';
-  $('aemet-marine').textContent='Unavailable';$('aemet-warnings').textContent='Unavailable';
+  set('aemet-issue','Bulletin issue: unavailable');set('aemet-checked','Official AEMET connection failed');
+  set('aemet-status','Unable to verify warnings');
+  set('aemet-ibiza','Forecast unavailable. Consult official AEMET bulletin.');
+  set('aemet-formentera','Forecast unavailable. Consult official AEMET bulletin.');
  }
 })();
 </script></body></html>
