@@ -1,0 +1,33 @@
+name: ARA Worker — non-production regression checks
+
+on:
+  pull_request:
+    paths:
+      - 'cloudflare/**'
+      - '.github/workflows/ara-worker-review.yml'
+      - '.github/workflows/deploy-ara-worker.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-worker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check Worker syntax
+        run: node --check cloudflare/worker.js
+      - name: Run mocked non-production tests (no Cloudflare secrets)
+        working-directory: cloudflare
+        run: npm test
+      - name: Verify Worker target and KV binding placeholder
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'name = "ara-sr-ai-capitan"' cloudflare/wrangler.toml
+          grep -q 'binding = "AI_USAGE"' cloudflare/wrangler.toml
+          echo 'No Cloudflare deployment or production writes in this workflow.'
