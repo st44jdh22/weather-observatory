@@ -52,3 +52,18 @@ Source modifications on the review branch:
 7. Rollback is **documented but not verified**: before deployment, save a recoverable current Cloudflare version and source/config snapshot in private authorised storage, verify it can be retrieved, then establish the Cloudflare rollback/version restoration steps with readbacks. Do not claim a tested rollback until performed in a permitted safe environment.
 
 **Next clearance chain:** IT independent re-review → `APPROVE FOR DEPLOYMENT REVIEW` → Stephen's separate authorisation before merging or deploying. Never change live sites, secrets, KV, routes or Worker during this review.
+
+## 17 October 2026 — production settings confirmed by owner's Cloudflare screenshots
+
+Screenshots reviewed, **not a live API readback**:
+- Production Worker runtime compatibility date: `2026-10-16` (matches this PR's `wrangler.toml`).
+- Production compatibility flags: none shown (empty field).
+- Runtime placement: Default.
+- Cache: Disabled.
+- No cron triggers configured and no queue consumers configured in the visible settings.
+- Encrypted production secret binding **names** visible: `AEMET_API_KEY`, `ARA_ACCESS_CODE`, `OPENAI_API_KEY` (values not requested).
+- KV binding visible: `AI_USAGE` → `ARA_AI_USAGE`. User separately supplied 32-hex namespace ID `63e2f17382b847279244c081ffa6e3b9`, now entered into the PR Wrangler file; screenshot only verifies the namespace **name**, not that the numeric ID belongs to that name.
+- Worker domains/routes, latest deployed version and independently retrievable rollback source are still NOT verified.
+- No production Worker, secrets, bindings or website were changed during these checks.
+
+**Action remaining:** inspect Worker **Domains** and production **Deployments/Versions** screens, check existing namespace ID in Cloudflare, verify GitHub environment protections, and have IT review soft KV concurrency risk. Keep draft PR unmerged until cleared.
