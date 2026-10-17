@@ -692,6 +692,8 @@ window.addEventListener('load',()=>{
   const island=name=>zones.filter(z=>new RegExp(name,'i').test(z.nombre||'')&&/aguas costeras/i.test(z.nombre||'')).map(zoneText).join('\n\n');
   // Official coastal bulletin AVISOS text is distinct from CAP colour-level alerts.
   // Only display words supplied by AEMET itself; do not synthesise a maritime warning.
+  // AEMET's coastal XML contains <aviso><texto>. Some OpenData JSON conversions
+  // retain it as root.aviso (singular), including an array of aviso objects.
   const avisoFields=[root.avisos,root.aviso,pred.avisos,pred.aviso];
   const asText=v=>typeof v==='string'?v:(v&&typeof v==='object'?[v.texto,v.descripcion,v.aviso].filter(x=>typeof x==='string').join(' '):'');
   const avisos=[...new Set(avisoFields.flatMap(v=>(Array.isArray(v)?v:[v]).map(asText)).map(v=>v.trim()).filter(Boolean))];
