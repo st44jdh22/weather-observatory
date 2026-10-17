@@ -1,0 +1,15 @@
+# REVIEW_REQUIRED_PRODUCTION_SETTINGS: do not deploy until actual compatibility date, flags, routes, triggers, bindings, and production version have been verified.
+# AI_USAGE KV namespace ID supplied by owner; verify its attachment to this Worker.
+name = "ara-sr-ai-capitan"
+main = "worker.js"
+compatibility_date = "2026-10-16"
+workers_dev = true
+keep_vars = true
+
+[[kv_namespaces]]
+binding = "AI_USAGE"
+id = "63e2f17382b847279244c081ffa6e3b9"
+
+# Production secrets must stay in Cloudflare:
+# AEMET_API_KEY, ARA_ACCESS_CODE, OPENAI_API_KEY
+# Audit all current bindings, routes, triggers, settings before deployment.

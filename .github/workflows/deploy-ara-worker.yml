@@ -1,0 +1,80 @@
+name: ARA Worker — approved production deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type DEPLOY_ARA_WORKER to request production deployment'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ara-worker-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.actor == 'st44jdh22' && github.ref == 'refs/heads/main' && inputs.confirmation == 'DEPLOY_ARA_WORKER'
+    runs-on: ubuntu-latest
+    environment: ara-production
+    steps:
+      - name: Check out exact approved commit
+        uses: actions/checkout@v4
+
+      - name: Use Node.js for local regression tests
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Fail closed unless production source and bindings are verified
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s cloudflare/worker.js
+          test -s cloudflare/wrangler.toml
+          if grep -R -n 'REPLACE_EXISTING_' cloudflare/wrangler.toml; then
+            echo "::error::Existing Cloudflare production configuration has not been fully verified"
+            exit 1
+          fi
+          grep -q 'name = "ara-sr-ai-capitan"' cloudflare/wrangler.toml
+          grep -q 'binding = "AI_USAGE"' cloudflare/wrangler.toml
+          node --check cloudflare/worker.js
+          (cd cloudflare && npm test)
+          test -n "${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
+          echo "Approved commit: ${GITHUB_SHA}"
+
+      - name: Validate Worker bundle without deploying
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: cloudflare
+          command: deploy --dry-run
+
+      - name: Deploy approved Worker to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: cloudflare
+          command: deploy
+
+      - name: Check permitted and rejected Worker requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://ara-sr-ai-capitan.stevehullock.workers.dev/metar'
+          denied=$(curl --silent --show-error --max-time 20 --output /tmp/denied.json --write-out '%{http_code}' "$url")
+          test "$denied" = '403' || { echo '::error::Request without Origin was not rejected'; exit 1; }
+          accepted=$(curl --silent --show-error --max-time 30 --retry 2 --retry-delay 3 --header 'Origin: https://st44jdh22.github.io' --output /tmp/ara-metar.json --write-out '%{http_code}' "$url")
+          test "$accepted" = '200' || { echo "::error::METAR returned HTTP ${accepted}"; exit 1; }
+          python3 - <<'PY'
+          import json
+          with open('/tmp/ara-metar.json', encoding='utf-8') as f:
+              result=json.load(f)
+          assert isinstance(result,dict) and 'observation' in result
+          print('PASS: no Origin 403, permitted Origin 200 and METAR JSON')
+          PY
