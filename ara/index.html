@@ -62,6 +62,8 @@
 .baro-paper-heading small{display:block;font:12px/1.4 Arial,sans-serif;letter-spacing:.17em;margin:3px 0 0}
 .baro canvas{height:360px!important;background:#faf9f4}
 @media(max-width:650px){.baro-paper-heading{font-size:17px}.baro-paper-heading small{font-size:9px}.baro canvas{height:270px!important}}
+
+.global-language{position:absolute;right:28px;top:36px;display:flex;gap:6px;z-index:5}.global-language button{border:1px solid #a9bec8a6;border-radius:7px;background:#07131ebd;color:white;padding:7px 10px;cursor:pointer;font-weight:600}.global-language button[aria-pressed="true"]{border-color:#7be2d7;background:#1b6669}.global-language button:focus-visible{outline:2px solid white}@media(max-width:650px){.global-language{right:12px;top:12px}}
 </style>
 
 <style>
@@ -149,14 +151,14 @@
 .aemet-warning-details{width:100%;font-size:12px;line-height:1.5;color:#ffdadd;white-space:pre-wrap}
 </style></head>
 <body>
-<header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION <span style="opacity:.7;font-size:.8em;white-space:nowrap">· v5.10</span></span></header>
+<header class="hero"><div class="hero-inner"><nav class="observatory-nav" aria-label="Observatory navigation"><a href="../">🌦 Stephen’s Observatory</a><a href="./" aria-current="page">⚓ ARA Weather Desk</a></nav><span class="overline">Private vessel operations / Balearic Islands</span><h1>ARA</h1><h2>CAPTAIN'S WEATHER &amp; MARITIME DESK</h2><span class="hero-sub">FORECAST INTELLIGENCE &nbsp; · &nbsp; OPERATIONAL AWARENESS</span></div><span class="hero-mark">WALLYPOWER 58 &nbsp; / &nbsp; CAPTAIN'S EDITION <span style="opacity:.7;font-size:.8em;white-space:nowrap">· v5.11</span></span><div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div></header>
 <main class="container">
 <section class="toolbar" aria-label="Operating location and refresh"><div><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div></div><div class="controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></section>
 <div class="live-line"><span id="dataIndicator"><span class="dot"></span> Loading forecasts</span><span id="dataUpdated">Connecting to forecast providers…</span><span id="offlineNote" class="warning-text" hidden>Internet unavailable · figures must not be assumed current.</span></div>
 <section class="alert aemet-fixed" aria-label="Official AEMET maritime bulletin">
- <div class="aemet-header"><div><div class="eyebrow">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div>
- <div class="aemet-warning-row"><strong>⚠ Weather warnings</strong><span id="aemet-status" class="aemet-warning-value">Checking official warnings…</span><div id="aemet-warning-details" class="aemet-warning-details" aria-live="polite"></div></div>
- <div class="aemet-area-controls"><label for="aemet-area">Additional coastal area</label><select id="aemet-area"><option value="">Ibiza &amp; Formentera (default)</option></select><div class="aemet-language" role="group" aria-label="Forecast language"><button id="aemet-lang-en" type="button" aria-pressed="false" title="English forecast">🇬🇧 English</button><button id="aemet-lang-es" type="button" aria-pressed="true" title="Pronóstico en español">🇪🇸 Español</button></div></div><div id="aemet-selected" class="aemet-island" hidden style="margin-bottom:12px"><h3 id="aemet-selected-title">Selected area</h3><div id="aemet-selected-text" class="aemet-forecast"></div></div><div class="aemet-two"><article class="aemet-island"><h3>IBIZA</h3><div id="aemet-ibiza" class="aemet-forecast">Retrieving official forecast…</div></article><article class="aemet-island"><h3>FORMENTERA</h3><div id="aemet-formentera" class="aemet-forecast">Retrieving official forecast…</div></article></div>
+ <div class="aemet-header"><div><div class="eyebrow" data-en="Official source · AEMET OpenData" data-es="Fuente oficial · AEMET OpenData">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px" data-en="⚓ AEMET maritime forecast" data-es="⚓ Predicción marítima AEMET">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div>
+ <div class="aemet-warning-row"><strong data-en="⚠ Weather warnings" data-es="⚠ Avisos meteorológicos">⚠ Weather warnings</strong><span id="aemet-status" class="aemet-warning-value">Checking official warnings…</span><div id="aemet-warning-details" class="aemet-warning-details" aria-live="polite"></div></div>
+ <div class="aemet-area-controls"><label for="aemet-area" data-en="Additional coastal area" data-es="Zona costera adicional">Additional coastal area</label><select id="aemet-area"><option value="">Ibiza &amp; Formentera (default)</option></select><div class="aemet-language" role="group" aria-label="Forecast language" style="display:none"><button id="aemet-lang-en" type="button" aria-pressed="false" title="English forecast">🇬🇧 English</button><button id="aemet-lang-es" type="button" aria-pressed="true" title="Pronóstico en español">🇪🇸 Español</button></div></div><div id="aemet-selected" class="aemet-island" hidden style="margin-bottom:12px"><h3 id="aemet-selected-title">Selected area</h3><div id="aemet-selected-text" class="aemet-forecast"></div></div><div class="aemet-two"><article class="aemet-island"><h3>IBIZA</h3><div id="aemet-ibiza" class="aemet-forecast">Retrieving official forecast…</div></article><article class="aemet-island"><h3>FORMENTERA</h3><div id="aemet-formentera" class="aemet-forecast">Retrieving official forecast…</div></article></div>
  <div id="aemet-shared" class="aemet-shared" hidden><strong>Shared Balearic coastal bulletin</strong><p id="aemet-shared-text"></p></div>
  <p class="aemet-disclaimer">Official data is shown only when retrievable. A shared regional bulletin must not be mistaken for separate island forecasts. Warning status is not an all-clear unless applicable alerts and validity periods are fully checked.</p>
 </section>
@@ -166,7 +168,7 @@
 <a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
 </nav>
 <section id="ara-outlook" aria-labelledby="ara-outlook-title" hidden aria-hidden="true">
- <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.10</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ <div class="section-head"><h2 id="ara-outlook-title">🌤 Weather outlook <span class="ara-version">V5.11</span></h2><small>Numerical forecast · not live observed conditions</small></div>
  
  <div class="ara-outlook-row" aria-live="polite">
  <div class="ara-outlook-item"><small>Conditions</small><strong id="ara-outlook-state">Loading…</strong></div>
@@ -179,7 +181,7 @@
  <p class="ara-outlook-disclaimer">* Experimental <b>model agreement</b> percentage (ECMWF IFS versus NOAA GFS), not a verified probability that the forecast will be correct. Wave conditions from Open-Meteo Marine. AEMET warnings not automatically checked.</p>
  </section>
 <section id="captain-weather-summary" aria-labelledby="captain-summary-title">
- <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.10</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
+ <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="ara-version">V5.11</span></h2><div class="ara-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="ara-outlook-date">Forecast date</label><input type="date" id="ara-outlook-date"><button class="pill primary" id="ara-outlook-refresh" type="button">↻ Update outlook</button><span id="ara-outlook-period" title="Forecast hours in Ibiza local time">🕒 Ibiza local · 08:00–18:00</span></div></div>
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
@@ -253,7 +255,7 @@
 <label class="checkpoint"><input type="checkbox" id="checkReality"><span>I considered current observations, available vessel/crew information and forecast limitations.</span></label>
 <div class="form-row"><div><label class="field" for="assess">Captain's provisional assessment</label><select id="assess"><option value="">Select an assessment</option><option>Suitable for proposed operation, subject to normal checks</option><option>Restrictions / further assessment required</option><option>Do not depart / postpone</option><option>Decision pending</option></select></div><div><label class="field" for="reviewName">Captain (free text · not verified)</label><input id="reviewName" type="text" autocomplete="off" maxlength="80" placeholder="Captain's name"></div></div><label class="field" for="comments">Operational notes / restrictions / planned sea area</label><textarea id="comments" maxlength="1200" placeholder="Optional: route, forecast issue time, warning details, local conditions…"></textarea><div class="split-actions"><button class="pill primary" type="button" id="copyReview">Copy draft review</button><button class="pill" type="button" id="resetReview">Clear</button></div><p class="footnote" id="copyStatus" aria-live="polite">No information is transmitted or stored by this checklist. Never treat it as proof of compliance.</p></div>
 <div class="panel"><h3>Command, accountability &amp; reporting</h3><p><strong>Captain</strong> · confirms weather and warnings, independently assesses conditions and makes all operational departure, diversion and cancellation decisions.</p><div class="divider"></div><p><strong>Marine Operations / IFO</strong> · reviews the existing handover and operational evidence trail, coordinates exceptions and escalations; does not replace the captain's judgement.</p><div class="divider"></div><p><strong>Future authenticated records</strong> · subject to Joe's approval and integration with the existing ODIN / Roger architecture. No duplicate master records.</p><div class="divider"></div><p class="footnote">A morning review must be repeated if conditions, warnings, route or operating plan materially change. This dashboard is supplementary; consult official forecasts and onboard instruments.</p></div></div></section>
-<footer class="fineprint"><strong>ARA Weather App · Development V2</strong> · Forecast guidance, not operational clearance. Open-Meteo weather and marine data are numerical models, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Warning feeds are <strong>not</strong> yet automated. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather &amp; marine data: Open-Meteo</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
+<footer class="fineprint"><strong>ARA Weather App · Development V2</strong> · Forecast guidance, not operational clearance. Open-Meteo weather and marine data are numerical models, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather &amp; marine data: Open-Meteo</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
 </main>
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
 window.ARA_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.workers.dev'; // Set to your deployed https://ara-ai-capitan.<account>.workers.dev URL
@@ -461,11 +463,11 @@ window.addEventListener('load',()=>{
 </script>
 
 <script>
-/* Official AEMET V5.10: Spanish original and English glossary translation; warnings never auto-cleared without full CAP validation. */
+/* Official AEMET V5.11: Spanish original and English glossary translation; warnings never auto-cleared without full CAP validation. */
 (async()=>{
  const $=id=>document.getElementById(id),set=(id,v)=>{$(id).textContent=v};
  const clean=v=>String(v??'').replace(/\uFFFD/g,'').replace(/\s+/g,' ').trim();
- let language='es',bulletin=null,selectedZone='',warningResponse=null;
+ let language=localStorage.getItem('ara-language')==='en'?'en':'es',bulletin=null,selectedZone='',warningResponse=null;let warningAlerts=[];
  const esToEn=[
  [/Aguas costeras de/gi,'Coastal waters of'],[/Marejadilla/gi,'slight seas'],[/fuerte marejada/gi,'rough seas'],[/marejada/gi,'moderate seas'],[/mar gruesa/gi,'high seas'],[/mar de fondo/gi,'swell'],[/viento/gi,'wind'],[/rachas/gi,'gusts'],[/chubascos/gi,'showers'],[/aguaceros/gi,'heavy showers'],[/precipitaciones/gi,'precipitation'],[/tormentas/gi,'thunderstorms'],[/tormenta/gi,'thunderstorm'],[/lluvias/gi,'rain'],[/lluvia/gi,'rain'],[/desde la madrugada/gi,'from the early hours'],[/durante la madrugada/gi,'during the early hours'],[/por la noche/gi,'overnight'],[/por la tarde/gi,'in the afternoon'],[/por la mañana/gi,'in the morning'],[/arreciando/gi,'strengthening'],[/amainando/gi,'easing'],[/aumentando/gi,'increasing'],[/disminuyendo/gi,'decreasing'],[/localmente/gi,'locally'],[/temporalmente/gi,'temporarily'],[/variable/gi,'variable'],[/rolando/gi,'veering/shifting'],[/a/gi,'a']
  ];
@@ -504,6 +506,8 @@ window.addEventListener('load',()=>{
  function render(){
   $('aemet-lang-en').setAttribute('aria-pressed',String(language==='en'));
   $('aemet-lang-es').setAttribute('aria-pressed',String(language==='es'));
+  $('global-en').setAttribute('aria-pressed',String(language==='en'));$('global-es').setAttribute('aria-pressed',String(language==='es'));document.documentElement.lang=language;
+  document.querySelectorAll('[data-en][data-es]').forEach(el=>{el.textContent=el.dataset[language]});
   if(!bulletin)return;
   const display=t=>language==='en'?translate(t):t;
   set('aemet-ibiza',display(bulletin.ibiza)||'Ibiza forecast unavailable');
@@ -511,8 +515,33 @@ window.addEventListener('load',()=>{
   const z=bulletin.zones[Number(selectedZone)];
   if(selectedZone!==''&&z){$('aemet-selected').hidden=false;set('aemet-selected-title',display(z.nombre));set('aemet-selected-text',display(bulletin.zoneText(z)))}else $('aemet-selected').hidden=true;
  }
- $('aemet-lang-en').addEventListener('click',()=>{language='en';render()});
- $('aemet-lang-es').addEventListener('click',()=>{language='es';render()});
+ const changeLang=l=>{language=l;localStorage.setItem('ara-language',l);render();renderWarnings()};
+ $('global-en').addEventListener('click',()=>changeLang('en'));$('global-es').addEventListener('click',()=>changeLang('es'));
+ function renderWarnings(){
+  const wr=warningResponse;
+  const box=$('aemet-warning-details');box.replaceChildren();
+  if(!wr?.verified){set('aemet-status',language==='en'?'Unable to verify official warnings':'No se pueden verificar los avisos');box.textContent=wr?.error||'Consult AEMET official warnings';return}
+  const now=Date.now();
+  const active=[];const upcoming=[];let ambiguous=0;
+  for(const a of warningAlerts){
+   const p=(language==='en'?a.en||a.es:a.es||a.en);if(!p)continue;
+   const lev=String(p.level||'').toLowerCase();if(lev==='verde'||lev==='green'||p.severity==='Minor')continue;
+   const onset=Date.parse(p.onset||p.effective||''),expires=Date.parse(p.expires||'');
+   if(!Number.isFinite(onset)||!Number.isFinite(expires)){ambiguous++;continue}
+   if(expires<=now)continue;
+   (onset<=now?active:upcoming).push({p,lev});
+  }
+  set('aemet-status',`${active.length} ${language==='en'?'active':'activos'} · ${upcoming.length} ${language==='en'?'upcoming':'próximos'}${ambiguous?' · '+ambiguous+' unclassified':''}`);
+  const line=(obj,kind)=>{const {p,lev}=obj;const div=document.createElement('div');div.style.cssText='margin:7px 0;padding:10px;border-left:4px solid '+({rojo:'#ef5350',naranja:'#ff9800',amarillo:'#ffda56'}[lev]||'#a6a6a6')+';background:#2b1d28;border-radius:5px';
+   const title=document.createElement('strong');title.textContent=(kind==='active'?(language==='en'?'ACTIVE':'ACTIVO'):(language==='en'?'UPCOMING':'PRÓXIMO'))+' · '+(p.event||p.headline||'AEMET')+' · '+(lev||p.severity||'severity unknown');
+   const timing=document.createElement('div');timing.textContent=(p.onset||p.effective||'')+' → '+(p.expires||'');
+   const desc=document.createElement('div');desc.textContent=(p.headline||p.description||'').slice(0,500);
+   div.append(title,timing,desc);box.append(div)
+  };
+  active.forEach(x=>line(x,'active'));upcoming.forEach(x=>line(x,'upcoming'));
+  if(!active.length&&!upcoming.length){const note=document.createElement('div');note.textContent=language==='en'?'No matching active alerts found; island coverage is not yet fully verified. Consult AEMET before departure.':'No se encontraron avisos activos coincidentes; cobertura insular aún sin verificar. Consulte AEMET antes de zarpar.';box.append(note)}
+  if(!wr.coverage_verified){const note=document.createElement('small');note.textContent=language==='en'?' CAP zone-code coverage requires validation; this is not an all-clear.':' Se debe validar la cobertura de códigos CAP; esto no es una confirmación de ausencia de avisos.';box.append(note)}
+ }
  try{
   const r=await fetch('https://ara-sr-ai-capitan.stevehullock.workers.dev/aemet',{cache:'no-store'});
   if(!r.ok)throw Error('HTTP '+r.status);
@@ -528,15 +557,7 @@ window.addEventListener('load',()=>{
     select.onchange=()=>{selectedZone=select.value;render()};render();
    }
   }else{set('aemet-issue','Official forecast unavailable');set('aemet-ibiza','Marine forecast could not be verified');set('aemet-formentera','Marine forecast could not be verified')}
-  // The V5.6 Worker returns a flattened, truncated warning excerpt, not complete CAP records.
-  // Without complete area codes, start/end times, status and severity, no reliable active/none classification is possible.
-  if(!d.warnings?.verified){set('aemet-status','Unable to verify official warnings');set('aemet-warning-details','Check the AEMET warnings page before departure.')}
-  else{
-   set('aemet-status','Official warning feed retrieved — local status unverified');
-   const excerpt=String(d.warnings.excerpt||'');
-   const mentions=/Ibiza|Eivissa|Formentera|Pitiusas/i.test(excerpt);
-   set('aemet-warning-details',mentions?'Ibiza/Formentera are mentioned in the warning feed. Warning type, severity and validity cannot yet be reliably extracted from the current Worker response. Check official AEMET warnings.':'The current Worker response does not provide complete machine-readable alert records. Do not interpret this as no warnings. Check official AEMET warnings.');
-  }
+  warningAlerts=Array.isArray(d.warnings?.alerts)?d.warnings.alerts:[];renderWarnings();
  }catch(e){set('aemet-issue','Official forecast unavailable');set('aemet-checked','AEMET retrieval/display failed: '+String(e.message||'unknown'));set('aemet-status','Warnings unverified');set('aemet-warning-details','Check official AEMET warnings before departure.');set('aemet-ibiza','Forecast unavailable');set('aemet-formentera','Forecast unavailable')}
 })();
 </script></body></html>
