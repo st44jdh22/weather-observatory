@@ -114,7 +114,7 @@ test('Ibiza Sea School masthead removes private vessel branding and retains edit
  assert.match(html,/<title>Ibiza Sea School/);
  assert.match(html,/<header class="hero">[\s\S]*ibiza-sea-school-logo\.webp/);
  assert.match(html,/CAPTAIN'S WEATHER &amp; MARITIME DESK/);
- assert.match(html,/EDITION V5\.26/);
+ assert.match(html,/EDITION V5\.27/);
  for(const forbidden of [/<h1>ARA<\/h1>/i,/WALLYPOWER\s*58/i,/Private vessel operations/i,/assets\/ara-hero\.jpg/i,/ARA Weather App/i])assert.doesNotMatch(html,forbidden);
  const logo=await fs.readFile(new URL('../../ibiza-sea-school/assets/ibiza-sea-school-logo.webp',import.meta.url));
  assert.equal(logo.subarray(0,4).toString(),'RIFF');
@@ -202,8 +202,8 @@ test('site theme finish preserves accountabilities, removes redundant review and
  assert.match(html,/\.day \.day-stat\{background:#f7f9fc!important/);
  assert.match(html,/#coastalCamera\s*option\{background:#fff;color:#202c76\}/);
  assert.match(html,/const englishAviso=\(spanish\)=>/);
- assert.match(html,/Original AEMET Spanish wording/);
- assert.match(html,/English translation not yet verified/);
+ assert.match(html,/p.textContent=original;p.lang='es'/);
+ assert.match(html,/English translation unavailable for this wording/);
  assert.match(html,/warningParagraph\(aviso\)/);
  const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(a=>!/\bsrc\s*=/.test(a[1]));
  for(const [i,a] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(a[2],{filename:'ibiza-script-'+i}));
@@ -232,18 +232,50 @@ test('raw METAR fallback parser handles recognised wind and temperature only',as
  assert.equal(preferred.wdir,190);assert.equal(preferred.wspd,8);assert.equal(preferred.temp,19);
 });
 
-test('V5.26 edition, upper controls and Captain summary branding match release',async()=>{
+test('V5.27 edition, upper controls and Captain summary branding match release',async()=>{
  const fs=await import('node:fs/promises');
  const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(page,/EDITION V5\.26/);
- assert.match(page,/Weather Summary <span class="iss-version">V5\.26/);
- assert.match(page,/Ibiza Sea School Weather · V5\.26/);
+ assert.match(page,/EDITION V5\.27/);
+ assert.match(page,/Weather Summary <span class="iss-version">V5\.27/);
+ assert.match(page,/Ibiza Sea School Weather · V5\.27/);
  assert.doesNotMatch(page,/V5\.25/);
- assert.match(sw,/ibiza-sea-school-weather-v5\.26-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.27-20261018/);
  assert.match(page,/\.iss-toolbar \.iss-signoff\{justify-self:center!important/);
  assert.match(page,/\.iss-toolbar #iss-ai-launch\{justify-self:end!important/);
  assert.match(page,/\.iss-area-controls \.select\{padding-left:9px!important/);
  assert.match(page,/#captain-weather-summary\{\s*background:#fff!important/);
  assert.match(page,/border-top:5px solid #d10049!important/);
+});
+
+test('AEMET warning always displays the Spanish original and offers English separately',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const html=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ const fn=html.slice(html.indexOf('  const englishAviso=(spanish)=>{'),html.indexOf('  const warningParagraph=(aviso)=>'));
+ assert.ok(fn.startsWith('  const englishAviso='));
+ const translate=vm.runInNewContext(fn+'\nenglishAviso');
+ const original='Precipitaciones muy fuertes con tormenta. en aguas costeras del nordeste y noroeste de Mallorca, Ibiza y canal de Mallorca, temporalmente NE 7 y olas de 3 m.';
+ assert.match(translate(original),/Very heavy precipitation with thunderstorms/);
+ assert.match(translate(original.replace('tormenta. en','tormentas, en')),/Very heavy precipitation/);
+ assert.equal(translate('Rachas variables de intensidad no verificada.'),null);
+ assert.match(html,/p\.textContent=original;p\.lang='es'/);
+ assert.match(html,/English translation: /);
+ assert.match(html,/English translation unavailable for this wording/);
+ assert.doesNotMatch(html,/Original AEMET Spanish wording'\s*:/);
+});
+test('Captain caution above AEMET, model methodology folded away, airport warning legible',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const html=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ const c=html.indexOf('<p id="cs-caution"'),a=html.indexOf('<section class="alert aemet-fixed"');
+ assert.ok(c>0&&c<a);
+ assert.equal((html.match(/id="cs-caution"/g)||[]).length,1);
+ assert.match(html,/class="iss-model-footnote"/);
+ assert.match(html,/<p id="cs-model-detail" aria-live="polite">/);
+ assert.match(html,/\.airport-location-warning strong\{color:#d10049!important\}/);
+ assert.match(html,/EDITION V5\.27/);
+ assert.match(html,/Weather Summary <span class="iss-version">V5\.27/);
+ const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
+ assert.match(sw,/ibiza-sea-school-weather-v5\.27-20261018/);
+ const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!/\bsrc\s*=/.test(m[1]));
+ for(const m of scripts)assert.doesNotThrow(()=>new vm.Script(m[2]));
 });
