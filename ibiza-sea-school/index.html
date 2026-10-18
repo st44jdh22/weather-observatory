@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#07131e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Ibiza Sea School Weather">
+<meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Ibiza Sea School Weather">
 <meta name="description" content="Ibiza Sea School captain's weather and maritime desk for Ibiza and Formentera. Official forecasts, marine conditions and webcams.">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="assets/ibiza-sea-school-logo.webp"><link rel="apple-touch-icon" href="assets/ibiza-sea-school-logo.webp">
 <title>Ibiza Sea School | Captain's Weather & Maritime Desk</title>
@@ -243,7 +243,121 @@
 .hero-sub{margin-top:10px;font-weight:550;font-size:12px}
 .hero-mark{font-size:13px;font-weight:650;letter-spacing:.06em;right:22px;bottom:17px}
 @media(max-width:650px){.hero{min-height:265px}.hero-inner{padding:49px 17px 54px}.iss-logo-panel{padding:11px 14px;margin-bottom:13px}.iss-logo{width:min(310px,74vw)}.hero-mark{font-size:12px;right:15px;bottom:13px}}
-</style></head>
+</style><style id="ibiza-sea-school-brand-theme">
+/* Ibiza Sea School branded daytime theme. No API, warning parser or safety logic changes. */
+:root {
+ color-scheme: light;
+ --bg:#ffffff; --bg2:#f7f9fc; --panel:#ffffff; --panel2:#f7f9fc;
+ --line:#d9e1f2; --text:#1f2a44; --muted:#576781;
+ --teal:#202c76; --gold:#c0274c; --warn:#b01944; --danger:#b01944;
+ --good:#08774f; --iss-blue:#202c76; --iss-red:#d10049;
+ --iss-paper:#f7f9fc; --iss-shadow:0 7px 22px rgba(32,44,118,.065);
+}
+html,body{background:#fff;color:var(--text)}
+body{background:linear-gradient(#fff 0,#f9faff 420px,#fff 800px)}
+a{color:var(--iss-blue)}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #d10049;outline-offset:2px}
+.hero{background:#fff!important;border-bottom:3px solid var(--iss-blue)!important;color:var(--iss-blue)!important;box-shadow:0 5px 19px rgba(32,44,118,.06)!important}
+.hero-inner{background:#fff}
+.iss-logo-panel{border:0;background:#fff;box-shadow:none;padding:0;margin-bottom:18px}
+.iss-logo{width:min(420px,82vw)}
+.hero h2{color:var(--iss-blue)!important;font-weight:750}
+.hero-sub{color:#556487!important;font-weight:650}
+.hero-mark{color:var(--iss-blue)!important;font-weight:700;opacity:1}
+.container{color:var(--text)}
+.eyebrow,.section-head small{color:var(--muted)}
+.base-title,.section-head h2,.panel h3,.day h3{color:var(--iss-blue)}
+.toolbar{border-color:var(--line)}
+.pill,.link,.select,.tabs button,button:not([class]):not([aria-pressed]){
+ background:#fff;color:var(--iss-blue);border:1px solid #bac7df;box-shadow:none
+}
+.pill:hover,.link:hover,.select:hover,.tabs button:hover{background:#eef1fc;border-color:var(--iss-blue)}
+.pill.primary,.pill.selected,.tabs button.active{
+ background:var(--iss-blue);border-color:var(--iss-blue);color:#fff
+}
+#iss-ai-launch,.iss-ai,.iss-signoff{
+ background:var(--iss-blue)!important;border:1px solid var(--iss-blue)!important;color:#fff!important;
+ box-shadow:none!important
+}
+.iss-signoff{background:var(--iss-red)!important;border-color:var(--iss-red)!important}
+#iss-ai-launch:hover,.iss-ai:hover,.iss-signoff:hover{filter:brightness(.9)}
+.tile,.panel,.day,.smalltile,.source-card,.camera-live-list,.iss-outlook-item,
+.iss-now-item,.iss-now-card,.iss-current-card,.iss-hourly,
+.iss-hourly-container,.source-grid article,.forecast-source-badge,
+.map-placeholder,.windguru-notice{
+ background:#fff!important;color:var(--text)!important;border-color:var(--line)!important;
+ box-shadow:var(--iss-shadow)!important
+}
+.tile.key,.panel{border-top-color:var(--iss-blue)}
+.tile .lbl,.smalltile .lbl,.iss-outlook-item small,.iss-outlook-evidence,
+.iss-outlook-disclaimer,.iss-now-description,.day .rowinfo,.day .day-date,
+.forecast-days-source,.camera-live-list p,.camera-live-list small,
+.baro-footer,.fineprint,.iss-now-valid{color:var(--muted)!important}
+.tile .number,.tile strong,.smalltile strong,.day .temp,.iss-outlook-item strong,
+.iss-now-primary,.iss-now-speed,.iss-temp-reading,.iss-weather-reading,
+.iss-now-description strong,.iss-dir-name,.iss-version{
+ color:var(--iss-blue)!important
+}
+.iss-outlook-row,.iss-now-wind,.iss-now-weather,.iss-now-primary{
+ background:#fff;color:var(--text)
+}
+.iss-outlook-row .iss-outlook-item:first-child{border-top:3px solid var(--iss-blue)!important}
+.iss-confidence{background:#f0f2fc!important}
+.iss-version,.forecast-source-badge{background:#eef1fb!important;border-color:#a9b5d7!important;color:var(--iss-blue)!important}
+.iss-outlook-toolbar input,.aemet-area-controls select,.review-body input:not([type=checkbox]),
+.review-body textarea,.review-body select{
+ background:#fff!important;border:1px solid #aebbd4!important;color:#1f2a44!important
+}
+.iss-hourly-table th,.iss-hourly-table td{border-color:var(--line)}
+.iss-hourly-table thead th{background:var(--iss-blue)!important;color:#fff!important}
+.iss-hourly-table tbody th,.iss-hourly-table tbody tr:nth-child(2n) td{background:#f0f2fa!important;color:var(--text)!important}
+.camera-live-list h3{color:var(--iss-blue)!important}
+.camera-live-list a{background:#f5f7fe!important;border:1px solid var(--line)!important;color:var(--iss-blue)!important}
+.camera-live-list a:hover{background:#e9edfb!important}
+.camera-live-list a:first-of-type{border-color:var(--iss-blue)!important}
+.marine-quick-links a{background:var(--iss-blue)!important;color:#fff!important;border-color:var(--iss-blue)!important}
+.marine-quick-links a:hover{background:#334293!important}
+.windguru-notice{color:var(--muted)!important}
+.map-placeholder,.map-frame{background:var(--iss-paper)}
+.fineprint a,.mini-link,.inline-link{color:var(--iss-blue)!important}
+.alert:not(.aemet-fixed){background:#fff4f7;border-color:#e9b9c7;color:#792340}
+.alert:not(.aemet-fixed) p{color:#7c3447}
+.aemet-fixed{
+ display:block!important;background:#fff!important;border:1px solid #e2bac7!important;
+ border-top:4px solid var(--iss-red)!important;color:var(--text)!important;
+ box-shadow:var(--iss-shadow)!important
+}
+.aemet-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.aemet-header h2{color:var(--iss-blue)!important}
+.aemet-header-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap;min-width:0}
+.aemet-fixed .aemet-header a{color:var(--iss-blue)!important;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.aemet-meta,#aemet-issue,.aemet-area-controls label,.aemet-shared,.aemet-disclaimer{color:var(--muted)!important}
+.aemet-warning-row{border-color:#e0bbc5!important;background:#fff9fb;border-left:4px solid var(--iss-red);padding:12px!important;border-radius:6px}
+.aemet-fixed .aemet-warning-value{color:#99163d!important}
+.aemet-island{background:#f8f9ff!important;border:1px solid var(--line)!important;color:var(--text)!important}
+.aemet-fixed .aemet-island h3{color:var(--iss-blue)!important}
+.aemet-forecast,.aemet-warning-details{color:var(--text)!important}
+.aemet-fixed .aemet-warning-details p{color:var(--text)}
+.aemet-shared{border-top-color:var(--line)}
+.global-language{position:static;display:inline-flex;align-items:center;gap:5px;z-index:auto}
+.global-language button{background:#fff;color:var(--iss-blue);border:1px solid #aab6d7;font-weight:750;border-radius:8px;padding:9px 11px;min-height:39px}
+.global-language button[aria-pressed="true"]{background:var(--iss-blue);color:#fff;border-color:var(--iss-blue)}
+.global-language button:focus-visible{outline:3px solid var(--iss-red)}
+.review-body,.review-head{background:#fff;color:var(--text)}
+.review-body p{color:var(--muted)}
+.review-head button{background:var(--iss-blue);color:#fff}
+#review-panel,#review-modal{background:#fff;color:var(--text);border-color:var(--line)}
+/* The paper barograph is deliberately retained as a specialist instrument. */
+.baro{border-color:#b9b0a1!important}
+.baro-paper-heading{color:var(--iss-blue)!important}
+@media(max-width:760px){
+ .aemet-header{flex-direction:column;align-items:stretch}
+ .aemet-header-actions{justify-content:flex-start}
+ .global-language button{min-width:60px}
+ .iss-logo{width:min(360px,88vw)}
+}
+</style>
+</head>
 <body>
 <header class="hero">
   <div class="hero-inner">
@@ -253,13 +367,13 @@
     <span class="hero-sub" data-en="FORECAST INTELLIGENCE · OPERATIONAL AWARENESS" data-es="INTELIGENCIA METEOROLÓGICA · CONCIENCIA OPERATIVA">FORECAST INTELLIGENCE · OPERATIONAL AWARENESS</span>
   </div>
   <span class="hero-mark">EDITION V5.25</span>
-  <div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div>
+  
 </header>
 <main class="container">
 <section class="toolbar iss-toolbar" aria-label="Operating location and refresh"><div class="iss-area"><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div><div class="iss-area-controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><div class="iss-utility"><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></div></div><button class="pill iss-signoff" id="captain-review-open" type="button">⚠ Captain's Passage & Weather Declaration</button><button class="pill iss-ai" id="iss-ai-launch" type="button">⚓ Interactive AI Captain</button></section>
 
 <section class="alert aemet-fixed" aria-label="Official AEMET maritime bulletin">
- <div class="aemet-header"><div><div class="eyebrow" data-en="Official source · AEMET OpenData" data-es="Fuente oficial · AEMET OpenData">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px" data-en="⚓ AEMET maritime forecast" data-es="⚓ Predicción marítima AEMET">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div>
+ <div class="aemet-header"><div><div class="eyebrow" data-en="Official source · AEMET OpenData" data-es="Fuente oficial · AEMET OpenData">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px" data-en="⚓ AEMET maritime forecast" data-es="⚓ Predicción marítima AEMET">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><div class="aemet-header-actions"><div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div></div>
  <div class="aemet-warning-row"><strong data-en="⚠ Weather warnings" data-es="⚠ Avisos meteorológicos">⚠ Weather warnings</strong><span id="aemet-status" class="aemet-warning-value">Checking official warnings…</span><div id="aemet-warning-details" class="aemet-warning-details" aria-live="polite"></div></div>
  <div class="aemet-area-controls"><label for="aemet-area" data-en="Additional coastal area" data-es="Zona costera adicional">Additional coastal area</label><select id="aemet-area"><option value="">Ibiza &amp; Formentera (default)</option></select><div class="aemet-language" role="group" aria-label="Forecast language" style="display:none"><button id="aemet-lang-en" type="button" aria-pressed="false" title="English forecast">🇬🇧 English</button><button id="aemet-lang-es" type="button" aria-pressed="true" title="Pronóstico en español">🇪🇸 Español</button></div></div><div id="aemet-selected" class="aemet-island" hidden style="margin-bottom:12px"><h3 id="aemet-selected-title">Selected area</h3><div id="aemet-selected-text" class="aemet-forecast"></div></div><div class="aemet-two"><article class="aemet-island"><h3>IBIZA</h3><div id="aemet-ibiza" class="aemet-forecast">Retrieving official forecast…</div></article><article class="aemet-island"><h3>FORMENTERA</h3><div id="aemet-formentera" class="aemet-forecast">Retrieving official forecast…</div></article></div>
  <div id="aemet-shared" class="aemet-shared" hidden><strong>Shared Balearic coastal bulletin</strong><p id="aemet-shared-text"></p></div>

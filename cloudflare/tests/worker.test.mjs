@@ -159,3 +159,30 @@ test('personal observatory stays unchanged and weather desk has no cross-site na
  assert.doesNotMatch(branded,/Stephen.s Observatory|observatory-nav|href="\.\.\/"/i);
  assert.match(branded,/Ibiza Sea School — Captain.s Weather/);
 });
+
+test('Ibiza Sea School light theme matches official logo and places the language selector inside AEMET',async()=>{
+ const fs=await import('node:fs/promises'),assertStrict=assert;
+ const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ const header=page.slice(page.indexOf('<header class="hero">'),page.indexOf('</header>',page.indexOf('<header class="hero">'))+9);
+ const aemet=page.slice(page.indexOf('<section class="alert aemet-fixed"'),page.indexOf('</section>',page.indexOf('<section class="alert aemet-fixed"'))+10);
+ assertStrict.doesNotMatch(header,/id="global-(en|es)"/);
+ assertStrict.match(aemet,/<div class="aemet-header-actions">[\s\S]*?id="global-en"[\s\S]*?id="global-es"[\s\S]*?Official AEMET bulletin/);
+ assertStrict.equal((page.match(/id="global-en"/g)||[]).length,1);
+ assertStrict.equal((page.match(/id="global-es"/g)||[]).length,1);
+ assertStrict.match(page,/--iss-blue:#202c76/);
+ assertStrict.match(page,/--iss-red:#d10049/);
+ assertStrict.match(page,/\.aemet-fixed\{[\s\S]*?background:#fff!important/);
+ assertStrict.match(page,/<meta name="theme-color" content="#ffffff">/);
+ assertStrict.match(page,/\.aemet-fixed \.aemet-warning-value\{color:#99163d!important\}/);
+ assertStrict.match(page,/coastalAvisos=d\.marine_avisos\|\|null/);
+ const install=JSON.parse(await fs.readFile(new URL('../../ibiza-sea-school/manifest.webmanifest',import.meta.url),'utf8'));
+ assertStrict.equal(install.background_color,'#ffffff');
+ assertStrict.equal(install.theme_color,'#ffffff');
+});
+test('Ibiza Sea School styling leaves personal observatory and retired legacy redirect untouched',async()=>{
+ const fs=await import('node:fs/promises');
+ const personal=await fs.readFile(new URL('../../index.html',import.meta.url),'utf8');
+ assert.match(personal,/STEPHEN'S WEATHER &amp; MARINE OBSERVATORY/);
+ const legacy=await fs.readFile(new URL('../../ara/index.html',import.meta.url),'utf8');
+ assert.match(legacy,/url=\.\.\/ibiza-sea-school\//);
+});
