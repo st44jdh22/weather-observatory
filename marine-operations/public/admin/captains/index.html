@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Captain Register — Ibiza Sea School Operations</title><style>
+*{box-sizing:border-box}body{margin:0;background:#eef3f8;color:#19314b;font:14px/1.55 system-ui,-apple-system,sans-serif}
+header{background:#202c76;color:white;padding:23px max(18px,calc((100vw - 1050px)/2));}header h1{font-size:24px;margin:0}
+main{max-width:1050px;margin:auto;padding:20px 15px}.notice,.panel{background:white;padding:19px;border:1px solid #d4deeb;border-radius:12px;margin-bottom:15px}
+h2{font-size:18px;margin:0 0 12px}label{display:block;font-weight:650;margin:10px 0 5px}select,input,textarea{font:inherit;width:100%;padding:10px;border:1px solid #91a5ba;border-radius:8px}textarea{resize:vertical}
+button{font:inherit;padding:9px 14px;border:0;border-radius:8px;background:#202c76;color:white;cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}.secondary{background:#e5eaf2;color:#202c76}
+.status{font-weight:600}.muted{color:#51657a}.grid{display:grid;grid-template-columns:minmax(210px,310px) 1fr;gap:15px}
+.item{display:block;width:100%;text-align:left;margin:7px 0;background:#eef2fa;color:#17315a}
+.item:focus-visible{outline:2px solid #d10049}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+table{border-collapse:collapse;width:100%}th,td{padding:8px;border-bottom:1px solid #dde5ef;text-align:left}
+code{overflow-wrap:anywhere}#detail p{margin:5px 0}
+@media(max-width:660px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header><h1>⚓ Captain Register</h1><p>Ibiza Sea School · Captain Passport administration</p></header>
+<main>
+<section class="notice"><strong>Development staging — not live.</strong><p>Only authorised client owners or managers can inspect captain applications. Application review and vessel approvals require explicit staging activation; registration itself never grants fleet access.</p><p id="status" class="status" role="status">Checking administrator session…</p></section>
+<div class="panel"><label for="tenant">Client account</label><select id="tenant" disabled><option value="">Sign in to select a client</option></select><p class="muted">Only client accounts assigned to your administrator login appear.</p></div>
+<div class="grid">
+<section class="panel"><h2>Registration queue</h2><div id="queue">No applications loaded.</div></section>
+<section class="panel" id="detail"><h2>Captain Passport</h2><p>Select an applicant to review qualifications, evidence and vessel permissions.</p></section>
+</div></main><script type="module" src="./register.js"></script></body></html>
