@@ -677,10 +677,34 @@ const $=id=>document.getElementById(id);
 const sites={san:[38.978,1.301],ibiza:[38.908,1.443],vedr:[38.868,1.195],form:[38.733,1.418]};
 const get=async url=>{const c=new AbortController(),t=setTimeout(()=>c.abort(),14000);try{const r=await fetch(url,{signal:c.signal});if(!r.ok)throw Error('Forecast service HTTP '+r.status);return await r.json()}finally{clearTimeout(t)}};
 const mean=xs=>xs.reduce((a,b)=>a+b,0)/xs.length;
+const ibizaClock=()=>{
+ const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+ const get=n=>parts.find(p=>p.type===n)?.value;
+ return {day:get('year')+'-'+get('month')+'-'+get('day'),hour:Number(get('hour'))};
+};
+const changeDay=(day,offset)=>{const [y,m,d]=day.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+offset)).toISOString().slice(0,10)};
+const resolveShift=(day,mode,clock=ibizaClock())=>{
+ const active=mode==='auto'?(clock.hour>=16||clock.hour<6?'night':'day'):mode;
+ // In automatic mode, early-morning overnight belongs to the preceding date.
+ const startDay=mode==='auto'&&clock.hour<6&&active==='night'?changeDay(clock.day,-1):day;
+ const start=startDay+'T'+(active==='night'?'16:00':'06:00');
+ const end=(active==='night'?changeDay(startDay,1):startDay)+'T'+(active==='night'?'06:00':'16:00');
+ return {start,end,startDay,endDay:end.slice(0,10),mode:active,label:active==='night'?'Overnight':'Daytime'};
+};
+const periodLabel=w=>`🕒 Ibiza local · ${w.label} ${w.start.slice(11)}–${w.end.slice(11)}${w.startDay!==w.endDay?" next day":""}`;
+let activeWindow=null;
+function selectWindow(){
+ const clock=ibizaClock(),mode=$('iss-shift').value;
+ if(mode==='auto')$('iss-outlook-date').value=clock.hour<6?changeDay(clock.day,-1):clock.day;
+ activeWindow=resolveShift($('iss-outlook-date').value,mode,clock);
+ $('iss-outlook-period').textContent=periodLabel(activeWindow);
+ return activeWindow;
+}
+
 function entries(h){
  if(!Array.isArray(h?.time))return [];
  return h.time.map((time,i)=>({time,w:h.wind_speed_10m?.[i],g:h.wind_gusts_10m?.[i],rain:h.precipitation_probability?.[i],code:h.weather_code?.[i],dir:h.wind_direction_10m?.[i]}))
-  .filter(x=>Number(x.time.slice(11,13))>=8&&Number(x.time.slice(11,13))<18&&Number.isFinite(x.w));
+  .filter(x=>x.time>=activeWindow.start&&x.time<activeWindow.end&&Number.isFinite(x.w));
 }
 function put(id,value){$(id).textContent=value}
 const MODELS=[
@@ -695,12 +719,12 @@ const angularDifference=(a,b)=>Math.abs(((a-b+540)%360)-180);
 const range=x=>x.length?Math.max(...x)-Math.min(...x):null;
 let requestSerial=0;
 async function update(){
- const serial=++requestSerial,day=$('iss-outlook-date').value,site=sites[$('location').value]||sites.san;
+ const serial=++requestSerial,window=selectWindow(),day=window.startDay,site=sites[$('location').value]||sites.san;
  put('iss-outlook-state','Loading…');put('iss-outlook-confidence','—');put('iss-outlook-evidence','Comparing ECMWF, GFS, ICON-EU, ARPEGE Europe and UKMO Global for '+day+'…');
- const q=`latitude=${site[0]}&longitude=${site[1]}&timezone=Europe%2FMadrid&start_date=${day}&end_date=${day}&wind_speed_unit=kn&hourly=wind_speed_10m,wind_gusts_10m,weather_code,wind_direction_10m`;
+ const q=`latitude=${site[0]}&longitude=${site[1]}&timezone=Europe%2FMadrid&start_date=${window.startDay}&end_date=${window.endDay}&wind_speed_unit=kn&hourly=wind_speed_10m,wind_gusts_10m,weather_code,wind_direction_10m`;
  const results=await Promise.allSettled([
   ...MODELS.map(m=>get('https://api.open-meteo.com/v1/forecast?'+q+'&models='+m.id)),
-  get(`https://marine-api.open-meteo.com/v1/marine?latitude=${site[0]}&longitude=${site[1]}&timezone=Europe%2FMadrid&start_date=${day}&end_date=${day}&hourly=wave_height`)
+  get(`https://marine-api.open-meteo.com/v1/marine?latitude=${site[0]}&longitude=${site[1]}&timezone=Europe%2FMadrid&start_date=${window.startDay}&end_date=${window.endDay}&hourly=wave_height`)
  ]);
  if(serial!==requestSerial)return;
  const availableModels=MODELS.map((m,i)=>({name:m.name,rows:results[i].status==='fulfilled'?entries(results[i].value.hourly):[]})).filter(m=>m.rows.length);
@@ -709,7 +733,7 @@ async function update(){
   try{
    const fallback=await window.issGetMetForecast(site[0],site[1]);if(serial!==requestSerial)return;
    const fh=fallback.hourly||{},items=(fh.time||[]).map((time,i)=>({time,w:fh.wind_speed_10m?.[i],g:fh.wind_gusts_10m?.[i],code:fh.weather_code?.[i],dir:fh.wind_direction_10m?.[i]}))
-     .filter(x=>x.time.startsWith(day+'T')&&Number(x.time.slice(11,13))>=8&&Number(x.time.slice(11,13))<18&&Number.isFinite(x.w));
+     .filter(x=>x.time>=window.start&&x.time<window.end&&Number.isFinite(x.w));
    if(!items.length)throw Error('No MET Norway forecast for selected date');
    const wind=items.map(x=>x.w),gusts=items.map(x=>x.g).filter(Number.isFinite),codes=items.map(x=>x.code).filter(Number.isFinite);
    const avgDir=items.find(x=>Number.isFinite(x.dir))?.dir;
@@ -754,7 +778,7 @@ async function update(){
  const gusts=primary.map(x=>x.g).filter(Number.isFinite),gust=gusts.length?Math.max(...gusts):null;
  const rain=primary.map(x=>x.rain).filter(Number.isFinite),maxRain=rain.length?Math.max(...rain):null;
  const sea=results[MODELS.length].status==='fulfilled'?results[MODELS.length].value.hourly:null;
- const wave=(sea?.time||[]).map((time,i)=>({time,v:sea.wave_height?.[i]})).filter(x=>x.time.startsWith(day+'T')&&Number(x.time.slice(11,13))>=8&&Number(x.time.slice(11,13))<18&&Number.isFinite(x.v));
+ const wave=(sea?.time||[]).map((time,i)=>({time,v:sea.wave_height?.[i]})).filter(x=>x.time>=window.start&&x.time<window.end&&Number.isFinite(x.v));
  const maxWave=wave.length?Math.max(...wave.map(x=>x.v)):null;
  const peak=gust??Math.max(...primary.map(x=>x.w));
  const severity=peak>=35||(maxWave!==null&&maxWave>=2.5)?'Very poor':peak>=27||(maxWave!==null&&maxWave>=1.6)?'Unsettled':peak>=20||(maxWave!==null&&maxWave>=1)?'Mixed':peak>=13||(maxWave!==null&&maxWave>=.5)?'Fine':'Very good';
@@ -767,42 +791,49 @@ async function update(){
  const missing=MODELS.map(x=>x.name).filter(name=>!availableModels.some(m=>m.name===name));
  const modelText=availableModels.length+'/5 models: '+availableModels.map(m=>m.name).join(', ')+'.'+(missing.length?' Unavailable: '+missing.join(', ')+'.':'');
  const comparison=agreement===null?' Agreement unavailable: at least 3 models and 2 common forecast hours are required.':
-  ' Experimental agreement '+agreement+'% across '+aligned.length+' common hours (08:00–18:00 Ibiza local). Typical same-hour spread: wind '+avgWindSpread.toFixed(1)+' kn'+(avgGustSpread===null?'':', gusts '+avgGustSpread.toFixed(1)+' kn')+(avgDirSpread===null?'':', direction '+Math.round(avgDirSpread)+'°')+'. Largest same-hour wind spread: '+Math.round(largest.minWind)+'–'+Math.round(largest.maxWind)+' kn at '+largest.time.slice(11,16)+'.';
+  ' Experimental agreement '+agreement+'% across '+aligned.length+' common hours ('+window.start.slice(11)+'–'+window.end.slice(11)+(window.mode==='night'?' next day':'')+' Ibiza local). Typical same-hour spread: wind '+avgWindSpread.toFixed(1)+' kn'+(avgGustSpread===null?'':', gusts '+avgGustSpread.toFixed(1)+' kn')+(avgDirSpread===null?'':', direction '+Math.round(avgDirSpread)+'°')+'. Largest same-hour wind spread: '+Math.round(largest.minWind)+'–'+Math.round(largest.maxWind)+' kn at '+largest.time.slice(11,16)+'.';
  put('iss-outlook-evidence',modelText+comparison+(maxWave===null?' Marine wave data unavailable.':' Separate marine forecast: peak wave '+maxWave.toFixed(1)+' m.')+' Retrieved '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+'. Not a probability of forecast accuracy.');
 }
-const ibizaDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+const ibizaDate=()=>ibizaClock().day;
 $('iss-outlook-date').value=ibizaDate();
+selectWindow();
 
 let tempFetchId=0;
 async function loadSummaryTemp(){
- const serial=++tempFetchId,day=$('iss-outlook-date').value||ibizaDate();
+ const serial=++tempFetchId,window=selectWindow(),day=window.startDay,sampleHour=window.mode==='night'?'21:00':'12:00';
  const sites={san:[38.978,1.301],ibiza:[38.908,1.443],vedr:[38.868,1.195],form:[38.733,1.418]};
  const [lat,lon]=sites[$('location').value]||sites.san;
  const temp=document.getElementById('cs-temp'),label=document.getElementById('cs-temp-time');
- temp.textContent='Loading…';label.textContent='At 14:00 local time';
+ temp.textContent='Loading…';label.textContent='At '+sampleHour+' Ibiza local';
  try{
-  const u=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&timezone=Europe%2FMadrid&start_date=${day}&end_date=${day}&hourly=temperature_2m`;
+  const u=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&timezone=Europe%2FMadrid&start_date=${window.startDay}&end_date=${window.endDay}&hourly=temperature_2m`;
   const r=await fetch(u);if(!r.ok)throw Error('Forecast unavailable');const j=await r.json();
-  const idx=(j.hourly?.time||[]).findIndex(x=>x.endsWith('T14:00'));
+  const idx=(j.hourly?.time||[]).findIndex(x=>x===day+'T'+sampleHour);
   const v=j.hourly?.temperature_2m?.[idx];if(serial!==tempFetchId)return;
   temp.textContent=Number.isFinite(v)?Math.round(v)+' °C':'Unavailable';
-  label.textContent='14:00 '+new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',timeZoneName:'short'}).formatToParts(new Date(day+'T12:00:00Z')).find(x=>x.type==='timeZoneName')?.value;
+  label.textContent=sampleHour+' '+new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',timeZoneName:'short'}).formatToParts(new Date(day+'T12:00:00Z')).find(x=>x.type==='timeZoneName')?.value;
  }catch{
   try{
-   const j=await window.issGetMetForecast(lat,lon),idx=(j.hourly?.time||[]).findIndex(x=>x===day+'T14:00');
+   const j=await window.issGetMetForecast(lat,lon),idx=(j.hourly?.time||[]).findIndex(x=>x===day+'T'+sampleHour);
    const v=j.hourly?.temperature_2m?.[idx];if(serial!==tempFetchId)return;
    temp.textContent=Number.isFinite(v)?Math.round(v)+' °C':'Unavailable';
-   label.textContent='14:00 Ibiza local · MET Norway fallback';
-  }catch{if(serial===tempFetchId){temp.textContent='Unavailable';label.textContent='14:00 · both sources unavailable'}}
+   label.textContent=sampleHour+' Ibiza local · MET Norway fallback';
+  }catch{if(serial===tempFetchId){temp.textContent='Unavailable';label.textContent=sampleHour+' · both sources unavailable'}}
  }
 }
 $('iss-outlook-refresh').addEventListener('click',loadSummaryTemp);
 $('location').addEventListener('change',loadSummaryTemp);
 
 $('iss-outlook-refresh').addEventListener('click',()=>update().catch(e=>{put('iss-outlook-state','Unavailable');put('iss-outlook-confidence','—');put('iss-outlook-evidence','Forecast comparison failed: '+e.message)}));
+$('iss-shift').addEventListener('change',()=>$('iss-outlook-refresh').click());
 $('iss-outlook-date').addEventListener('change',()=>$('iss-outlook-refresh').click());
 $('location').addEventListener('change',()=>$('iss-outlook-refresh').click());
 $('iss-outlook-refresh').click();
+let lastClockWindow=periodLabel(activeWindow);
+setInterval(()=>{if($('iss-shift').value!=='auto')return;
+ const now=ibizaClock(),candidate=resolveShift(now.hour<6?changeDay(now.day,-1):now.day,'auto',now),label=periodLabel(candidate);
+ if(label!==lastClockWindow||candidate.start!==activeWindow.start){lastClockWindow=label;$('iss-outlook-refresh').click()}
+},60000);
 let lastSummaryProvider=null;window.addEventListener('iss:forecast-provider',event=>{const p=event.detail?.provider;if(p&&p!==lastSummaryProvider){lastSummaryProvider=p;$('iss-outlook-refresh').click()}});
 })();
 </script>
