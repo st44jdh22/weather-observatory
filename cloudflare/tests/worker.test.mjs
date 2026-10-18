@@ -114,7 +114,7 @@ test('Ibiza Sea School masthead removes private vessel branding and retains edit
  assert.match(html,/<title>Ibiza Sea School/);
  assert.match(html,/<header class="hero">[\s\S]*ibiza-sea-school-logo\.webp/);
  assert.match(html,/CAPTAIN'S WEATHER &amp; MARITIME DESK/);
- assert.match(html,/EDITION V5\.25/);
+ assert.match(html,/EDITION V5\.26/);
  for(const forbidden of [/<h1>ARA<\/h1>/i,/WALLYPOWER\s*58/i,/Private vessel operations/i,/assets\/ara-hero\.jpg/i,/ARA Weather App/i])assert.doesNotMatch(html,forbidden);
  const logo=await fs.readFile(new URL('../../ibiza-sea-school/assets/ibiza-sea-school-logo.webp',import.meta.url));
  assert.equal(logo.subarray(0,4).toString(),'RIFF');
@@ -160,13 +160,14 @@ test('personal observatory stays unchanged and weather desk has no cross-site na
  assert.match(branded,/Ibiza Sea School — Captain.s Weather/);
 });
 
-test('Ibiza Sea School light theme matches official logo and places the language selector inside AEMET',async()=>{
+test('Ibiza Sea School light theme matches official logo and places the language selector above AEMET',async()=>{
  const fs=await import('node:fs/promises'),assertStrict=assert;
  const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
  const header=page.slice(page.indexOf('<header class="hero">'),page.indexOf('</header>',page.indexOf('<header class="hero">'))+9);
  const aemet=page.slice(page.indexOf('<section class="alert aemet-fixed"'),page.indexOf('</section>',page.indexOf('<section class="alert aemet-fixed"'))+10);
  assertStrict.doesNotMatch(header,/id="global-(en|es)"/);
- assertStrict.match(aemet,/<div class="aemet-header-actions">[\s\S]*?id="global-en"[\s\S]*?id="global-es"[\s\S]*?Official AEMET bulletin/);
+ assertStrict.match(page,/<div class="iss-language-bar"[^>]*>[\s\S]*?id="global-en"[\s\S]*?id="global-es"[\s\S]*?<\/div>[\s\S]*?<section class="alert aemet-fixed"/);
+ assertStrict.doesNotMatch(aemet,/id="global-(en|es)"/);
  assertStrict.equal((page.match(/id="global-en"/g)||[]).length,1);
  assertStrict.equal((page.match(/id="global-es"/g)||[]).length,1);
  assertStrict.match(page,/--iss-blue:#202c76/);
@@ -229,4 +230,20 @@ test('raw METAR fallback parser handles recognised wind and temperature only',as
  assert.equal(absent.temp,undefined);
  const preferred=context.airportDecoded({rawOb:raw.rawOb,wdir:190,wspd:8,temp:19});
  assert.equal(preferred.wdir,190);assert.equal(preferred.wspd,8);assert.equal(preferred.temp,19);
+});
+
+test('V5.26 edition, upper controls and Captain summary branding match release',async()=>{
+ const fs=await import('node:fs/promises');
+ const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
+ assert.match(page,/EDITION V5\.26/);
+ assert.match(page,/Weather Summary <span class="iss-version">V5\.26/);
+ assert.match(page,/Ibiza Sea School Weather · V5\.26/);
+ assert.doesNotMatch(page,/V5\.25/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.26-20261018/);
+ assert.match(page,/\.iss-toolbar \.iss-signoff\{justify-self:center!important/);
+ assert.match(page,/\.iss-toolbar #iss-ai-launch\{justify-self:end!important/);
+ assert.match(page,/\.iss-area-controls \.select\{padding-left:9px!important/);
+ assert.match(page,/#captain-weather-summary\{\s*background:#fff!important/);
+ assert.match(page,/border-top:5px solid #d10049!important/);
 });
