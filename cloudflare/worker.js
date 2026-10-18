@@ -158,16 +158,72 @@ async function aemetWarnings(env){
  // CAP zone codes require official mapping before safely declaring a clean all-clear.
  return {verified:true,classification:'CAP records parsed; local coverage not exhaustively verified',format:'CAP XML in tar.gz',records_total:alerts.length,matching_area_records:matches.length,unmatched_area_records:unmatched.length,alerts:matches.slice(0,80),coverage_verified:false,retrieved_at_utc:new Date().toISOString()};
 }
+// Exact AEMET Costa de Illes Balears coastal bulletin, distinct from CAP alerts.
+// Its <aviso><texto> wording must NEVER be constructed from colour-level alerts.
+const AEMET_COASTAL_XML='https://www.aemet.es/xml/maritima/FQXX44MM.xml';
+function coastalTag(block,name){
+ const m=block.match(new RegExp('<'+name+'(?:\\s[^>]*)?>([\\s\\S]*?)<\\/'+name+'>','i'));
+ return m?m[1].replace(/&#(x[0-9a-f]+|\d+);|&(amp|lt|gt|quot|apos);/gi,(_,num,named)=>{
+  if(num){const cp=num[0].toLowerCase()==='x'?parseInt(num.slice(1),16):Number(num);return cp>=32&&cp<=0x10ffff?String.fromCodePoint(cp):''}
+  return {amp:'&',lt:'<',gt:'>',quot:'"',apos:"'"}[named.toLowerCase()]||'';
+ }).replace(/\s+/g,' ').trim():null;
+}
+function madridLocalMs(value){
+ if(!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$/.test(value||''))return NaN;
+ const [y,mo,d,h,mi,s]=value.match(/\d+/g).map(Number);
+ const tentative=Date.UTC(y,mo-1,d,h,mi,s);
+ if(!Number.isFinite(tentative))return NaN;
+ // AEMET coastal XML uses Spanish official (Europe/Madrid) wall-clock time.
+ // Resolve CET/CEST explicitly rather than treating the timestamp as UTC.
+ const tz=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',timeZoneName:'shortOffset'}).formatToParts(new Date(tentative)).find(x=>x.type==='timeZoneName')?.value||'';
+ const offset=/^GMT([+-])(\d{1,2})(?::(\d{2}))?$/.exec(tz);
+ if(!offset)return NaN;
+ const minutes=(Number(offset[2])*60+Number(offset[3]||0))*(offset[1]==='+'?1:-1);
+ return tentative-minutes*60000;
+}
+export function parseCoastalAvisos(xml,nowMs=Date.now()){
+ if(typeof xml!=='string'||xml.length>400000||!/<root\b/i.test(xml)||!/<origen>/i.test(xml)||!/<\/root>/i.test(xml))throw Error('Invalid AEMET coastal XML');
+ const blocks=[...xml.matchAll(/<aviso\b[^>]*>([\s\S]*?)<\/aviso>/gi)].map(x=>x[1]);
+ if(!blocks.length)throw Error('No Avisos section in coastal XML');
+ const avisos=blocks.map(b=>({text:coastalTag(b,'texto'),valid_from_local:coastalTag(b,'inicio'),valid_until_local:coastalTag(b,'fin')}));
+ if(avisos.some(a=>!a.text||!a.valid_from_local||!a.valid_until_local||!Number.isFinite(madridLocalMs(a.valid_from_local))||!Number.isFinite(madridLocalMs(a.valid_until_local))||madridLocalMs(a.valid_until_local)<=madridLocalMs(a.valid_from_local)))throw Error('Incomplete or invalid coastal Avisos validity');
+ const current=avisos.filter(a=>nowMs>=madridLocalMs(a.valid_from_local)&&nowMs<madridLocalMs(a.valid_until_local));
+ const upcoming=avisos.filter(a=>nowMs<madridLocalMs(a.valid_from_local));
+ const last=avisos.reduce((best,a)=>!best||madridLocalMs(a.valid_until_local)>madridLocalMs(best.valid_until_local)?a:best,null);
+ // AEMET explicitly uses 'No hay avisos' in the same XML field when none are issued.
+ const noWarnings=current.length>0&&current.every(a=>/^no hay avisos\.?$/i.test(a.text));
+ return {verified:true,source:'AEMET Costa de Illes Balears coastal XML',source_url:AEMET_COASTAL_XML,area:'Costa de Illes Balears',
+  avisos:current,upcoming_avisos:upcoming,no_warnings_current:noWarnings,expired:current.length===0&&upcoming.length===0,
+  last_valid_until_local:last.valid_until_local,
+  retrieved_at_utc:new Date(nowMs).toISOString()};
+}
+async function aemetCoastalAvisos(){
+ const ac=new AbortController(),t=setTimeout(()=>ac.abort(),9000);
+ try{
+  const response=await fetch(AEMET_COASTAL_XML,{signal:ac.signal,headers:{Accept:'application/xml,text/xml'}});
+  if(!response.ok)throw Error('Coastal XML HTTP '+response.status);
+  const xml=await response.text();
+  return parseCoastalAvisos(xml);
+ }finally{clearTimeout(t)}
+}
+
 async function aemetStatus(env){
- if(!env.AEMET_API_KEY)return {verified:false,error:'AEMET_API_KEY secret missing'};
- const jobs=await Promise.allSettled([aemetResource('/api/prediccion/maritima/costera/costa/44',env),aemetWarnings(env)]);
+ // The coastal XML is public and must remain accessible even if the OpenData API key expires.
+ const keyAvailable=Boolean(env.AEMET_API_KEY);
+ const jobs=await Promise.allSettled([
+  keyAvailable?aemetResource('/api/prediccion/maritima/costera/costa/44',env):Promise.reject(new Error('AEMET_API_KEY secret missing')),
+  keyAvailable?aemetWarnings(env):Promise.reject(new Error('AEMET_API_KEY secret missing')),
+  aemetCoastalAvisos()
+ ]);
  const result={checked_at_utc:new Date().toISOString(),verified:false,marine:{verified:false},warnings:{verified:false}};
  if(jobs[0].status==='fulfilled'){
   const r=jobs[0].value;result.marine={verified:true,area:'Illes Balears coastal waters',bulletin:r.content.slice(0,250000),source:'AEMET OpenData coastal area 44',retrieved_at_utc:result.checked_at_utc};
  }else result.marine={verified:false,error:String(jobs[0].reason?.message||'Unavailable')};
  if(jobs[1].status==='fulfilled')result.warnings=jobs[1].value;
  else result.warnings={verified:false,error:String(jobs[1].reason?.message||'CAP archive unavailable')};
- result.verified=result.marine.verified&&result.warnings.verified;
+ if(jobs[2].status==='fulfilled')result.marine_avisos=jobs[2].value;
+ else result.marine_avisos={verified:false,error:String(jobs[2].reason?.message||'AEMET coastal XML unavailable')};
+ result.verified=result.marine.verified&&result.warnings.verified&&result.marine_avisos.verified;
  return result;
 }
 

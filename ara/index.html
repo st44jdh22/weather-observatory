@@ -656,7 +656,7 @@ window.addEventListener('load',()=>{
 (async()=>{
  const $=id=>document.getElementById(id),set=(id,v)=>{$(id).textContent=v};
  const clean=v=>String(v??'').replace(/\uFFFD/g,'').replace(/\s+/g,' ').trim();
- let storedLanguage=null;try{storedLanguage=localStorage.getItem('ara-language')}catch{}let language=storedLanguage==='en'?'en':'es',bulletin=null,selectedZone='',warningResponse=null;let warningAlerts=[];
+ let storedLanguage=null;try{storedLanguage=localStorage.getItem('ara-language')}catch{}let language=storedLanguage==='en'?'en':'es',bulletin=null,selectedZone='',warningResponse=null,coastalAvisos=null;let warningAlerts=[];
  const esToEn=[
  [/Aguas costeras de/gi,'Coastal waters of'],[/Marejadilla/gi,'slight seas'],[/fuerte marejada/gi,'rough seas'],[/marejada/gi,'moderate seas'],[/mar gruesa/gi,'high seas'],[/mar de fondo/gi,'swell'],[/viento/gi,'wind'],[/rachas/gi,'gusts'],[/chubascos/gi,'showers'],[/aguaceros/gi,'heavy showers'],[/precipitaciones/gi,'precipitation'],[/tormentas/gi,'thunderstorms'],[/tormenta/gi,'thunderstorm'],[/lluvias/gi,'rain'],[/lluvia/gi,'rain'],[/desde la madrugada/gi,'from the early hours'],[/durante la madrugada/gi,'during the early hours'],[/por la noche/gi,'overnight'],[/por la tarde/gi,'in the afternoon'],[/por la mañana/gi,'in the morning'],[/arreciando/gi,'strengthening'],[/amainando/gi,'easing'],[/aumentando/gi,'increasing'],[/disminuyendo/gi,'decreasing'],[/localmente/gi,'locally'],[/temporalmente/gi,'temporarily'],[/variable/gi,'variable'],[/rolando/gi,'veering/shifting'],[/a/gi,'a']
  ];
@@ -690,7 +690,14 @@ window.addEventListener('load',()=>{
   const zones=Array.isArray(pred.zona)?pred.zona:Array.isArray(root.zona)?root.zona:[];
   function zoneText(z){return [z.nombre,z.texto,...(Array.isArray(z.subzona)?z.subzona.map(x=>typeof x==='string'?x:(x.nombre?x.nombre+': ':'')+(x.texto||'')):[])].filter(Boolean).join('\n');}
   const island=name=>zones.filter(z=>new RegExp(name,'i').test(z.nombre||'')&&/aguas costeras/i.test(z.nombre||'')).map(zoneText).join('\n\n');
-  return {zones,zoneText,ibiza:island('Ibiza|Eivissa'),formentera:island('Formentera'),start:pred.inicio||null,end:pred.fin||null};
+  // Official coastal bulletin AVISOS text is distinct from CAP colour-level alerts.
+  // Only display words supplied by AEMET itself; do not synthesise a maritime warning.
+  // AEMET's coastal XML contains <aviso><texto>. Some OpenData JSON conversions
+  // retain it as root.aviso (singular), including an array of aviso objects.
+  const avisoFields=[root.avisos,root.aviso,pred.avisos,pred.aviso];
+  const asText=v=>typeof v==='string'?v:(v&&typeof v==='object'?[v.texto,v.descripcion,v.aviso].filter(x=>typeof x==='string').join(' '):'');
+  const avisos=[...new Set(avisoFields.flatMap(v=>(Array.isArray(v)?v:[v]).map(asText)).map(v=>v.trim()).filter(Boolean))];
+  return {zones,zoneText,avisos,ibiza:island('Ibiza|Eivissa'),formentera:island('Formentera'),start:pred.inicio||null,end:pred.fin||null};
  }
  function render(){
   $('aemet-lang-en').setAttribute('aria-pressed',String(language==='en'));
@@ -708,7 +715,43 @@ window.addEventListener('load',()=>{
  $('global-en').addEventListener('click',()=>changeLang('en'));$('global-es').addEventListener('click',()=>changeLang('es'));
  function renderWarnings(){
   const wr=warningResponse,box=$('aemet-warning-details');box.replaceChildren();
-  if(!wr?.verified){set('aemet-status',language==='en'?'Unable to verify warnings':'No se pueden verificar los avisos');return}
+  const en=language==='en';
+  const coastal=coastalAvisos, marineAvisos=coastal?.avisos||[], upcoming=coastal?.upcoming_avisos||[];
+  // Official XML is the only authoritative source for this panel's literal Avisos.
+  // Separate CAP alert colour levels are supplementary, NEVER substituted for it.
+  if(coastal?.verified&&marineAvisos.length){
+   set('aemet-status',coastal.no_warnings_current
+    ?(en?'Official AEMET coastal bulletin: No hay avisos (no maritime warnings issued)':'Boletín costero oficial AEMET: No hay avisos')
+    :(en?'AEMET coastal maritime warning — official wording':'Aviso marítimo costero de AEMET — texto oficial'));
+   for(const aviso of marineAvisos){
+    const header=document.createElement('strong');
+    header.textContent=en?'AEMET maritime Avisos — Costa de Illes Balears':'Avisos marítimos AEMET — Costa de Illes Balears';box.append(header);
+    const timing=document.createElement('div');timing.style.margin='5px 0 8px';
+    timing.textContent=(en?'Valid: ':'Válido: ')+labelDate(aviso.valid_from_local,true)+' — '+labelDate(aviso.valid_until_local,true);
+    box.append(timing);
+    const p=document.createElement('p');
+    p.textContent=aviso.text;p.lang='es';p.style.cssText='margin:5px 0 12px;font-size:1.08em;font-weight:650;line-height:1.55';
+    box.append(p);
+   }
+  }else if(coastal?.verified&&upcoming.length){
+   set('aemet-status',en?'Upcoming AEMET maritime Avisos (not yet active)':'Avisos marítimos AEMET previstos (todavía no vigentes)');
+   for(const aviso of upcoming){
+    const timing=document.createElement('div');timing.textContent=(en?'Valid from: ':'Válido desde: ')+labelDate(aviso.valid_from_local,true)+' — '+labelDate(aviso.valid_until_local,true);box.append(timing);
+    const p=document.createElement('p');p.textContent=aviso.text;p.lang='es';box.append(p);
+   }
+  }else if(coastal?.verified&&coastal.expired){
+   set('aemet-status',en?'AEMET maritime bulletin expired — verify before departure':'Boletín marítimo AEMET caducado — comprobar antes de salir');
+   const p=document.createElement('p');p.textContent=(en?'Last coastal bulletin expired: ':'El último boletín costero caducó: ')+labelDate(coastal.last_valid_until_local,true)+'.';box.append(p);
+  }else if(coastal?.verified){
+   set('aemet-status',en?'No usable maritime Avisos text — verify official bulletin':'Sin texto válido de avisos marítimos — comprobar el boletín oficial');
+   const p=document.createElement('p');p.textContent=en?'This is not a confirmed all-clear. Open the official AEMET bulletin.':'No significa ausencia confirmada de avisos. Abra el boletín oficial.';box.append(p);
+  }else{
+   set('aemet-status',en?'Official maritime Avisos unavailable — do not assume all clear':'Avisos marítimos oficiales no disponibles — no asumir ausencia de avisos');
+   const p=document.createElement('p');p.textContent=en?'Could not verify the coastal XML bulletin. Use the official AEMET coastal bulletin before departure. CAP alerts below do not replace maritime warnings.':'No se pudo verificar el boletín costero XML. Consulte el boletín oficial antes de salir. Los avisos CAP no sustituyen a los avisos marítimos.';box.append(p);
+  }
+  if(!wr?.verified){
+   const note=document.createElement('small');note.textContent=en?'CAP warning data unavailable; this does not override the maritime Avisos above.':'Avisos CAP no disponibles; los Avisos marítimos anteriores no se ven afectados.';box.append(note);return;
+  }
   const now=Date.now(),groups=new Map();let ambiguous=0;
   for(const a of warningAlerts){
    const p=a.es||a.en;if(!p)continue;
@@ -723,9 +766,12 @@ window.addEventListener('load',()=>{
    else if(until>prior.until)prior.until=until;
   }
   const rows=[...groups.values()].sort((a,b)=>a.from-b.from);
-  const en=language==='en';
-  set('aemet-status',rows.length?(en?'Official alerts for Ibiza & Formentera':'Avisos oficiales para Ibiza y Formentera'):(en?'No matching alerts identified — coverage not fully verified':'Sin avisos coincidentes identificados — cobertura sin verificar'));
   if(rows.length){
+   const subheading=document.createElement('div');
+   subheading.style.marginTop='10px';
+   subheading.style.fontWeight='700';
+   subheading.textContent=en?'Additional AEMET CAP alerts (colour levels, not maritime bulletin wording)':'Avisos CAP adicionales (niveles de color, no texto del boletín marítimo)';
+   box.append(subheading);
    const parts=rows.map(g=>{
     const name=en?(g.kind==='storm'?'Thunderstorms':g.kind==='rain'?'Heavy rainfall':'Adverse weather'):(g.kind==='storm'?'Tormentas':g.kind==='rain'?'Lluvias fuertes':'Fenómenos adversos');
     const severity=en?({naranja:'orange',amarillo:'yellow',rojo:'red'}[g.level]||g.level):g.level;
@@ -735,7 +781,7 @@ window.addEventListener('load',()=>{
    const line=document.createElement('div');line.textContent=parts.join(' ');box.append(line);
   }
   const note=document.createElement('small');note.style.display='block';note.style.marginTop='6px';
-  note.textContent=en?'Condensed from CAP alerts; not a verbatim AEMET maritime Avisos bulletin. Verify the official wording and zone coverage.':'Resumen de avisos CAP, no texto literal del boletín marítimo de AEMET. Verifique el aviso oficial y su zona.';
+  note.textContent=en?'CAP colour alerts are supplementary. Maritime Avisos above come from the separate official AEMET coastal XML bulletin. Verify warning validity and zone coverage.':'Los niveles CAP son información adicional. Los avisos marítimos anteriores proceden del boletín XML costero oficial de AEMET. Compruebe vigencia y cobertura.';
   box.append(note);
   if(ambiguous){const small=document.createElement('small');small.textContent=' '+ambiguous+' alerts lack valid timing.';box.append(small)}
  }
@@ -743,7 +789,7 @@ window.addEventListener('load',()=>{
  try{
   const r=await fetch('https://ara-sr-ai-capitan.stevehullock.workers.dev/aemet',{cache:'no-store'});
   if(!r.ok)throw Error('HTTP '+r.status);
-  const d=await r.json();warningResponse=d.warnings;
+  const d=await r.json();warningResponse=d.warnings;coastalAvisos=d.marine_avisos||null;
   set('aemet-checked','Last retrieved: '+labelDate(d.checked_at_utc));
   if(d.marine?.verified){
    bulletin=parseBulletin(d.marine.bulletin);
