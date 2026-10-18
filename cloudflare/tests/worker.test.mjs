@@ -64,12 +64,12 @@ test('XML endpoint failure is explicit and cannot masquerade as all-clear',async
  assert.match(body.marine_avisos.error,/HTTP 503/);
 });
 
-test('staged ARA page parses every inline JavaScript block and keeps maritime warnings independent',async()=>{
+test('Ibiza Sea School page parses every inline JavaScript block and keeps maritime warnings independent',async()=>{
  const fs=await import('node:fs/promises'),vm=await import('node:vm');
- const html=await fs.readFile(new URL('../../ara/index.html',import.meta.url),'utf8');
+ const html=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
  const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(x=>!/\bsrc\s*=/.test(x[1])&&!/type\s*=\s*["'](?:application\/json|importmap)/i.test(x[1]));
- assert.ok(scripts.length>8,'expected existing ARA scripts');
+ assert.ok(scripts.length>8,'expected existing weather-desk scripts');
  for(const [index,script] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(script[2],{filename:'ara-inline-'+index+'.js'}));
  assert.match(html,/coastalAvisos=d\.marine_avisos\|\|null/);
  assert.match(html,/const coastal=coastalAvisos/);
@@ -102,7 +102,7 @@ test('invalid warning validity chronology is rejected rather than displayed',()=
 });
 test('maritime interface includes an explicit official No hay avisos status',async()=>{
  const fs=await import('node:fs/promises');
- const page=await fs.readFile(new URL('../../ara/index.html',import.meta.url),'utf8');
+ const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
  assert.match(page,/coastal\.no_warnings_current/);
  assert.match(page,/No hay avisos \(no maritime warnings issued\)/);
  assert.match(page,/AEMET coastal maritime warning/);
