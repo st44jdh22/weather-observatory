@@ -720,7 +720,9 @@ window.addEventListener('load',()=>{
   // Official XML is the only authoritative source for this panel's literal Avisos.
   // Separate CAP alert colour levels are supplementary, NEVER substituted for it.
   if(coastal?.verified&&marineAvisos.length){
-   set('aemet-status',en?'AEMET coastal maritime warning — official wording':'Aviso marítimo costero de AEMET — texto oficial');
+   set('aemet-status',coastal.no_warnings_current
+    ?(en?'Official AEMET coastal bulletin: No hay avisos (no maritime warnings issued)':'Boletín costero oficial AEMET: No hay avisos')
+    :(en?'AEMET coastal maritime warning — official wording':'Aviso marítimo costero de AEMET — texto oficial'));
    for(const aviso of marineAvisos){
     const header=document.createElement('strong');
     header.textContent=en?'AEMET maritime Avisos — Costa de Illes Balears':'Avisos marítimos AEMET — Costa de Illes Balears';box.append(header);
