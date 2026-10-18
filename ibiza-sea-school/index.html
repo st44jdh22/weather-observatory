@@ -431,6 +431,18 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
  .iss-language-bar{margin:8px 0}
 }
 </style>
+<style id="iss-maritime-layout-refinements">
+.aemet-original-text{margin:6px 0 5px;font-size:1.08em;font-weight:650;line-height:1.55;color:#202c76}
+.aemet-translation{margin:3px 0 16px;padding:9px 12px;background:#f0f3fc;border-left:3px solid #202c76;border-radius:4px;color:#202c76;font-weight:650;line-height:1.55}
+.aemet-translation.unverified{background:#fff5f7;border-left-color:#d10049;color:#9a2347}
+.iss-floating-caution{display:block!important;margin:10px 0 6px!important;padding:13px 15px!important;background:#f1f4ff!important;color:#202c76!important;border:1px solid #bfc9e5!important;border-left:5px solid #d10049!important;border-radius:9px!important;box-shadow:none!important;line-height:1.55;font-weight:650}
+#captain-weather-summary .iss-model-footnote{margin:15px 0 0;font-size:11px;color:#52617c;border-top:1px solid #d9e1f2;padding-top:8px}
+#captain-weather-summary .iss-model-footnote summary{cursor:pointer;color:#202c76;font-size:11px}
+#captain-weather-summary .iss-model-footnote p{margin:8px 0 0;line-height:1.45;color:#53637e}
+.airport-location-warning,.airport-location-warning span{color:#202c76!important}
+.airport-location-warning strong{color:#d10049!important}
+.airport-location-warning>span:first-child{color:#d10049!important}
+</style>
 </head>
 <body>
 <header class="hero">
@@ -445,6 +457,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 </header>
 <main class="container">
 <section class="toolbar iss-toolbar" aria-label="Operating location and refresh"><div class="iss-area"><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div><div class="iss-area-controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><div class="iss-utility"><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></div></div><button class="pill iss-signoff" id="captain-review-open" type="button">⚠ Captain's Passage & Weather Declaration</button><button class="pill iss-ai" id="iss-ai-launch" type="button">⚓ Interactive AI Captain</button></section>
+<p id="cs-caution" class="captain-caution iss-floating-caution" role="status" aria-live="polite">Captain’s caution: Check local conditions and official AEMET warnings before departure.</p>
 
 <div class="iss-language-bar" aria-label="Website language controls"><div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div></div>
 <section class="alert aemet-fixed" aria-label="Official AEMET maritime bulletin">
@@ -477,9 +490,9 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌬️</span><div><small id="cs-temp-label">Expected temperature</small><strong id="cs-temp">— °C</strong><span id="cs-temp-time" class="captain-summary-detail">At 14:00 local time</span></div></div>
   <div class="captain-summary-card captain-summary-confidence"><span class="captain-summary-icon" aria-hidden="true">📊</span><div><small>Model agreement*</small><strong id="cs-confidence">—</strong><div class="captain-confidence-track"><div id="cs-confidence-fill"></div></div></div></div>
  </div>
- <div id="cs-model-detail" class="model-detail" aria-live="polite">Comparing forecast models for the selected area…</div>
- <p id="cs-caution" class="captain-caution">Captain’s caution: Check local conditions and official AEMET warnings before departure.</p>
- <p class="iss-outlook-disclaimer">* Model agreement is an experimental measure of wind-speed, gust and direction disagreement — not forecast accuracy. At least three models are required. <span id="cs-source-note">Checking forecast sources…</span></p>
+ 
+ 
+ <details class="iss-model-footnote"><summary>* About model agreement</summary><p>Model agreement is an experimental measure of wind-speed, gust and direction disagreement — not forecast accuracy. At least three models are required. <span id="cs-source-note">Checking forecast sources…</span></p><p id="cs-model-detail" aria-live="polite">Comparing forecast models for the selected area…</p></details>
 </section>
 <section class="panel" id="windguru-panel"><h3 id="windy-point-title">Windy · Sant Antoni point forecast</h3><p><span id="windy-point-description">Official Windy forecast table for Sant Antoni Marina.</span> Scroll within the widget to explore the available forecast hours. This is Windy's own forecast, not data used by our model-agreement calculation.</p><iframe id="windy-point-iframe" title="Windy official Sant Antoni point forecast" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="width:100%;height:250px;border:0;border-radius:10px;background:#fff" src="https://embed.windy.com/embed.html?type=forecast&amp;location=coordinates&amp;detail=true&amp;detailLat=38.978&amp;detailLon=1.301&amp;metricTemp=%C2%B0C&amp;metricRain=mm&amp;metricWind=kt"></iframe><p class="footnote">Source: Windy.com official forecast embed. Windguru's multi-model forecasts are not ingested or scraped. <a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Windguru Sant Antoni ↗</a></p></section>
 
@@ -919,28 +932,26 @@ window.addEventListener('load',()=>{
   const en=language==='en';
   // Safety-critical text: translate only recognised structures, never fabricate missing meteorological details.
   const englishAviso=(spanish)=>{
-   const raw=String(spanish||'').trim();
+   const raw=String(spanish||'').normalize('NFC').trim().replace(/\s+/g,' ');
    if(/^no hay avisos\.?$/i.test(raw))return 'No maritime warnings.';
-   const pattern=/^Precipitaciones muy fuertes con tormenta, en aguas costeras del nordeste y noroeste de Mallorca, Ibiza y canal de Mallorca, temporalmente NE 7 y olas de 3 m\.?$/i;
+   // AEMET's documented coastal warning; accept comma OR sentence break and singular/plural tormenta(s).
+   const pattern=/^Precipitaciones muy fuertes con tormentas?[.,;]?\s+en aguas costeras del nordeste y noroeste de Mallorca,\s*Ibiza y canal de Mallorca,\s*temporalmente NE 7 y olas de 3 m\.?$/i;
    if(pattern.test(raw))return 'Very heavy precipitation with thunderstorms in coastal waters of north-east and north-west Mallorca, Ibiza and the Mallorca Channel; temporarily north-easterly force 7 winds and waves of 3 metres.';
-   const generalized=/^En Ibiza, Formentera y sur de Mallorca, precipitaciones muy fuertes con tormenta a partir de la madrugada\.?$/i;
+   const generalized=/^En Ibiza, Formentera y sur de Mallorca,\s*precipitaciones muy fuertes con tormentas? a partir de la madrugada\.?$/i;
    if(generalized.test(raw))return 'In Ibiza, Formentera and southern Mallorca: very heavy precipitation with thunderstorms from the early hours.';
-   return null;
+   return null; // Unrecognised source text is never guessed or replaced.
   };
   const warningParagraph=(aviso)=>{
    const original=String(aviso.text||'').trim(),translated=en?englishAviso(original):null;
    const p=document.createElement('p');
-   p.textContent=translated||original;p.lang=translated?'en':'es';
-   p.style.cssText='margin:5px 0 8px;font-size:1.08em;font-weight:650;line-height:1.55';
+   p.textContent=original;p.lang='es';p.className='aemet-original-text';
    box.append(p);
    if(en){
-    const originalDetails=document.createElement('details');
-    originalDetails.className='aemet-original';
-    const summary=document.createElement('summary');
-    summary.textContent=translated?'Original AEMET Spanish wording':'Original AEMET warning — English translation not yet verified';
-    originalDetails.append(summary);
-    if(translated){const txt=document.createElement('p');txt.lang='es';txt.textContent=original;originalDetails.append(txt)}
-    box.append(originalDetails);
+    const english=document.createElement('p');
+    english.className='aemet-translation';
+    if(translated){english.textContent='English translation: '+translated;english.lang='en'}
+    else{english.textContent='English translation unavailable for this wording — consult the original AEMET warning.';english.lang='en';english.classList.add('unverified')}
+    box.append(english);
    }
   };
   const coastal=coastalAvisos, marineAvisos=coastal?.avisos||[], upcoming=coastal?.upcoming_avisos||[];
