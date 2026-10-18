@@ -1,0 +1,19 @@
+{
+  "name": "Ibiza Sea School | Captain's Weather & Maritime Desk",
+  "short_name": "Ibiza Sea School",
+  "description": "Marine weather and forecast intelligence for Ibiza and Formentera",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07131e",
+  "theme_color": "#07131e",
+  "icons": [
+    {
+      "src": "assets/ibiza-sea-school-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
