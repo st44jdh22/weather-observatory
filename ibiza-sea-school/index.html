@@ -1185,6 +1185,27 @@ let airportLastObservation=null,airportAgeTimer=null;
 const airportPut=(id,value)=>{const e=$(id);if(e)e.textContent=value};
 function airportCompass(d){return ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'][Math.round((((d%360)+360)%360)/22.5)%16]}
 function airportTime(raw){if(raw===null||raw===undefined||raw==='')return null;const n=typeof raw==='number'?new Date(raw>1e12?raw:raw*1000):new Date(raw);return Number.isFinite(n.getTime())?n:null}
+function airportDecoded(x){
+ // NOAA fallback returns rawOb without decoded fields. Extract only standard METAR tokens.
+ // Never fill gaps from forecasts, never infer calm/variable or omitted measurements.
+ const raw=String(x.rawOb||'').trim().split(/\s+/);
+ let wdir=x.wdir,wspd=x.wspd,temp=x.temp;
+ if(wspd===null||wspd===undefined||wdir===null||wdir===undefined){
+  const token=raw.find(v=/^(?:\d{3}|VRB)\d{2,3}(?:G\d{2,3})?KT$/i.test(v));
+  const match=token?.match(/^(\d{3}|VRB)(\d{2,3})(?:G\d{2,3})?KT$/i);
+  if(match){
+   if(wspd===null||wspd===undefined)wspd=Number(match[2]);
+   if((wdir===null||wdir===undefined)&&match[1]!=='VRB')wdir=Number(match[1]);
+   if((wdir===null||wdir===undefined)&&match[1]==='VRB')wdir='VRB';
+  }
+ }
+ if(temp===null||temp===undefined){
+  const token=raw.find(v=>/^(?:M?\d{2})\/(?:M?\d{2}|\/\/)$/.test(v));
+  const match=token?.match(/^(M?\d{2})\/(?:M?\d{2}|\/\/)$/);
+  if(match)temp=match[1].startsWith('M')?-Number(match[1].slice(1)):Number(match[1]);
+ }
+ return {...x,wdir,wspd,temp};
+}
 function airportPressure(x){
  const a=Number(x.altim);if(x.altim!==null&&x.altim!==undefined&&Number.isFinite(a)&&a>=850&&a<=1100)return Math.round(a);
  if(x.altim!==null&&x.altim!==undefined&&Number.isFinite(a)&&a>=27&&a<=33)return Math.round(a*33.8638867);
@@ -1194,7 +1215,7 @@ function airportRefreshAge(){const t=airportLastObservation;if(!t)return;const m
 async function airport(){
  airportPut('airport-data','Checking latest published airport observation…');const age=$('airport-age');if(age){age.textContent='Retrieving…';age.dataset.status='loading'}
  try{
-  const d=await timeout('https://ara-sr-ai-capitan.stevehullock.workers.dev/metar',23000),x=d?.observation||null;
+  const d=await timeout('https://ara-sr-ai-capitan.stevehullock.workers.dev/metar',23000),x=d?.observation?airportDecoded(d.observation):null;
   if(!x)throw Error('No Ibiza Airport METAR was returned');
   const observed=airportTime(x.obsTime??x.reportTime??x.report_time);
   const fmtDate=observed?new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(observed).replace(',', '')+' · '+new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZoneName:'short'}).format(observed):'Observation time not supplied';
@@ -1213,7 +1234,7 @@ async function airport(){
   if(compass)compass.setAttribute('aria-label',validDir?'Wind from '+Math.round(dir)+' degrees true, '+airportCompass(dir):'Wind direction not available');
   airportPut('airport-temp',validTemp?Math.round(temp)+'°C':'Unavailable');
   airportPut('airport-pressure',pressure===null?'Unavailable':String(pressure));
-  const technical=['Source: '+(d.source||'aviation report'),observed?'UTC observation: '+observed.toISOString().replace('T',' ').slice(0,16)+'Z':'UTC observation time unavailable',x.rawOb?'Raw METAR: '+x.rawOb:'Raw METAR not supplied'];
+  const technical=['Source: '+(d.source||'aviation report'),observed?'UTC observation: '+observed.toISOString().replace('T',' ').slice(0,16)+'Z':'UTC observation time unavailable',x.rawOb?'Raw METAR: '+x.rawOb:'Raw METAR not supplied',(!validSpeed||!validTemp)?'Missing readings were not supplied in a recognised field or METAR group; no forecast values substituted.':'Wind and temperature available from published aviation report.'];
   airportPut('airport-technical-content',technical.join(' · '));
   $('airport-readings').hidden=false;$('airport-data').hidden=true;airportLastObservation=observed;
   if(observed)airportRefreshAge();else if(age){age.textContent='Time not supplied';age.dataset.status='stale'}
