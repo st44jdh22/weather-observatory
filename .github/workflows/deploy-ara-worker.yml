@@ -78,3 +78,28 @@ jobs:
           assert isinstance(result,dict) and 'observation' in result
           print('PASS: no Origin 403, permitted Origin 200 and METAR JSON')
           PY
+
+      - name: Verify published AEMET maritime Avisos after deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://ara-sr-ai-capitan.stevehullock.workers.dev/aemet'
+          curl --fail --silent --show-error --max-time 45 --retry 2 --retry-delay 3 \
+            --header 'Origin: https://st44jdh22.github.io' \
+            --output /tmp/ara-aemet.json "$url"
+          python3 - <<'PY'
+          import json
+          from datetime import datetime
+          with open('/tmp/ara-aemet.json', encoding='utf-8') as f:
+              response=json.load(f)
+          coast=response.get('marine_avisos') or {}
+          assert coast.get('verified') is True, f"Coastal XML maritime source unverified: {coast.get('error','unknown')}"
+          assert coast.get('source_url') == 'https://www.aemet.es/xml/maritima/FQXX44MM.xml'
+          assert isinstance(coast.get('avisos'),list)
+          assert isinstance(coast.get('upcoming_avisos'),list)
+          assert isinstance(coast.get('expired'),bool)
+          assert (bool(coast.get('avisos') or coast.get('upcoming_avisos')) or coast.get('expired') is True)
+          for aviso in coast['avisos'] + coast['upcoming_avisos']:
+              assert aviso.get('text') and aviso.get('valid_from_local') and aviso.get('valid_until_local')
+          print('PASS: live Cloudflare Worker verified AEMET coastal maritime XML and validity data')
+          PY
