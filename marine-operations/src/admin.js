@@ -1,3 +1,4 @@
+import {hmac,randomToken} from './registration.js';
 // Tenant-restricted administration. No public registration routes or automatic grants.
 const hdr={'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'};
 const response=(value,status=200)=>new Response(JSON.stringify(value),{status,headers:hdr});
@@ -29,10 +30,17 @@ export async function captainAdminRouter(request,env,url){
   return response({tenants:rows.results||[],actions_enabled:env.ADMIN_ACTIONS_ENABLED==='true'});
  }
  // /api/admin/tenants/{tenant}/applications[/id[/action]]; vessels route below.
- if(parts.length<5||parts[0]!=='api'||parts[1]!=='admin'||parts[2]!=='tenants'||!validId(parts[3])||parts[4]!=='applications')
+ if(parts.length<5||parts[0]!=='api'||parts[1]!=='admin'||parts[2]!=='tenants'||!validId(parts[3])||!['applications','registration-invites'].includes(parts[4]))
   return response({error:'UNKNOWN_ADMIN_ROUTE'},404);
  const tenant=parts[3];
  if(!await adminFor(env,who.id,tenant))return response({error:'FORBIDDEN'},403);
+ if(parts.length===5&&parts[4]==='registration-invites'&&request.method==='POST'){
+  if(env.ADMIN_ACTIONS_ENABLED!=='true')return response({error:'ADMIN_ACTIONS_DISABLED'},503);
+  const secret=randomToken(32),digest=await hmac(env.AUTH_HMAC_KEY,'invite:'+secret);
+  await env.DB.prepare('INSERT INTO registration_invites(id,tenant_id,token_digest,created_by,expires_at) VALUES(?,?,?,?,?)').bind(id(),tenant,digest,who.id,new Date(Date.now()+7*86400000).toISOString()).run();
+  return response({invitation:secret,expires_in_days:7,share_privately:true},201);
+ }
+
  if(parts.length===5&&request.method==='GET'){
   // Application queue only; vessel list is restricted to matching tenant.
 

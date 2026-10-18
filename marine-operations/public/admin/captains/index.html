@@ -16,7 +16,7 @@ code{overflow-wrap:anywhere}#detail p{margin:5px 0}
 <header><h1>⚓ Captain Register</h1><p>Ibiza Sea School · Captain Passport administration</p></header>
 <main>
 <section class="notice"><strong>Development staging — not live.</strong><p>Only authorised client owners or managers can inspect captain applications. Application review and vessel approvals require explicit staging activation; registration itself never grants fleet access.</p><p id="status" class="status" role="status">Checking administrator session…</p></section>
-<div class="panel"><label for="tenant">Client account</label><select id="tenant" disabled><option value="">Sign in to select a client</option></select><p class="muted">Only client accounts assigned to your administrator login appear.</p></div>
+<div class="panel"><label for="tenant">Client account</label><select id="tenant" disabled><option value="">Sign in to select a client</option></select><p class="muted">Only client accounts assigned to your administrator login appear.</p><button id="makeInvite" type="button" disabled>Create one-use Captain Passport invitation</button><p id="inviteStatus" role="status">Invitations require an authorised administrator and activated staging service.</p></div>
 <div class="grid">
 <section class="panel"><h2>Registration queue</h2><div id="queue">No applications loaded.</div></section>
 <section class="panel" id="detail"><h2>Captain Passport</h2><p>Select an applicant to review qualifications, evidence and vessel permissions.</p></section>

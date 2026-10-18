@@ -23,3 +23,7 @@ A staged self-registration preview and qualification database schema are availab
 ## Administrator's Captain Register
 
 The [Captain Register](docs/CAPTAIN_REGISTER_ADMIN.md) is staged in `public/admin/captains/`. Protected API endpoints live in `src/admin.js`; they reject anonymous and cross-tenant access and cannot write without a separate server-side staging approval gate. No new service is deployed.
+
+## Registration-to-approval integration
+
+See [staging integration handover](docs/STAGING_INTEGRATION.md). Self-registration is invitation-only, email verified and always subject to administrator review and separate vessel authorisation. No production activation.
