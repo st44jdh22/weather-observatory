@@ -149,3 +149,12 @@ test('retired public weather route redirects to branded path and clears old shel
   await assert.rejects(fs.stat(new URL(obsolete,legacy)),{code:'ENOENT'},'legacy asset still published: '+obsolete);
  }
 });
+
+test('observatory navigation no longer advertises the retired vessel weather URL',async()=>{
+ const fs=await import('node:fs/promises');
+ const html=await fs.readFile(new URL('../../index.html',import.meta.url),'utf8');
+ assert.match(html,/href="\.\/ibiza-sea-school\/"/);
+ assert.match(html,/Ibiza Sea School Weather Desk/);
+ assert.doesNotMatch(html,/>⚓ ARA Weather Desk/);
+ assert.doesNotMatch(html,/href="\.\/ara\/"/);
+});
