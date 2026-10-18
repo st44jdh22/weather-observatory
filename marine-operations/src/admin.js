@@ -63,6 +63,7 @@ export async function captainAdminRouter(request,env,url){
  const b=await requestBody(request);if(!b)return response({error:'INVALID_BODY'},400);
  const action=parts[6],note=typeof b.note==='string'?b.note.trim().slice(0,500):'';
  if(action==='review'){
+  if(!['pending','under_review'].includes(a.status))return response({error:'STALE_APPLICATION'},409);
   if(!['under_review','rejected'].includes(b.status))return response({error:'INVALID_STATUS'},400);
   const changes=await env.DB.batch([
    env.DB.prepare("UPDATE captain_applications SET status=?,reviewed_by=?,reviewed_at=?,review_note=? WHERE id=? AND tenant_id=? AND status IN ('pending','under_review')").bind(b.status,who.id,new Date().toISOString(),note,application,tenant),
@@ -112,6 +113,8 @@ export async function captainAdminRouter(request,env,url){
  }
  if(action==='revoke-vessel'){
   if(!validId(b.vessel_id)||!a.approved_user_id)return response({error:'INVALID_VESSEL'},400);
+  const approved=await env.DB.prepare("SELECT id FROM captain_vessel_approvals WHERE application_id=? AND tenant_id=? AND vessel_id=? AND status='approved'").bind(application,tenant,b.vessel_id).first();
+  if(!approved)return response({error:'VESSEL_APPROVAL_NOT_FOUND'},404);
   await env.DB.batch([
    env.DB.prepare('DELETE FROM vessel_access WHERE tenant_id=? AND vessel_id=? AND user_id=?').bind(tenant,b.vessel_id,a.approved_user_id),
    env.DB.prepare("UPDATE captain_vessel_approvals SET status='revoked' WHERE application_id=? AND tenant_id=? AND vessel_id=?").bind(application,tenant,b.vessel_id),
