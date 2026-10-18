@@ -14,10 +14,10 @@ button.secondary{background:#e6eaf4;color:#202c76}button:focus-visible{outline:3
 small{color:#47546a}#status{margin-top:15px;font-weight:700}#review{white-space:pre-wrap;overflow-wrap:anywhere;border-radius:7px;background:#f2f5fb;padding:14px;margin:14px 0}
 </style></head><body>
 <header><h1>⚓ Captain Passport</h1><p>Ibiza Sea School · Captain registration and qualification review</p></header>
-<section class="notice"><strong>Development preview — applications are not being submitted.</strong>
-<p>Complete a draft of your Captain Passport below. We will eventually verify your email and send the application for manual review. Applying does <strong>not</strong> authorise anyone to operate a vessel.</p></section>
+<section class="notice"><strong>Staging application — not live. Applications are accepted only if the secure backend is deliberately activated.</strong>
+<p>Complete your Captain Passport below. You can review it locally; in a separately activated staging environment, you can submit a registration request and verify your email. Applying does <strong>not</strong> authorise anyone to operate a vessel.</p></section>
 <form id="passport" novalidate>
-<fieldset><legend>1. Captain details</legend>
+<fieldset><legend>Invitation from fleet administrator</legend><label for="invitation">Private invitation code *</label><input id="invitation" required minlength="64" maxlength="64" autocomplete="off" spellcheck="false"><small>The fleet administrator provides this one-time code privately. It identifies the correct client, without showing other clients’ boats.</small></fieldset><fieldset><legend>1. Captain details</legend>
 <label for="fullName">Full name *</label><input id="fullName" autocomplete="name" maxlength="150" required>
 <label for="email">Email address *</label><input id="email" type="email" autocomplete="email" maxlength="254" required>
 <label for="phone">Contact telephone (optional)</label><input id="phone" type="tel" autocomplete="tel" maxlength="40">
@@ -51,7 +51,7 @@ small{color:#47546a}#status{margin-top:15px;font-weight:700}#review{white-space:
 <div class="checks"><label><input id="consent" type="checkbox" required>I confirm the information is accurate and understand this is an application only, subject to review.</label></div>
 </fieldset>
 <button type="button" id="preview">Review my application</button>
-<button type="reset" class="secondary">Clear form</button>
+<button type="button" id="submitApplication">Send application and email verification code</button><button type="reset" class="secondary">Clear form</button><div id="verify" hidden><h2>Verify your email</h2><p>Enter the six-digit code sent to the email address you registered.</p><label for="verifyCode">Email verification code</label><input id="verifyCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code"><button type="button" id="verifyEmail">Verify email</button></div>
 <div id="status" role="status">No application submitted.</div><pre id="review" hidden></pre>
 </form>
 <script type="module" src="./passport.js"></script>
