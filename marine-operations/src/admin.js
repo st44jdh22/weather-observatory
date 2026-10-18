@@ -8,7 +8,7 @@ async function requestBody(req){
  const raw=await req.text();if(raw.length>4096)return null;
  try{return JSON.parse(raw)}catch{return null}
 }
-async function actor(req,env){
+export async function actor(req,env){
  if(!env.DB||!env.AUTH_HMAC_KEY)return null;
  const token=/\biss_fleet=([0-9a-f]{64})\b/.exec(req.headers.get('cookie')||'')?.[1];
  if(!token)return null;
@@ -17,7 +17,7 @@ async function actor(req,env){
  const digest=Array.from(new Uint8Array(bytes),b=>b.toString(16).padStart(2,'0')).join('');
  return env.DB.prepare('SELECT u.id, u.email FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.digest=? AND s.revoked_at IS NULL AND s.expires_at>?').bind(digest,new Date().toISOString()).first();
 }
-async function adminFor(env,userId,tenantId){
+export async function adminFor(env,userId,tenantId){
  return env.DB.prepare("SELECT role FROM memberships WHERE tenant_id=? AND user_id=? AND role IN ('owner','manager')").bind(tenantId,userId).first();
 }
 export async function captainAdminRouter(request,env,url){
