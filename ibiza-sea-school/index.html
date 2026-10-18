@@ -868,6 +868,11 @@ update();
   $('cs-conditions').textContent=get('iss-outlook-state');$('cs-weather').textContent=get('iss-outlook-weather');
   const wind=get('iss-outlook-wind'),gust=get('iss-outlook-gust'),confidence=get('iss-outlook-confidence');
   $('cs-wind').textContent=wind;$('cs-confidence').textContent=confidence;
+  const compassDirections=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  const direction=wind.match(/^(NNE|ENE|ESE|SSE|SSW|WSW|WNW|NNW|NE|SE|SW|NW|N|E|S|W)\b/)?.[1];
+  const arrow=$('cs-wind-needle'),icon=$('cs-wind-compass');
+  if(arrow){arrow.style.display=direction?'':'none';if(direction)arrow.setAttribute('transform','rotate('+(compassDirections.indexOf(direction)*22.5)+' 50 50)')}
+  if(icon)icon.setAttribute('aria-label',direction?'Forecast wind FROM '+direction+' (direction shown as origin, not destination)':'Forecast wind direction unavailable');
   const numbers=wind.match(/\d+(?:\.\d+)?/g)?.map(Number)||[];
   $('cs-wind-force').textContent=numbers.length>=2?force(numbers[0])+' to '+force(numbers[1]):numbers.length===1?force(numbers[0]):'Awaiting wind data';
   const gn=Number(gust.match(/\d+(?:\.\d+)?/)?.[0]);
