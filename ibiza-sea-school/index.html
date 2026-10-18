@@ -394,6 +394,43 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 .aemet-original p{padding:8px;background:#f7f9fc;border:1px solid #d9e1f2;border-radius:6px}
 #command-report>.panel{max-width:none}
 </style>
+
+<style id="iss-v526-layout-polish">
+/* V5.26: controls align precisely with the main content edges. */
+.iss-toolbar{display:grid!important;grid-template-columns:minmax(230px,1fr) auto minmax(230px,1fr)!important;align-items:center!important;column-gap:20px}
+.iss-area{justify-self:start;min-width:0}
+.iss-area-controls .select{padding-left:9px!important;text-align:left!important;text-align-last:left!important;min-height:41px}
+.iss-area-controls .select option{text-align:left}
+.iss-toolbar .iss-signoff{justify-self:center!important;align-self:center!important;margin:0!important}
+.iss-toolbar #iss-ai-launch{justify-self:end!important;align-self:center!important;margin:0!important}
+.iss-language-bar{display:flex;justify-content:flex-end;align-items:center;margin:10px 0 9px;min-height:41px}
+.iss-language-bar .global-language{position:static}
+.iss-language-bar .global-language button{min-height:39px}
+.aemet-header-actions{justify-content:flex-end}
+/* Captain's Summary: white background, logo navy hierarchy, restrained red emphasis. */
+#captain-weather-summary{
+ background:#fff!important;color:#1f2a44!important;border:1px solid #e3b4c4!important;
+ border-top:5px solid #d10049!important;border-radius:16px;
+ box-shadow:0 8px 26px rgba(32,44,118,.09)!important
+}
+#captain-weather-summary .captain-summary-header h2{color:#202c76!important}
+#captain-weather-summary .captain-summary-grid>.captain-summary-card{background:#f7f9fc!important;border:1px solid #d9e1f2!important;border-left:3px solid #202c76!important;color:#1f2a44!important}
+#captain-weather-summary .captain-summary-grid>.captain-summary-confidence{border-left-color:#d10049!important}
+#captain-weather-summary .captain-summary-card strong{color:#202c76!important}
+#captain-weather-summary .captain-summary-card small,#captain-weather-summary .captain-summary-detail{color:#576781!important}
+#captain-weather-summary .captain-summary-header .iss-outlook-toolbar label{color:#576781!important}
+#captain-weather-summary #iss-outlook-period{background:#fff!important;color:#202c76!important;border:1px solid #c5cde6!important}
+#captain-weather-summary .captain-confidence-track{background:#dce3f4!important}
+#captain-weather-summary .captain-confidence-fill{background:#d10049!important}
+#captain-weather-summary .captain-summary-detail,#captain-weather-summary .captain-summary-meta,#captain-weather-summary .captain-summary-footnote{color:#586781!important}
+#captain-weather-summary .captain-summary-warning,#captain-weather-summary .captain-summary-caution{background:#fff4f7!important;color:#832344!important;border-left:3px solid #d10049!important}
+#captain-weather-summary .captain-summary-evidence,#captain-weather-summary .captain-summary-models{background:#f7f9fc!important;color:#1f2a44!important;border:1px solid #d9e1f2!important}
+@media(max-width:820px){
+ .iss-toolbar{grid-template-columns:1fr!important;gap:14px!important}
+ .iss-toolbar .iss-signoff,.iss-toolbar #iss-ai-launch{justify-self:stretch!important;width:100%}
+ .iss-language-bar{margin:8px 0}
+}
+</style>
 </head>
 <body>
 <header class="hero">
@@ -409,8 +446,9 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 <main class="container">
 <section class="toolbar iss-toolbar" aria-label="Operating location and refresh"><div class="iss-area"><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div><div class="iss-area-controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><div class="iss-utility"><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></div></div><button class="pill iss-signoff" id="captain-review-open" type="button">⚠ Captain's Passage & Weather Declaration</button><button class="pill iss-ai" id="iss-ai-launch" type="button">⚓ Interactive AI Captain</button></section>
 
+<div class="iss-language-bar" aria-label="Website language controls"><div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div></div>
 <section class="alert aemet-fixed" aria-label="Official AEMET maritime bulletin">
- <div class="aemet-header"><div><div class="eyebrow" data-en="Official source · AEMET OpenData" data-es="Fuente oficial · AEMET OpenData">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px" data-en="⚓ AEMET maritime forecast" data-es="⚓ Predicción marítima AEMET">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><div class="aemet-header-actions"><div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div></div>
+ <div class="aemet-header"><div><div class="eyebrow" data-en="Official source · AEMET OpenData" data-es="Fuente oficial · AEMET OpenData">Official source · AEMET OpenData</div><h2 style="margin:3px 0 5px;font-size:21px" data-en="⚓ AEMET maritime forecast" data-es="⚓ Predicción marítima AEMET">⚓ AEMET maritime forecast</h2><div id="aemet-issue">Bulletin issue time: verifying…</div><div id="aemet-checked" class="aemet-meta">Checking official bulletin…</div></div><div class="aemet-header-actions"><a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">Official AEMET bulletin ↗</a></div></div>
  <div class="aemet-warning-row"><strong data-en="⚠ Weather warnings" data-es="⚠ Avisos meteorológicos">⚠ Weather warnings</strong><span id="aemet-status" class="aemet-warning-value">Checking official warnings…</span><div id="aemet-warning-details" class="aemet-warning-details" aria-live="polite"></div></div>
  <div class="aemet-area-controls"><label for="aemet-area" data-en="Additional coastal area" data-es="Zona costera adicional">Additional coastal area</label><select id="aemet-area"><option value="">Ibiza &amp; Formentera (default)</option></select><div class="aemet-language" role="group" aria-label="Forecast language" style="display:none"><button id="aemet-lang-en" type="button" aria-pressed="false" title="English forecast">🇬🇧 English</button><button id="aemet-lang-es" type="button" aria-pressed="true" title="Pronóstico en español">🇪🇸 Español</button></div></div><div id="aemet-selected" class="aemet-island" hidden style="margin-bottom:12px"><h3 id="aemet-selected-title">Selected area</h3><div id="aemet-selected-text" class="aemet-forecast"></div></div><div class="aemet-two"><article class="aemet-island"><h3>IBIZA</h3><div id="aemet-ibiza" class="aemet-forecast">Retrieving official forecast…</div></article><article class="aemet-island"><h3>FORMENTERA</h3><div id="aemet-formentera" class="aemet-forecast">Retrieving official forecast…</div></article></div>
  <div id="aemet-shared" class="aemet-shared" hidden><strong>Shared Balearic coastal bulletin</strong><p id="aemet-shared-text"></p></div>
