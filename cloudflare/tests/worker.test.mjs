@@ -114,7 +114,7 @@ test('Ibiza Sea School masthead removes private vessel branding and retains edit
  assert.match(html,/<title>Ibiza Sea School/);
  assert.match(html,/<header class="hero">[\s\S]*ibiza-sea-school-logo\.webp/);
  assert.match(html,/CAPTAIN'S WEATHER &amp; MARITIME DESK/);
- assert.match(html,/EDITION V5\.25/);
+ assert.match(html,/EDITION V5\.26/);
  for(const forbidden of [/<h1>ARA<\/h1>/i,/WALLYPOWER\s*58/i,/Private vessel operations/i,/assets\/ara-hero\.jpg/i,/ARA Weather App/i])assert.doesNotMatch(html,forbidden);
  const logo=await fs.readFile(new URL('../../ibiza-sea-school/assets/ibiza-sea-school-logo.webp',import.meta.url));
  assert.equal(logo.subarray(0,4).toString(),'RIFF');
