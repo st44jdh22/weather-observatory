@@ -203,7 +203,7 @@ test('site theme finish preserves accountabilities, removes redundant review and
  assert.match(html,/#coastalCamera\s*option\{background:#fff;color:#202c76\}/);
  assert.match(html,/const englishAviso=\(spanish\)=>/);
  assert.match(html,/p.textContent=original;p.lang='es'/);
- assert.match(html,/English translation not yet verified/);
+ assert.match(html,/English translation unavailable for this wording/);
  assert.match(html,/warningParagraph\(aviso\)/);
  const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(a=>!/\bsrc\s*=/.test(a[1]));
  for(const [i,a] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(a[2],{filename:'ibiza-script-'+i}));
