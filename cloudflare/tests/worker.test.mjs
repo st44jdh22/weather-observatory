@@ -86,3 +86,24 @@ test('public coastal warnings remain available without an OpenData API key',asyn
  assert.equal(body.warnings.verified,false);
  assert.equal(body.marine_avisos.avisos.length>0,true);
 });
+
+test('a verbatim No hay avisos statement is not classified as a maritime alert',()=>{
+ const result=parseCoastalAvisos(officialCoastalXml('No hay avisos.'),Date.parse('2026-10-18T00:00:00Z'));
+ assert.equal(result.no_warnings_current,true);
+ assert.equal(result.avisos.length,1);
+ assert.equal(result.avisos[0].text,'No hay avisos.');
+ assert.equal(result.expired,false);
+ const dangerous=parseCoastalAvisos(officialCoastalXml('En Ibiza, temporal marítimo.'),Date.parse('2026-10-18T00:00:00Z'));
+ assert.equal(dangerous.no_warnings_current,false);
+});
+test('invalid warning validity chronology is rejected rather than displayed',()=>{
+ const invalid=officialCoastalXml('Aviso.', '2026-10-17T10:00:00');
+ assert.throws(()=>parseCoastalAvisos(invalid,Date.parse('2026-10-18T00:00:00Z')),/validity/);
+});
+test('maritime interface includes an explicit official No hay avisos status',async()=>{
+ const fs=await import('node:fs/promises');
+ const page=await fs.readFile(new URL('../../ara/index.html',import.meta.url),'utf8');
+ assert.match(page,/coastal\.no_warnings_current/);
+ assert.match(page,/No hay avisos \(no maritime warnings issued\)/);
+ assert.match(page,/AEMET coastal maritime warning/);
+});
