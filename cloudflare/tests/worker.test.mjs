@@ -207,3 +207,26 @@ test('site theme finish preserves accountabilities, removes redundant review and
  const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(a=>!/\bsrc\s*=/.test(a[1]));
  for(const [i,a] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(a[2],{filename:'ibiza-script-'+i}));
 });
+
+test('raw METAR fallback parser handles recognised wind and temperature only',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const html=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ const m=html.match(/function airportDecoded\(x\)\{[\s\S]*?\n\}\nfunction airportPressure/);
+ assert.ok(m,'METAR decoder present');
+ const context=vm.createContext({});
+ vm.runInContext(m[0].slice(0,-'function airportPressure'.length),context);
+ const raw={rawOb:'LEIB 181130Z 08012G23KT 9999 FEW030 21/14 Q1015'};
+ const decoded=context.airportDecoded(raw);
+ assert.equal(decoded.wspd,12);
+ assert.equal(decoded.wdir,80);
+ assert.equal(decoded.temp,21);
+ const variable=context.airportDecoded({rawOb:'LEIB 181200Z VRB03KT CAVOK M02/M05 Q1015'});
+ assert.equal(variable.wspd,3);
+ assert.equal(variable.wdir,'VRB');
+ assert.equal(variable.temp,-2);
+ const absent=context.airportDecoded({rawOb:'LEIB 181200Z CAVOK Q1015'});
+ assert.equal(absent.wspd,undefined);
+ assert.equal(absent.temp,undefined);
+ const preferred=context.airportDecoded({rawOb:raw.rawOb,wdir:190,wspd:8,temp:19});
+ assert.equal(preferred.wdir,190);assert.equal(preferred.wspd,8);assert.equal(preferred.temp,19);
+});
