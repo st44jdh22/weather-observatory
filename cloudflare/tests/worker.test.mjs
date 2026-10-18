@@ -382,7 +382,7 @@ test('captain passage V5.33 has restricted vessel and captain choices and does n
  assert.match(page,/id="rv-email-other-wrap" hidden/);
  assert.match(page,/id="rv-submit"[^>]*disabled/);
  assert.doesNotMatch(page,/id="rv-whatsapp"/);
- assert.doesNotMatch(page,/id="rv-copy"/);
+ assert.match(page,/id="rv-copy"[^>]*hidden/);
  assert.match(page,/NOT SENT\. Secure email delivery has not been activated/);
  assert.match(page,/EDITION V5\.36/);
  const worker=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
