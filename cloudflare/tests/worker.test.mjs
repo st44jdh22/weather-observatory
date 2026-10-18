@@ -150,11 +150,12 @@ test('retired public weather route redirects to branded path and clears old shel
  }
 });
 
-test('observatory navigation no longer advertises the retired vessel weather URL',async()=>{
+test('personal observatory stays unchanged and weather desk has no cross-site navigation',async()=>{
  const fs=await import('node:fs/promises');
- const html=await fs.readFile(new URL('../../index.html',import.meta.url),'utf8');
- assert.match(html,/href="\.\/ibiza-sea-school\/"/);
- assert.match(html,/Ibiza Sea School Weather Desk/);
- assert.doesNotMatch(html,/>⚓ ARA Weather Desk/);
- assert.doesNotMatch(html,/href="\.\/ara\/"/);
+ const root=await fs.readFile(new URL('../../index.html',import.meta.url),'utf8');
+ assert.match(root,/STEPHEN'S WEATHER &amp; MARINE OBSERVATORY/);
+ assert.match(root,/href="\.\/ara\/"/); // private personal site is unchanged
+ const branded=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ assert.doesNotMatch(branded,/Stephen.s Observatory|observatory-nav|href="\.\.\/"/i);
+ assert.match(branded,/Ibiza Sea School — Captain.s Weather/);
 });
