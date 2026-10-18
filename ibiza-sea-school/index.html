@@ -1191,7 +1191,7 @@ function airportDecoded(x){
  const raw=String(x.rawOb||'').trim().split(/\s+/);
  let wdir=x.wdir,wspd=x.wspd,temp=x.temp;
  if(wspd===null||wspd===undefined||wdir===null||wdir===undefined){
-  const token=raw.find(v=/^(?:\d{3}|VRB)\d{2,3}(?:G\d{2,3})?KT$/i.test(v));
+  const token=raw.find(v=>/^(?:\d{3}|VRB)\d{2,3}(?:G\d{2,3})?KT$/i.test(v));
   const match=token?.match(/^(\d{3}|VRB)(\d{2,3})(?:G\d{2,3})?KT$/i);
   if(match){
    if(wspd===null||wspd===undefined)wspd=Number(match[2]);
