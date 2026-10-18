@@ -34,7 +34,7 @@ async function sendRegistration(path,body){
 }
 $('submitApplication').addEventListener('click',async()=>{
  if(!form.checkValidity()||!$('consent').checked){form.reportValidity();status.textContent='Please complete your required details and declaration.';return}
- const b={invitation:$('invitation').value.trim(),full_name:$('fullName').value.trim(),email:$('email').value.trim(),phone:$('phone').value.trim(),experience_summary:$('experience').value.trim(),qualification_title:$('qualification').value||'Not specified',qualification_type:'OTHER',confirm_accuracy:$('consent').checked};
+ const b={invitation:$('invitation').value.trim(),full_name:$('fullName').value.trim(),email:$('email').value.trim(),phone:$('phone').value.trim(),experience_summary:$('experience').value.trim(),qualification_title:$('qualification').value||'Not specified',qualification_type:'OTHER',medical_date:$('medicalDate').value,medical_expiry:$('medicalExpiry').value,sea_hours:$('seaHours').value,vessel_classes:$('boatClasses').value,requested_vessels:$('requestVessels').value,confirm_accuracy:$('consent').checked};
  $('submitApplication').disabled=true;
  try{
   challenge=await sendRegistration('apply',b);
