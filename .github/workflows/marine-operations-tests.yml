@@ -1,0 +1,46 @@
+name: Marine Operations — Development Tests
+on:
+  pull_request:
+    paths:
+      - 'marine-operations/**'
+      - '.github/workflows/marine-operations-tests.yml'
+  push:
+    branches:
+      - 'engineering/**'
+    paths:
+      - 'marine-operations/**'
+      - '.github/workflows/marine-operations-tests.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: marine-operations
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run API security tests
+        run: npm test
+      - name: Validate SQL migrations
+        run: |
+          python3 - <<'PY'
+          import sqlite3, pathlib
+          db=sqlite3.connect(':memory:')
+          db.execute('PRAGMA foreign_keys=ON')
+          for f in sorted(pathlib.Path('db/migrations').glob('*.sql')):
+              db.executescript(f.read_text())
+          db.execute("INSERT INTO tenants(id,name) VALUES('a','A58'),('b','HYGGELIG')")
+          db.execute("INSERT INTO users(id,email) VALUES('u','captain@example.com')")
+          db.execute("INSERT INTO memberships(tenant_id,user_id,role) VALUES('a','u','captain')")
+          db.execute("INSERT INTO vessels(id,tenant_id,name) VALUES('v','b','HYGGELIG')")
+          try:
+              db.execute("INSERT INTO vessel_access(tenant_id,vessel_id,user_id) VALUES('b','v','u')")
+          except sqlite3.IntegrityError:
+              print('PASS: tenant isolation via composite foreign keys')
+          else:
+              raise AssertionError('Cross-tenant vessel access was permitted')
+          PY
