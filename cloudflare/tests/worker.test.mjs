@@ -114,7 +114,7 @@ test('Ibiza Sea School masthead removes private vessel branding and retains edit
  assert.match(html,/<title>Ibiza Sea School/);
  assert.match(html,/<header class="hero">[\s\S]*ibiza-sea-school-logo\.webp/);
  assert.match(html,/CAPTAIN'S WEATHER &amp; MARITIME DESK/);
- assert.match(html,/EDITION V5\.35/);
+ assert.match(html,/EDITION V5\.36/);
  for(const forbidden of [/<h1>ARA<\/h1>/i,/WALLYPOWER\s*58/i,/Private vessel operations/i,/assets\/ara-hero\.jpg/i,/ARA Weather App/i])assert.doesNotMatch(html,forbidden);
  const logo=await fs.readFile(new URL('../../ibiza-sea-school/assets/ibiza-sea-school-logo.webp',import.meta.url));
  assert.equal(logo.subarray(0,4).toString(),'RIFF');
@@ -236,11 +236,11 @@ test('V5.27 edition, upper controls and Captain summary branding match release',
  const fs=await import('node:fs/promises');
  const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(page,/EDITION V5\.35/);
- assert.match(page,/Weather Summary <span class="iss-version">V5\.35/);
- assert.match(page,/Ibiza Sea School Weather · V5\.35/);
+ assert.match(page,/EDITION V5\.36/);
+ assert.match(page,/Weather Summary <span class="iss-version">V5\.36/);
+ assert.match(page,/Ibiza Sea School Weather · V5\.36/);
  assert.doesNotMatch(page,/V5\.25/);
- assert.match(sw,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
  assert.match(page,/\.iss-toolbar \.iss-signoff\{justify-self:center!important/);
  assert.match(page,/\.iss-toolbar #iss-ai-launch\{justify-self:end!important/);
  assert.match(page,/\.iss-area-controls \.select\{padding-left:9px!important/);
@@ -272,10 +272,10 @@ test('Captain caution above AEMET, model methodology folded away, airport warnin
  assert.match(html,/class="iss-model-footnote"/);
  assert.match(html,/<p id="cs-model-detail" aria-live="polite">/);
  assert.match(html,/\.airport-location-warning strong\{color:#d10049!important\}/);
- assert.match(html,/EDITION V5\.35/);
- assert.match(html,/Weather Summary <span class="iss-version">V5\.35/);
+ assert.match(html,/EDITION V5\.36/);
+ assert.match(html,/Weather Summary <span class="iss-version">V5\.36/);
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(sw,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
  const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!/\bsrc\s*=/.test(m[1]));
  for(const m of scripts)assert.doesNotThrow(()=>new vm.Script(m[2]));
 });
@@ -311,7 +311,7 @@ test('Ibiza-local day/night windows span midnight correctly and respect chosen d
 test('V5.28 wind compass, expanded weather labels and actual-observations badge',async()=>{
  const fs=await import('node:fs/promises'),vm=await import('node:vm');
  const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
- assert.match(page,/EDITION V5\.35/);
+ assert.match(page,/EDITION V5\.36/);
  assert.match(page,/id="cs-wind-compass"/);
  assert.match(page,/id="cs-wind-needle"/);
  assert.match(page,/Forecast wind FROM/);
@@ -319,7 +319,7 @@ test('V5.28 wind compass, expanded weather labels and actual-observations badge'
  assert.match(page,/class="airport-observed-badge">ACTUAL OBSERVATIONS/);
  assert.match(page,/LIVE LEIB METAR/);
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(sw,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
  const scripts=[...page.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!/\bsrc\s*=/.test(m[1]));
  for(const [i,m] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(m[2],{filename:'inline'+i}));
 });
@@ -327,13 +327,13 @@ test('V5.28 wind compass, expanded weather labels and actual-observations badge'
 test('V5.30 Captain card typography and Beaufort-only summary regressions',async()=>{
  const fs=await import('node:fs/promises'),vm=await import('node:vm');
  const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
- assert.match(page,/EDITION V5\.35/);
+ assert.match(page,/EDITION V5\.36/);
  assert.match(page,/\.captain-summary-card small\{font-size:13px!important;font-weight:750!important/);
  assert.match(page,/\.captain-summary-card:nth-child\(-n\+2\) strong\{font-size:27px!important/);
  assert.match(page,/\$\('cs-wind-force'\)\.textContent=numbers\.length>=2\?'F'\+beaufort\(numbers\[0\]\)\+'–F'\+beaufort\(numbers\[1\]\)\+' \(Beaufort\)'/);
  assert.doesNotMatch(page,/function force\(kn\)/);
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(sw,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
  const scripts=[...page.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!/\bsrc\s*=/.test(m[1]));
  for(const [i,m] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(m[2],{filename:'inline'+i}));
 });
@@ -341,7 +341,7 @@ test('V5.30 Captain card typography and Beaufort-only summary regressions',async
 test('V5.31 summary metrics align, warnings stay distinct from daily forecast descriptions',async()=>{
  const fs=await import('node:fs/promises'),vm=await import('node:vm');
  const html=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
- assert.match(html,/EDITION V5\.35/);
+ assert.match(html,/EDITION V5\.36/);
  assert.match(html,/\.captain-summary-card>div\{grid-column:2;grid-row:1 \/ span 3;display:grid!important/);
  assert.match(html,/\.captain-summary-card small\{grid-row:1!important/);
  assert.match(html,/\.captain-summary-card strong\{grid-row:2!important/);
@@ -352,7 +352,7 @@ test('V5.31 summary metrics align, warnings stay distinct from daily forecast de
  assert.match(html,/\.day \.day-weather\{font-size:16px!important;font-weight:800!important;color:#bb1548!important/);
  assert.doesNotMatch(html,/\.day \.day-weather:before\{content:"⚠ "/);
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(sw,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
  const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!/\bsrc\s*=/.test(m[1]));
  for(const [i,m] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(m[2],{filename:'inline'+i}));
 });
@@ -360,7 +360,7 @@ test('V5.31 summary metrics align, warnings stay distinct from daily forecast de
 test('Ibiza Sea School V5.32 improves three-day and detailed forecast readability',async()=>{
  const fs=await import('node:fs/promises'),vm=await import('node:vm');
  const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
- assert.match(page,/EDITION V5\.35/);
+ assert.match(page,/EDITION V5\.36/);
  assert.match(page,/\.day \.day-coverage\{font-size:14px!important;font-weight:700!important;color:#415578!important/);
  assert.match(page,/\.day \.day-icon\{font-size:55px!important/);
  assert.match(page,/\.day \.day-weather\{font-size:19px!important;font-weight:850!important;color:#bf1248!important/);
@@ -368,7 +368,7 @@ test('Ibiza Sea School V5.32 improves three-day and detailed forecast readabilit
  assert.match(page,/\.iss-hourly-table\{font-size:14px!important;color:#202c76!important/);
  assert.match(page,/\.iss-hourly-table tbody td\[style\]\{color:#20345c!important/);
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(sw,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
  const scripts=[...page.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!/\bsrc\s*=/.test(m[1]));
  for(const m of scripts)assert.doesNotThrow(()=>new vm.Script(m[2]));
 });
@@ -384,9 +384,9 @@ test('captain passage V5.33 has restricted vessel and captain choices and does n
  assert.doesNotMatch(page,/id="rv-whatsapp"/);
  assert.doesNotMatch(page,/id="rv-copy"/);
  assert.match(page,/NOT SENT\. Secure email delivery has not been activated/);
- assert.match(page,/EDITION V5\.35/);
+ assert.match(page,/EDITION V5\.36/);
  const worker=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(worker,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(worker,/ibiza-sea-school-weather-v5\.36-20261018/);
  const scripts=[...page.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!/\bsrc\s*=/.test(m[1]));
  for(const a of scripts)assert.doesNotThrow(()=>new vm.Script(a[2]));
 });
@@ -394,7 +394,7 @@ test('captain passage V5.33 has restricted vessel and captain choices and does n
 test('V5.34 three distinct declaration modes, PIN as selector and no automatic sending',async()=>{
  const fs=await import('node:fs/promises'),vm=await import('node:vm');
  const html=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
- assert.match(html,/EDITION V5\.35/);
+ assert.match(html,/EDITION V5\.36/);
  assert.match(html,/id="rv-code"/);assert.match(html,/id="rv-form-fields" hidden/);
  assert.match(html,/'0000':\{title:'Public declaration',captains:\[\],vessels:\[\]\}/);
  assert.match(html,/'9999':\{title:'A58 fleet declaration',captains:\['Dominic','Jaime','007'\],vessels:\['A58'\]\}/);
@@ -405,7 +405,7 @@ test('V5.34 three distinct declaration modes, PIN as selector and no automatic s
  assert.match(html,/This code selects a form; it is not secure authentication/);
  assert.doesNotMatch(html,/stevehullock@gmail\.com/);
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(sw,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
  const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!/\bsrc\s*=/.test(m[1]));
  for(const m of scripts)assert.doesNotThrow(()=>new vm.Script(m[2]));
 });
@@ -420,8 +420,23 @@ test('V5.35 declaration resets and attachments remain local',async()=>{
  assert.match(html,/\$\('rv-attachments-preview'\)\.replaceChildren\(\)/);
  assert.match(html,/id="rv-attachment" type="file" accept="image\/\*,\.pdf" multiple/);
  assert.match(html,/NOT uploaded, NOT attached to email draft/);
- assert.match(html,/EDITION V5\.35/);
+ assert.match(html,/EDITION V5\.36/);
  const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
- assert.match(sw,/ibiza-sea-school-weather-v5\.35-20261018/);
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
  for(const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi))if(!/\bsrc\s*=/.test(m[1]))assert.doesNotThrow(()=>new vm.Script(m[2]));
+});
+
+test('V5.36 public exports and fleet messaging remain strictly separated',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const page=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ for(const name of ['rv-copy','rv-download','rv-gmail']){assert.match(page,new RegExp('id="'+name+'"[^>]*hidden'));assert.match(page,new RegExp(name.replaceAll('-','\\-')+"'\\)\\.hidden=code!=='0000'"))}
+ assert.match(page,/function publicReport\(\)/);
+ assert.match(page,/rvMode!=='0000'/);
+ assert.match(page,/id="rv-submit"[^>]*disabled/);
+ assert.match(page,/mail\.google\.com\/mail\/\?view=cm/);
+ assert.match(page,/No report saved/);
+ assert.match(page,/EDITION V5\.36/);
+ const sw=await fs.readFile(new URL('../../ibiza-sea-school/service-worker.js',import.meta.url),'utf8');
+ assert.match(sw,/ibiza-sea-school-weather-v5\.36-20261018/);
+ for(const m of page.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi))if(!/\bsrc\s*=/.test(m[1]))assert.doesNotThrow(()=>new vm.Script(m[2]));
 });
