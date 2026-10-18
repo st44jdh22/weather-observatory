@@ -66,7 +66,7 @@
 
 .iss-hourly-table{border-collapse:separate;border-spacing:0;min-width:850px;width:100%;font-size:12px;text-align:center}.iss-hourly-table th,.iss-hourly-table td{padding:9px 10px;border-right:1px solid #274656;border-bottom:1px solid #274656;white-space:nowrap}.iss-hourly-table thead th{background:#16394a;color:#e7f9ff;position:sticky;top:0}.iss-hourly-table tbody th{position:sticky;left:0;background:#102b39;text-align:left;color:#d2e7ed;min-width:120px}.iss-hourly-table tbody tr:nth-child(2n) td{background:#0c2533}.iss-hourly-table td{font-variant-numeric:tabular-nums}.iss-hourly-table tbody tr:nth-child(3) td{color:#ffd59c;font-weight:700}
 
-/* V5.29 — aviation-style METAR instrument panel */
+/* V5.30 — aviation-style METAR instrument panel */
 .airport-panel{padding:23px 26px 19px;border:1px solid #3c7785;border-top:2px solid #67d3d1;background:linear-gradient(130deg,#102d3c 0%,#0b2030 55%,#0b1d2b 100%);box-shadow:0 12px 35px #020b1452}
 .airport-header{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
 .airport-plane{font-size:32px;line-height:1;color:#71dfdb;filter:drop-shadow(0 0 10px #5cceca55)}
@@ -200,7 +200,7 @@
 @media(max-width:820px){.iss-toolbar{grid-template-columns:1fr!important}.iss-ai{justify-self:start}.iss-signoff{justify-self:start}.camera-layout{grid-template-columns:1fr!important}}@media(max-width:460px){.rv-counts{grid-template-columns:1fr 1fr}}
 </style><style>
 
-/* V5.29: passenger manifest, prominently displayed total, private manual sharing */
+/* V5.30: passenger manifest, prominently displayed total, private manual sharing */
 .review-body .rv-section-heading{margin:20px 0 8px;font-size:14px;font-weight:780;letter-spacing:.025em;color:#dff7f7}
 .rv-age-note{font-size:11px!important;color:#a8c6ce!important;margin:3px 0 11px!important}
 .rv-total-panel{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 17px;margin:16px 0 20px;background:linear-gradient(120deg,#164a54,#0c3343);border:1px solid #65c8bf;border-radius:11px;box-shadow:inset 3px 0 0 #80dfcf}
@@ -396,7 +396,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 </style>
 
 <style id="iss-v526-layout-polish">
-/* V5.29: controls align precisely with the main content edges. */
+/* V5.30: controls align precisely with the main content edges. */
 .iss-toolbar{display:grid!important;grid-template-columns:minmax(230px,1fr) auto minmax(230px,1fr)!important;align-items:center!important;column-gap:20px}
 .iss-area{justify-self:start;min-width:0}
 .iss-area-controls .select{padding-left:9px!important;text-align:left!important;text-align-last:left!important;min-height:41px}
@@ -462,6 +462,19 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
  #airport-panel .airport-observed-badge{margin-left:0;font-size:15px}
 }
 </style>
+<style id="iss-v530-summary-cards">
+/* Five consistent left-aligned headings, with more readable readings. */
+#captain-weather-summary .captain-summary-card{align-items:flex-start!important}
+#captain-weather-summary .captain-summary-card>div{align-items:flex-start!important;justify-content:flex-start!important;text-align:left!important;min-height:0!important}
+#captain-weather-summary .captain-summary-card small{font-size:13px!important;font-weight:750!important;line-height:1.3;color:#40547c!important;margin:0 0 9px!important;text-align:left!important}
+#captain-weather-summary .captain-summary-card strong{font-size:21px!important;font-weight:800!important}
+#captain-weather-summary .captain-summary-card:nth-child(-n+2) strong{font-size:27px!important;line-height:1.2!important;position:relative;top:-3px;left:-.45ch}
+#captain-weather-summary .captain-summary-card:nth-child(-n+2)>div{padding-top:8px!important}
+#captain-weather-summary #cs-wind-force{font-size:14px!important;font-weight:750!important;color:#202c76!important;margin-top:8px!important}
+#captain-weather-summary #cs-temp,#captain-weather-summary #cs-confidence{font-size:23px!important}
+#captain-weather-summary .captain-summary-card:nth-child(-n+2) .captain-summary-icon{align-self:flex-start}
+@media(max-width:600px){#captain-weather-summary .captain-summary-card:nth-child(-n+2) strong{font-size:24px!important}}
+</style>
 </head>
 <body>
 <header class="hero">
@@ -471,7 +484,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
     <h2 data-en="CAPTAIN'S WEATHER &amp; MARITIME DESK" data-es="METEOROLOGÍA Y NAVEGACIÓN MARÍTIMA">CAPTAIN'S WEATHER &amp; MARITIME DESK</h2>
     <span class="hero-sub" data-en="FORECAST INTELLIGENCE · OPERATIONAL AWARENESS" data-es="INTELIGENCIA METEOROLÓGICA · CONCIENCIA OPERATIVA">FORECAST INTELLIGENCE · OPERATIONAL AWARENESS</span>
   </div>
-  <span class="hero-mark">EDITION V5.29</span>
+  <span class="hero-mark">EDITION V5.30</span>
   
 </header>
 <main class="container">
@@ -488,7 +501,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 </section>
 
 <section id="iss-outlook" aria-labelledby="iss-outlook-title" hidden aria-hidden="true">
- <div class="section-head"><h2 id="iss-outlook-title">🌤 Weather outlook <span class="iss-version">V5.29</span></h2><small>Numerical forecast · not live observed conditions</small></div>
+ <div class="section-head"><h2 id="iss-outlook-title">🌤 Weather outlook <span class="iss-version">V5.30</span></h2><small>Numerical forecast · not live observed conditions</small></div>
  
  <div class="iss-outlook-row" aria-live="polite">
  <div class="iss-outlook-item"><small>Conditions</small><strong id="iss-outlook-state">Loading…</strong></div>
@@ -501,7 +514,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
  <p class="iss-outlook-disclaimer">* Experimental five-model agreement index (ECMWF IFS, NOAA GFS, DWD ICON-EU, Météo-France ARPEGE Europe and UKMO Global). This heuristic is not a probability of forecast accuracy. Missing models are excluded; at least three are required. Waves are a separate marine forecast.</p>
  </section>
 <section id="captain-weather-summary" aria-labelledby="captain-summary-title">
- <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="iss-version">V5.29</span></h2><div class="iss-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="iss-outlook-date">Forecast date</label><input type="date" id="iss-outlook-date"><button class="pill primary" id="iss-outlook-refresh" type="button">↻ Update outlook</button><label class="iss-shift-label" for="iss-shift">Ibiza forecast window <select id="iss-shift" aria-label="Captain weather summary time window"><option value="auto">Automatic · day/night</option><option value="day">Daytime · 08:00–20:00</option><option value="night">Overnight · 20:00–08:00</option></select></label><span id="iss-outlook-period" aria-live="polite" title="Forecast window in Ibiza local time">🕒 Ibiza local · calculating…</span></div></div>
+ <div class="captain-summary-header"><h2 id="captain-summary-title">⚓ Captain’s Weather Summary <span class="iss-version">V5.30</span></h2><div class="iss-outlook-toolbar" role="group" aria-label="Weather summary forecast controls"><label for="iss-outlook-date">Forecast date</label><input type="date" id="iss-outlook-date"><button class="pill primary" id="iss-outlook-refresh" type="button">↻ Update outlook</button><label class="iss-shift-label" for="iss-shift">Ibiza forecast window <select id="iss-shift" aria-label="Captain weather summary time window"><option value="auto">Automatic · day/night</option><option value="day">Daytime · 08:00–20:00</option><option value="night">Overnight · 20:00–08:00</option></select></label><span id="iss-outlook-period" aria-live="polite" title="Forecast window in Ibiza local time">🕒 Ibiza local · calculating…</span></div></div>
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
@@ -585,7 +598,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 <section aria-label="Model comparison"><div class="section-head"><h2>Forecast model comparison</h2><small>ECMWF IFS versus UKMO · model availability may differ</small></div><div class="columns"><div class="panel"><h3>ECMWF <span class="source-chip">MODEL</span></h3><div id="ecmwf">Retrieving comparison…</div></div><div class="panel"><h3>UK Met Office <span class="source-chip">MODEL</span></h3><div id="ukmo">Retrieving comparison…</div></div></div></section>
 
 <section aria-label="Command accountability and reporting" id="command-report"><div class="section-head"><h2>Command, accountability &amp; reporting</h2></div><div class="panel"><p><strong>Captain</strong> · confirms weather and warnings, independently assesses conditions and makes all operational departure, diversion and cancellation decisions.</p><div class="divider"></div><p><strong>Marine Operations / IFO</strong> · reviews the existing handover and operational evidence trail, coordinates exceptions and escalations; does not replace the captain's judgement.</p><div class="divider"></div><p><strong>Future authenticated records</strong> · subject to Joe's approval and integration with the existing ODIN / Roger architecture. No duplicate master records.</p><div class="divider"></div><p class="footnote">A morning review must be repeated if conditions, warnings, route or operating plan materially change. This dashboard is supplementary; consult official forecasts and onboard instruments.</p></div></section>
-<footer class="fineprint"><strong>Ibiza Sea School Weather · V5.29</strong> · Forecast guidance, not operational clearance. Open-Meteo weather is primary; MET Norway Locationforecast is the automatic fallback. Marine wave data remains a separate Open-Meteo feed. These are numerical forecasts, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Primary weather &amp; marine: Open-Meteo</a> · <a href="https://api.met.no/" target="_blank" rel="noopener noreferrer">Backup weather: MET Norway</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
+<footer class="fineprint"><strong>Ibiza Sea School Weather · V5.30</strong> · Forecast guidance, not operational clearance. Open-Meteo weather is primary; MET Norway Locationforecast is the automatic fallback. Marine wave data remains a separate Open-Meteo feed. These are numerical forecasts, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Primary weather &amp; marine: Open-Meteo</a> · <a href="https://api.met.no/" target="_blank" rel="noopener noreferrer">Backup weather: MET Norway</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
 <aside id="captain-review-drawer" role="dialog" aria-modal="true" aria-label="Captain's Passage and Weather Declaration" hidden><div class="review-head"><strong>⚠ Captain's Passage & Weather Declaration</strong><button type="button" id="captain-review-close" aria-label="Close">✕</button></div><div class="review-body"><p>Pre-departure review and passage details. <strong>This prototype prepares a draft for copying, email or WhatsApp; it does not submit or save an operational record.</strong></p><label>Captain <input id="rv-captain" maxlength="90" placeholder="Captain's name" required></label><label>Vessel <select id="rv-vessel"><option value="Private craft">Private craft</option><option value="Other vessel">Other vessel</option></select></label><label id="rv-vessel-other-wrap" hidden>Other vessel name<input id="rv-vessel-other" maxlength="100" placeholder="Enter vessel name"></label><label>Planned departure <input id="rv-departure" type="datetime-local"></label><label>Departure port <select id="rv-port"><option>Sant Antoni</option><option>Ibiza Town</option><option>Marina Botafoch</option><option>Santa Eulària</option><option>Portinatx</option><option>La Savina · Formentera</option><option>Other</option></select></label><label id="rv-port-other-wrap" hidden>Other departure port<input id="rv-port-other" maxlength="100" placeholder="Enter port or anchorage"></label><label>Intended destination / operating area <select id="rv-route"><option value="">Select area</option><option>Formentera · La Savina / Illetes</option><option>Formentera · Es Pujols</option><option>Es Vedrà / Cala d'Hort</option><option>Cala Bassa / Cala Comte</option><option>Benirràs / North coast</option><option>Portinatx / North coast</option><option>Santa Eulària / East coast</option><option>Ibiza Town / South coast</option><option>Es Freus</option><option>Other / multiple stops</option></select></label><label id="rv-route-other-wrap" hidden>Other destination<input id="rv-route-other" maxlength="160" placeholder="Enter destination or area"></label><label>Additional route details (optional)<input id="rv-route-extra" maxlength="180" placeholder="Stops, return route, other destination"></label><div class="rv-section-heading">People on board</div><div class="rv-counts"><label>Captain<input id="rv-count-captain" type="number" min="1" max="2" value="1"></label><label>Crew (excluding captain)<input id="rv-count-crew" type="number" min="0" max="40" value="0"></label><label>Adult guests<input id="rv-count-guests" type="number" min="0" max="50" value="1"></label></div><div class="rv-section-heading">Children under 16</div><p class="rv-age-note">Non-overlapping age groups: under 5 (0–4), 5 to under 12 (5–11), 12 to under 16 (12–15).</p><div class="rv-counts"><label>Under 5 years<input id="rv-age-under5" type="number" min="0" max="30" value="0"></label><label>5–11 years<input id="rv-age-5to11" type="number" min="0" max="30" value="0"></label><label>12–15 years<input id="rv-age-12to15" type="number" min="0" max="30" value="0"></label></div><div id="rv-child-safety" hidden><strong>Children's safety</strong><label class="review-check"><input id="rv-jackets" type="checkbox"> I confirm that correctly sized and fitted lifejackets for every child, including infants where applicable, have been checked and are on board.</label></div><div class="rv-total-panel" aria-live="polite"><span class="rv-total-label">Total souls on board</span><strong id="rv-total-number">2</strong></div><label>Passage and weather assessment <select id="rv-assessment"><option value="">Select assessment</option><option>Reviewed — acceptable subject to ongoing assessment</option><option>Additional precautions required</option><option>Postpone / do not depart</option><option>Decision pending</option></select></label><label>Precautions / notes <textarea id="rv-notes" maxlength="2000" placeholder="Weather, sea state, guests, route restrictions, contingency…"></textarea></label><label class="review-check"><input id="rv-ack" type="checkbox"> I have personally checked official warnings, forecasts, observed conditions and passage implications.</label><div class="rv-share-actions"><button type="button" id="rv-copy" class="pill primary">Copy draft</button><button type="button" id="rv-email" class="pill">✉ Prepare email</button><button type="button" id="rv-whatsapp" class="pill">↗ Share via WhatsApp</button></div><p class="rv-share-caution">Email and WhatsApp open your own apps with a draft. You choose the recipient and press Send. This page does not transmit, save, or verify a declaration.</p><p id="rv-status" role="status">No record has been submitted.</p></div></aside><div id="review-shade" hidden></div></main>
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
 window.ISS_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.workers.dev'; // Set to your deployed existing Cloudflare Worker URL
@@ -862,7 +875,7 @@ update();
  const $=id=>document.getElementById(id);
  const labels=['Calm','Light air','Light breeze','Gentle breeze','Moderate breeze','Fresh breeze','Strong breeze','Near gale','Gale','Strong gale','Storm','Violent storm','Hurricane force'];
  const cutoffs=[1,4,7,11,17,22,28,34,41,48,56,64];
- function force(kn){let f=0;while(f<12&&kn>=cutoffs[f])f++;return 'F'+f+' · '+labels[f]}
+ function beaufort(kn){let f=0;while(f<12&&kn>=cutoffs[f])f++;return f}
  function update(){
   const get=id=>$(id)?.textContent?.trim()||'—';
   $('cs-conditions').textContent=get('iss-outlook-state');$('cs-weather').textContent=get('iss-outlook-weather');
@@ -874,7 +887,7 @@ update();
   if(arrow){arrow.style.display=direction?'':'none';if(direction)arrow.setAttribute('transform','rotate('+(compassDirections.indexOf(direction)*22.5)+' 50 50)')}
   if(icon)icon.setAttribute('aria-label',direction?'Forecast wind FROM '+direction+' (direction shown as origin, not destination)':'Forecast wind direction unavailable');
   const numbers=wind.match(/\d+(?:\.\d+)?/g)?.map(Number)||[];
-  $('cs-wind-force').textContent=numbers.length>=2?force(numbers[0])+' to '+force(numbers[1]):numbers.length===1?force(numbers[0]):'Awaiting wind data';
+  $('cs-wind-force').textContent=numbers.length>=2?'F'+beaufort(numbers[0])+'–F'+beaufort(numbers[1])+' (Beaufort)':numbers.length===1?'F'+beaufort(numbers[0])+' (Beaufort)':'Beaufort unavailable';
   const gn=Number(gust.match(/\d+(?:\.\d+)?/)?.[0]);
   const p=Number.parseFloat(confidence);$('cs-confidence-fill').style.width=Number.isFinite(p)?Math.max(0,Math.min(100,p))+'%':'0%';
   const caution=gn>=22?'Captain’s caution: Stronger gusts are forecast. Consider vessel, passengers, exposure and local sea conditions before departure.':get('iss-outlook-state')==='Unsettled'||get('iss-outlook-state')==='Very poor'?'Captain’s caution: Unsettled conditions are forecast. Review local exposure and official warnings before departure.':'Captain’s caution: Forecast guidance is not a substitute for local assessment and checking official AEMET warnings.';
@@ -1103,7 +1116,7 @@ const update=()=>{const value=src.textContent.trim();dst.textContent=value&&valu
 new MutationObserver(update).observe(src,{childList:true,subtree:true,characterData:true});update();})();
 </script>
 <script>
-/* V5.29 automatic fallback with 30-second recovery probes, provider-aware refresh and backoff. */
+/* V5.30 automatic fallback with 30-second recovery probes, provider-aware refresh and backoff. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id),sites={san:[38.978,1.301,'Sant Antoni · Ibiza'],ibiza:[38.908,1.443,'Ibiza Town · Ibiza'],vedr:[38.868,1.195,'Es Vedrà · Ibiza'],form:[38.733,1.418,'Formentera']};
 const put=(id,t)=>{if($(id))$(id).textContent=t};
@@ -1284,7 +1297,7 @@ const area=$('location');if(area){
  }});
  window.addEventListener('online',()=>{refresh();airport()});
 }
-// V5.29: Airport METAR is an observed reading, never a forecast or offshore measurement.
+// V5.30: Airport METAR is an observed reading, never a forecast or offshore measurement.
 let airportLastObservation=null,airportAgeTimer=null;
 const airportPut=(id,value)=>{const e=$(id);if(e)e.textContent=value};
 function airportCompass(d){return ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'][Math.round((((d%360)+360)%360)/22.5)%16]}
@@ -1395,7 +1408,7 @@ $('rv-whatsapp')?.addEventListener('click',()=>{
 })();
 </script>
 <script>
-/* V5.29: keep the selected operating area and the official Windy point forecast in sync.
+/* V5.30: keep the selected operating area and the official Windy point forecast in sync.
    Coordinates are approximate forecast-grid reference points, not navigational positions. */
 (()=>{'use strict';
  const areas={
