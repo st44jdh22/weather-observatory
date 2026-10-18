@@ -357,6 +357,43 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
  .iss-logo{width:min(360px,88vw)}
 }
 </style>
+
+<style id="iss-brand-finish">
+/* Remaining legacy dark components: intentional light-theme overrides for day/night legibility. */
+#iss-outlook,.iss-outlook,.captain-summary,.captain-summary-card,.cs-card,.cs-summary,.cs-metric,.cs-caution,.cs-note,
+#iss-ai-summary,.airport-panel{background:#fff!important;color:#1f2a44!important;border-color:#d9e1f2!important;box-shadow:0 7px 22px #202c7610!important}
+#iss-outlook h2,#iss-outlook h3,.captain-summary h2,.captain-summary h3{color:#202c76!important}
+.captain-summary-grid>*,.captain-summary-card,.cs-card{background:#f7f9fc!important;border:1px solid #d9e1f2!important;color:#202c76!important}
+.captain-summary-grid strong,.captain-summary-grid .cs-value,.captain-summary-card strong{color:#202c76!important}
+.airport-plane{color:#d10049!important;filter:none!important}
+.airport-header h3{color:#202c76!important}
+.airport-subtitle,.airport-time,.airport-stat-label,.airport-stat-detail,.airport-instrument-foot,.airport-wind-note,.airport-direction-degrees,.airport-wind-unit{color:#576781!important}
+.airport-stat{background:#f7f9fc!important;border:1px solid #d9e1f2!important;box-shadow:none!important}
+.airport-stat::before{background:#d10049!important}
+.airport-stat strong,.airport-wind-reading #airport-wind-value,.airport-direction-reading #airport-direction-cardinal,.airport-instrument-value strong{color:#202c76!important}
+.airport-age{background:#f1f3fa!important;color:#202c76!important;border-color:#c6d0e6!important}
+.airport-age[data-status="fresh"]{background:#eef1fc!important;color:#202c76!important;border-color:#9aadd5!important}
+.airport-age[data-status="stale"]{background:#fff1e6!important;color:#86460a!important;border-color:#e9bf8c!important}
+.airport-age[data-status="error"]{background:#fff0f2!important;color:#a02042!important;border-color:#edb5c2!important}
+.airport-location-warning,.airport-footer,.airport-footer a{color:#576781!important}
+.airport-compass-ring,.airport-compass-ring-inner{stroke:#c4cde2!important}
+.airport-compass-cardinal{fill:#202c76!important}
+.airport-compass-arrow{stroke:#d10049!important}
+.iss-now-caution{background:#fff2f5!important;color:#7e1e3b!important;border:1px solid #e6b2c2!important}
+.day .day-stats>*,.day .day-stat{background:#f7f9fc!important;color:#1f2a44!important;border:1px solid #d9e1f2!important}
+.day .day-stat strong,.day .day-stat.warn strong{color:#202c76!important}
+.day .day-stat .lbl,.day .day-stat small{color:#576781!important}
+.day .day-source,.day .day-top{border-color:#d9e1f2!important}
+.camera-controls select,#coastalCamera{
+ background:#fff!important;color:#202c76!important;border:1px solid #b6c5e4!important;
+ appearance:auto!important
+}
+#coastalCamera option{background:#fff;color:#202c76}
+.aemet-original{margin:4px 0 12px;color:#576781;font-size:12px}
+.aemet-original summary{cursor:pointer;color:#202c76;font-weight:650}
+.aemet-original p{padding:8px;background:#f7f9fc;border:1px solid #d9e1f2;border-radius:6px}
+#command-report>.panel{max-width:none}
+</style>
 </head>
 <body>
 <header class="hero">
@@ -477,12 +514,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 <section aria-label="Three-hourly weather detail"><div class="section-head"><h2>Detailed weather forecast</h2><small>Expand when needed</small></div><details class="panel hourly-details"><summary>Three-hourly weather, wind &amp; waves <span class="expand-hint">Show forecast ▾</span></summary><div class="scroller" id="hourly">Loading hourly data…</div><div class="footnote">Wind in knots, significant wave and swell in metres. Three-hourly point forecasts may miss short-lived gusts and local sea effects.</div></details></section>
 <section aria-label="Model comparison"><div class="section-head"><h2>Forecast model comparison</h2><small>ECMWF IFS versus UKMO · model availability may differ</small></div><div class="columns"><div class="panel"><h3>ECMWF <span class="source-chip">MODEL</span></h3><div id="ecmwf">Retrieving comparison…</div></div><div class="panel"><h3>UK Met Office <span class="source-chip">MODEL</span></h3><div id="ukmo">Retrieving comparison…</div></div></div></section>
 
-<section aria-label="Captain acknowledgement" id="review"><div class="section-head"><h2>Captain's weather review</h2><small>Optional working checklist · no authentication in V2</small></div><div class="columns"><div class="panel"><h3>Morning review · captain retains discretion</h3><div class="callout"><strong>Not a secure sign-off.</strong> This version does not verify identity, store an audit record, or confirm that official links were actually opened. Any copied note is a draft for the existing vessel reporting process.</div>
-<label class="checkpoint"><input type="checkbox" id="checkAemet"><span>I personally checked the current AEMET coastal bulletin, warnings, coverage and issue time.</span></label>
-<label class="checkpoint"><input type="checkbox" id="checkWeather"><span>I reviewed the wind, gusts, wave and swell forecasts, including the intended route and time window.</span></label>
-<label class="checkpoint"><input type="checkbox" id="checkReality"><span>I considered current observations, available vessel/crew information and forecast limitations.</span></label>
-<div class="form-row"><div><label class="field" for="assess">Captain's provisional assessment</label><select id="assess"><option value="">Select an assessment</option><option>Suitable for proposed operation, subject to normal checks</option><option>Restrictions / further assessment required</option><option>Do not depart / postpone</option><option>Decision pending</option></select></div><div><label class="field" for="reviewName">Captain (free text · not verified)</label><input id="reviewName" type="text" autocomplete="off" maxlength="80" placeholder="Captain's name"></div></div><label class="field" for="comments">Operational notes / restrictions / planned sea area</label><textarea id="comments" maxlength="1200" placeholder="Optional: route, forecast issue time, warning details, local conditions…"></textarea><div class="split-actions"><button class="pill primary" type="button" id="copyReview">Copy draft review</button><button class="pill" type="button" id="resetReview">Clear</button></div><p class="footnote" id="copyStatus" aria-live="polite">No information is transmitted or stored by this checklist. Never treat it as proof of compliance.</p></div>
-<div class="panel"><h3>Command, accountability &amp; reporting</h3><p><strong>Captain</strong> · confirms weather and warnings, independently assesses conditions and makes all operational departure, diversion and cancellation decisions.</p><div class="divider"></div><p><strong>Marine Operations / IFO</strong> · reviews the existing handover and operational evidence trail, coordinates exceptions and escalations; does not replace the captain's judgement.</p><div class="divider"></div><p><strong>Future authenticated records</strong> · subject to Joe's approval and integration with the existing ODIN / Roger architecture. No duplicate master records.</p><div class="divider"></div><p class="footnote">A morning review must be repeated if conditions, warnings, route or operating plan materially change. This dashboard is supplementary; consult official forecasts and onboard instruments.</p></div></div></section>
+<section aria-label="Command accountability and reporting" id="command-report"><div class="section-head"><h2>Command, accountability &amp; reporting</h2></div><div class="panel"><p><strong>Captain</strong> · confirms weather and warnings, independently assesses conditions and makes all operational departure, diversion and cancellation decisions.</p><div class="divider"></div><p><strong>Marine Operations / IFO</strong> · reviews the existing handover and operational evidence trail, coordinates exceptions and escalations; does not replace the captain's judgement.</p><div class="divider"></div><p><strong>Future authenticated records</strong> · subject to Joe's approval and integration with the existing ODIN / Roger architecture. No duplicate master records.</p><div class="divider"></div><p class="footnote">A morning review must be repeated if conditions, warnings, route or operating plan materially change. This dashboard is supplementary; consult official forecasts and onboard instruments.</p></div></section>
 <footer class="fineprint"><strong>Ibiza Sea School Weather · V5.25</strong> · Forecast guidance, not operational clearance. Open-Meteo weather is primary; MET Norway Locationforecast is the automatic fallback. Marine wave data remains a separate Open-Meteo feed. These are numerical forecasts, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Primary weather &amp; marine: Open-Meteo</a> · <a href="https://api.met.no/" target="_blank" rel="noopener noreferrer">Backup weather: MET Norway</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
 <aside id="captain-review-drawer" role="dialog" aria-modal="true" aria-label="Captain's Passage and Weather Declaration" hidden><div class="review-head"><strong>⚠ Captain's Passage & Weather Declaration</strong><button type="button" id="captain-review-close" aria-label="Close">✕</button></div><div class="review-body"><p>Pre-departure review and passage details. <strong>This prototype prepares a draft for copying, email or WhatsApp; it does not submit or save an operational record.</strong></p><label>Captain <input id="rv-captain" maxlength="90" placeholder="Captain's name" required></label><label>Vessel <select id="rv-vessel"><option value="Private craft">Private craft</option><option value="Other vessel">Other vessel</option></select></label><label id="rv-vessel-other-wrap" hidden>Other vessel name<input id="rv-vessel-other" maxlength="100" placeholder="Enter vessel name"></label><label>Planned departure <input id="rv-departure" type="datetime-local"></label><label>Departure port <select id="rv-port"><option>Sant Antoni</option><option>Ibiza Town</option><option>Marina Botafoch</option><option>Santa Eulària</option><option>Portinatx</option><option>La Savina · Formentera</option><option>Other</option></select></label><label id="rv-port-other-wrap" hidden>Other departure port<input id="rv-port-other" maxlength="100" placeholder="Enter port or anchorage"></label><label>Intended destination / operating area <select id="rv-route"><option value="">Select area</option><option>Formentera · La Savina / Illetes</option><option>Formentera · Es Pujols</option><option>Es Vedrà / Cala d'Hort</option><option>Cala Bassa / Cala Comte</option><option>Benirràs / North coast</option><option>Portinatx / North coast</option><option>Santa Eulària / East coast</option><option>Ibiza Town / South coast</option><option>Es Freus</option><option>Other / multiple stops</option></select></label><label id="rv-route-other-wrap" hidden>Other destination<input id="rv-route-other" maxlength="160" placeholder="Enter destination or area"></label><label>Additional route details (optional)<input id="rv-route-extra" maxlength="180" placeholder="Stops, return route, other destination"></label><div class="rv-section-heading">People on board</div><div class="rv-counts"><label>Captain<input id="rv-count-captain" type="number" min="1" max="2" value="1"></label><label>Crew (excluding captain)<input id="rv-count-crew" type="number" min="0" max="40" value="0"></label><label>Adult guests<input id="rv-count-guests" type="number" min="0" max="50" value="1"></label></div><div class="rv-section-heading">Children under 16</div><p class="rv-age-note">Non-overlapping age groups: under 5 (0–4), 5 to under 12 (5–11), 12 to under 16 (12–15).</p><div class="rv-counts"><label>Under 5 years<input id="rv-age-under5" type="number" min="0" max="30" value="0"></label><label>5–11 years<input id="rv-age-5to11" type="number" min="0" max="30" value="0"></label><label>12–15 years<input id="rv-age-12to15" type="number" min="0" max="30" value="0"></label></div><div id="rv-child-safety" hidden><strong>Children's safety</strong><label class="review-check"><input id="rv-jackets" type="checkbox"> I confirm that correctly sized and fitted lifejackets for every child, including infants where applicable, have been checked and are on board.</label></div><div class="rv-total-panel" aria-live="polite"><span class="rv-total-label">Total souls on board</span><strong id="rv-total-number">2</strong></div><label>Passage and weather assessment <select id="rv-assessment"><option value="">Select assessment</option><option>Reviewed — acceptable subject to ongoing assessment</option><option>Additional precautions required</option><option>Postpone / do not depart</option><option>Decision pending</option></select></label><label>Precautions / notes <textarea id="rv-notes" maxlength="2000" placeholder="Weather, sea state, guests, route restrictions, contingency…"></textarea></label><label class="review-check"><input id="rv-ack" type="checkbox"> I have personally checked official warnings, forecasts, observed conditions and passage implications.</label><div class="rv-share-actions"><button type="button" id="rv-copy" class="pill primary">Copy draft</button><button type="button" id="rv-email" class="pill">✉ Prepare email</button><button type="button" id="rv-whatsapp" class="pill">↗ Share via WhatsApp</button></div><p class="rv-share-caution">Email and WhatsApp open your own apps with a draft. You choose the recipient and press Send. This page does not transmit, save, or verify a declaration.</p><p id="rv-status" role="status">No record has been submitted.</p></div></aside><div id="review-shade" hidden></div></main>
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
@@ -847,28 +879,52 @@ window.addEventListener('load',()=>{
  function renderWarnings(){
   const wr=warningResponse,box=$('aemet-warning-details');box.replaceChildren();
   const en=language==='en';
+  // Safety-critical text: translate only recognised structures, never fabricate missing meteorological details.
+  const englishAviso=(spanish)=>{
+   const raw=String(spanish||'').trim();
+   if(/^no hay avisos\.?$/i.test(raw))return 'No maritime warnings.';
+   const pattern=/^Precipitaciones muy fuertes con tormenta, en aguas costeras del nordeste y noroeste de Mallorca, Ibiza y canal de Mallorca, temporalmente NE 7 y olas de 3 m\.?$/i;
+   if(pattern.test(raw))return 'Very heavy precipitation with thunderstorms in coastal waters of north-east and north-west Mallorca, Ibiza and the Mallorca Channel; temporarily north-easterly force 7 winds and waves of 3 metres.';
+   const generalized=/^En Ibiza, Formentera y sur de Mallorca, precipitaciones muy fuertes con tormenta a partir de la madrugada\.?$/i;
+   if(generalized.test(raw))return 'In Ibiza, Formentera and southern Mallorca: very heavy precipitation with thunderstorms from the early hours.';
+   return null;
+  };
+  const warningParagraph=(aviso)=>{
+   const original=String(aviso.text||'').trim(),translated=en?englishAviso(original):null;
+   const p=document.createElement('p');
+   p.textContent=translated||original;p.lang=translated?'en':'es';
+   p.style.cssText='margin:5px 0 8px;font-size:1.08em;font-weight:650;line-height:1.55';
+   box.append(p);
+   if(en){
+    const originalDetails=document.createElement('details');
+    originalDetails.className='aemet-original';
+    const summary=document.createElement('summary');
+    summary.textContent=translated?'Original AEMET Spanish wording':'Original AEMET warning — English translation not yet verified';
+    originalDetails.append(summary);
+    if(translated){const txt=document.createElement('p');txt.lang='es';txt.textContent=original;originalDetails.append(txt)}
+    box.append(originalDetails);
+   }
+  };
   const coastal=coastalAvisos, marineAvisos=coastal?.avisos||[], upcoming=coastal?.upcoming_avisos||[];
   // Official XML is the only authoritative source for this panel's literal Avisos.
   // Separate CAP alert colour levels are supplementary, NEVER substituted for it.
   if(coastal?.verified&&marineAvisos.length){
    set('aemet-status',coastal.no_warnings_current
     ?(en?'Official AEMET coastal bulletin: No hay avisos (no maritime warnings issued)':'Boletín costero oficial AEMET: No hay avisos')
-    :(en?'AEMET coastal maritime warning — official wording':'Aviso marítimo costero de AEMET — texto oficial'));
+    :(en?'AEMET coastal maritime warning — English translation where verified':'Aviso marítimo costero de AEMET — texto oficial'));
    for(const aviso of marineAvisos){
     const header=document.createElement('strong');
     header.textContent=en?'AEMET maritime Avisos — Costa de Illes Balears':'Avisos marítimos AEMET — Costa de Illes Balears';box.append(header);
     const timing=document.createElement('div');timing.style.margin='5px 0 8px';
     timing.textContent=(en?'Valid: ':'Válido: ')+labelDate(aviso.valid_from_local,true)+' — '+labelDate(aviso.valid_until_local,true);
     box.append(timing);
-    const p=document.createElement('p');
-    p.textContent=aviso.text;p.lang='es';p.style.cssText='margin:5px 0 12px;font-size:1.08em;font-weight:650;line-height:1.55';
-    box.append(p);
+    warningParagraph(aviso);
    }
   }else if(coastal?.verified&&upcoming.length){
    set('aemet-status',en?'Upcoming AEMET maritime Avisos (not yet active)':'Avisos marítimos AEMET previstos (todavía no vigentes)');
    for(const aviso of upcoming){
     const timing=document.createElement('div');timing.textContent=(en?'Valid from: ':'Válido desde: ')+labelDate(aviso.valid_from_local,true)+' — '+labelDate(aviso.valid_until_local,true);box.append(timing);
-    const p=document.createElement('p');p.textContent=aviso.text;p.lang='es';box.append(p);
+    warningParagraph(aviso);
    }
   }else if(coastal?.verified&&coastal.expired){
    set('aemet-status',en?'AEMET maritime bulletin expired — verify before departure':'Boletín marítimo AEMET caducado — comprobar antes de salir');
