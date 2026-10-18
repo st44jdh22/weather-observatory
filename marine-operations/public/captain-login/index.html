@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Captain Fleet Access · Ibiza Sea School</title><style>
+*{box-sizing:border-box}body{margin:0;font:15px/1.55 system-ui,-apple-system,Arial,sans-serif;background:#eff3f8;color:#182e48}
+header{background:#202c76;color:white;padding:26px 18px;text-align:center}header h1{margin:0 0 4px}main{max-width:620px;margin:25px auto;padding:0 16px}.card{background:white;padding:25px;border-radius:16px;border:1px solid #d6dfeb;box-shadow:0 3px 18px #10223916;margin-bottom:15px}
+label{display:block;font-weight:650;margin-bottom:6px}input{width:100%;padding:12px;border:1px solid #91a5ba;border-radius:8px;font:inherit;margin-bottom:15px}
+button{padding:11px 17px;border:0;border-radius:8px;background:#202c76;color:#fff;font-weight:700;font:inherit;cursor:pointer}button:disabled{opacity:.6}
+.secondary{background:#e8edf6;color:#202c76}.row{display:flex;gap:8px;flex-wrap:wrap}
+.vessel{padding:14px;border:1px solid #cbd6e7;border-radius:10px;margin:10px 0;background:#f5f8ff}
+#status{min-height:24px;font-weight:650}small{color:#52647b}
+</style></head><body>
+<header><h1>⚓ Captain Fleet Access</h1><p>Ibiza Sea School · Secure email-code sign-in</p></header>
+<main><section class="card">
+<p><strong>Private staging:</strong> Sign-in is available only to approved captains when hosting, email and the database are configured.</p>
+<div id="emailStep"><label for="email">Registered email address</label><input id="email" type="email" required autocomplete="email" placeholder="captain@example.com"><button id="request" type="button">Send six-digit verification code</button></div>
+<div id="codeStep" hidden><label for="code">Six-digit email code</label><input id="code" type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="000000"><div class="row"><button type="button" id="verify">Verify and sign in</button><button type="button" id="back" class="secondary">Back</button></div></div>
+<div id="status" role="status"></div>
+</section><section class="card" id="fleet" hidden><h2>My authorised vessels</h2><div id="vessels"></div><button id="logout" class="secondary" type="button">Sign out</button>
+<p><small>Only the fleet administrator can add or revoke vessel permissions. A verified email alone does not permit operation of any vessel. The live passage declaration service is still inactive.</small></p></section>
+</main><script type="module" src="./login.js"></script></body></html>
