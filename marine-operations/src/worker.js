@@ -1,0 +1,10 @@
+const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
+const json=(v,status)=>new Response(JSON.stringify(v),{status,headers});
+export default {async fetch(request,env){
+ const path=new URL(request.url).pathname;
+ if(path==='/api/health'&&request.method==='GET')return json({service:'ibiza-sea-school-operations',status:'development',database:'not_provisioned',delivery:'disabled',login:'disabled'},200);
+ if(path.startsWith('/api/'))return json({error:'NOT_CONFIGURED',message:'Secure submission is not active.'},503);
+ if(request.method!=='GET'&&request.method!=='HEAD')return json({error:'METHOD_NOT_ALLOWED'},405);
+ if(env.ASSETS)return env.ASSETS.fetch(request);
+ return new Response('ISS Operations development assets not configured',{status:503,headers:{'Cache-Control':'no-store'}});
+}};
