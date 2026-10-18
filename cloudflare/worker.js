@@ -186,12 +186,15 @@ export function parseCoastalAvisos(xml,nowMs=Date.now()){
  const blocks=[...xml.matchAll(/<aviso\b[^>]*>([\s\S]*?)<\/aviso>/gi)].map(x=>x[1]);
  if(!blocks.length)throw Error('No Avisos section in coastal XML');
  const avisos=blocks.map(b=>({text:coastalTag(b,'texto'),valid_from_local:coastalTag(b,'inicio'),valid_until_local:coastalTag(b,'fin')}));
- if(avisos.some(a=>!a.text||!a.valid_from_local||!a.valid_until_local||!Number.isFinite(madridLocalMs(a.valid_from_local))||!Number.isFinite(madridLocalMs(a.valid_until_local))))throw Error('Incomplete coastal Avisos validity');
+ if(avisos.some(a=>!a.text||!a.valid_from_local||!a.valid_until_local||!Number.isFinite(madridLocalMs(a.valid_from_local))||!Number.isFinite(madridLocalMs(a.valid_until_local))||madridLocalMs(a.valid_until_local)<=madridLocalMs(a.valid_from_local)))throw Error('Incomplete or invalid coastal Avisos validity');
  const current=avisos.filter(a=>nowMs>=madridLocalMs(a.valid_from_local)&&nowMs<madridLocalMs(a.valid_until_local));
  const upcoming=avisos.filter(a=>nowMs<madridLocalMs(a.valid_from_local));
+ const last=avisos.reduce((best,a)=>!best||madridLocalMs(a.valid_until_local)>madridLocalMs(best.valid_until_local)?a:best,null);
+ // AEMET explicitly uses 'No hay avisos' in the same XML field when none are issued.
+ const noWarnings=current.length>0&&current.every(a=>/^no hay avisos\\.?$/i.test(a.text));
  return {verified:true,source:'AEMET Costa de Illes Balears coastal XML',source_url:AEMET_COASTAL_XML,area:'Costa de Illes Balears',
-  avisos:current,upcoming_avisos:upcoming,expired:current.length===0&&upcoming.length===0,
-  last_valid_until_local:avisos[avisos.length-1].valid_until_local,
+  avisos:current,upcoming_avisos:upcoming,no_warnings_current:noWarnings,expired:current.length===0&&upcoming.length===0,
+  last_valid_until_local:last.valid_until_local,
   retrieved_at_utc:new Date(nowMs).toISOString()};
 }
 async function aemetCoastalAvisos(){
