@@ -24,6 +24,23 @@ jobs:
       - name: Run mocked non-production tests (no Cloudflare secrets)
         working-directory: cloudflare
         run: npm test
+      - name: Probe public AEMET coastal XML (read-only, informational)
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --compressed --max-time 25 \
+            --user-agent 'ARAWeatherDesk/verification (+https://st44jdh22.github.io/weather-observatory/ara/)' \
+            'https://www.aemet.es/xml/maritima/FQXX44MM.xml' --output /tmp/aemet-coastal.xml
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import {parseCoastalAvisos} from './cloudflare/worker.js';
+          const raw=fs.readFileSync('/tmp/aemet-coastal.xml','utf8');
+          const parsed=parseCoastalAvisos(raw);
+          if(!parsed.verified)throw Error('AEMET XML not verified');
+          console.log('AEMET coastal XML source reachable; structure parsed; valid time windows checked');
+          console.log('Current aviso records:',parsed.avisos.length,'Upcoming:',parsed.upcoming_avisos.length,'Expired bulletin:',parsed.expired);
+          NODE
       - name: Verify Worker target and KV binding placeholder
         shell: bash
         run: |
