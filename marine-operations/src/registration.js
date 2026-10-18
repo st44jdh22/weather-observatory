@@ -23,7 +23,7 @@ export async function registerRouter(request,env,path){
   const allowed=['RYA_PB2','RYA_DAY_SKIPPER','RYA_COASTAL_SKIPPER','YACHTMASTER_COASTAL','YACHTMASTER_OFFSHORE','YACHTMASTER_OCEAN','STCW','PWC_INSTRUCTOR','FIRST_AID','SRC_VHF','COMMERCIAL_ENDORSEMENT','OTHER'];
   const qualType=String(b.qualification_type||'OTHER');
   if(!allowed.includes(qualType))return out({error:'INVALID_QUALIFICATION'},400);
-  const date=x=>typeof x==='string'&&/^\\d{4}-\\d{2}-\\d{2}$/.test(x)?x:null;
+  const date=x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)?x:null;
   const hours=Number(b.sea_hours||0);
   if(!Number.isFinite(hours)||hours<0||hours>100000)return out({error:'INVALID_SEA_TIME'},400);
   const tokenHash=await hmac(env.AUTH_HMAC_KEY,'invite:'+invite);
