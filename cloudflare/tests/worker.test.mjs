@@ -202,7 +202,7 @@ test('site theme finish preserves accountabilities, removes redundant review and
  assert.match(html,/\.day \.day-stat\{background:#f7f9fc!important/);
  assert.match(html,/#coastalCamera\s*option\{background:#fff;color:#202c76\}/);
  assert.match(html,/const englishAviso=\(spanish\)=>/);
- assert.match(html,/Original AEMET Spanish wording/);
+ assert.match(html,/p.textContent=original;p.lang='es'/);
  assert.match(html,/English translation not yet verified/);
  assert.match(html,/warningParagraph\(aviso\)/);
  const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(a=>!/\bsrc\s*=/.test(a[1]));
