@@ -135,26 +135,17 @@ test('Ibiza Sea School weather route keeps local app files and valid inline scri
  assert.match(manifest.name,/Ibiza Sea School/);
  for(const item of ['app.js','manifest.webmanifest','service-worker.js','assets/ibiza-sea-school-icon.svg'])assert.ok((await fs.stat(new URL(item,root))).isFile(),item);
 });
-test('retired public weather route redirects to branded path and clears old shell',async()=>{
- const fs=await import('node:fs/promises'),vm=await import('node:vm');
+test('retired ARA website assets stay removed after migration',async()=>{
+ const fs=await import('node:fs/promises');
  const legacy=new URL('../../ara/',import.meta.url);
- const html=await fs.readFile(new URL('index.html',legacy),'utf8');
- assert.match(html,/<meta http-equiv="refresh" content="0;url=\.\.\/ibiza-sea-school\/"/);
- assert.match(html,/location\.replace\('\.\.\/ibiza-sea-school\/'\)/);
- assert.doesNotMatch(html,/WALLYPOWER|Private vessel|<h1>ARA<\/h1>/i);
- const sw=await fs.readFile(new URL('service-worker.js',legacy),'utf8');
- assert.doesNotThrow(()=>new vm.Script(sw));
- assert.match(sw,/caches\.delete/);
- for(const obsolete of ['app.js','manifest.webmanifest','assets/ara-hero.jpg','assets/icon-180.png','assets/icon-192.png','assets/icon-512.png']){
-  await assert.rejects(fs.stat(new URL(obsolete,legacy)),{code:'ENOENT'},'legacy asset still published: '+obsolete);
- }
+ for(const obsolete of ['index.html','service-worker.js','app.js','manifest.webmanifest'])await assert.rejects(fs.stat(new URL(obsolete,legacy)),{code:'ENOENT'});
 });
 
 test('personal observatory stays unchanged and weather desk has no cross-site navigation',async()=>{
  const fs=await import('node:fs/promises');
  const root=await fs.readFile(new URL('../../index.html',import.meta.url),'utf8');
  assert.match(root,/STEPHEN'S WEATHER &amp; MARINE OBSERVATORY/);
- assert.match(root,/href="\.\/ara\/"/); // private personal site is unchanged
+ assert.match(root,/href="\.\/ibiza-sea-school\/"/); // current public navigation
  const branded=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
  assert.doesNotMatch(branded,/Stephen.s Observatory|observatory-nav|href="\.\.\/"/i);
  assert.match(branded,/Ibiza Sea School — Captain.s Weather/);
@@ -180,12 +171,11 @@ test('Ibiza Sea School light theme matches official logo and places the language
  assertStrict.equal(install.background_color,'#ffffff');
  assertStrict.equal(install.theme_color,'#ffffff');
 });
-test('Ibiza Sea School styling leaves personal observatory and retired legacy redirect untouched',async()=>{
+test('Ibiza Sea School styling leaves personal observatory intact and retired ARA folder absent',async()=>{
  const fs=await import('node:fs/promises');
  const personal=await fs.readFile(new URL('../../index.html',import.meta.url),'utf8');
  assert.match(personal,/STEPHEN'S WEATHER &amp; MARINE OBSERVATORY/);
- const legacy=await fs.readFile(new URL('../../ara/index.html',import.meta.url),'utf8');
- assert.match(legacy,/url=\.\.\/ibiza-sea-school\//);
+ await assert.rejects(fs.stat(new URL('../../ara/index.html',import.meta.url)),{code:'ENOENT'});
 });
 
 test('site theme finish preserves accountabilities, removes redundant review and uses honest warnings',async()=>{
