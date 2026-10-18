@@ -113,3 +113,33 @@ test('integration enforces invitation, cross-origin rejection and no self-grante
  const res=await worker.fetch(new Request('https://test.invalid/api/registration/apply',{method:'POST',headers:{Origin:'https://untrusted.invalid'},body:'{}'}),env);
  assert.equal(res.status,403);
 });
+
+test('staging email transport sends only to allowlisted recipients',async()=>{
+ const {mailerFromEnv}=await import('../src/email.js');
+ assert.equal(mailerFromEnv({}),null);
+ const allowed=mailerFromEnv({RESEND_API_KEY:'fake-test-token',OTP_FROM_EMAIL:'no-reply@example.test',OTP_ALLOWED_RECIPIENTS:'captain@example.test'});
+ await assert.rejects(allowed.send({to:'attacker@example.test',subject:'Captain code',text:'123456'}),/RECIPIENT_NOT_APPROVED_FOR_STAGING/);
+ const oldFetch=globalThis.fetch;
+ let outbound=null;
+ globalThis.fetch=async(url,options)=>{outbound={url,options};return new Response(JSON.stringify({id:'email_stub_1'}),{status:200,headers:{'content-type':'application/json'}})};
+ try{
+  const result=await allowed.send({to:'captain@example.test',subject:'Captain code',text:'Your code is 123456'});
+  assert.equal(result.status,'accepted_by_provider');
+  assert.equal(outbound.url,'https://api.resend.com/emails');
+  assert.deepEqual(JSON.parse(outbound.options.body).to,['captain@example.test']);
+ }finally{globalThis.fetch=oldFetch}
+});
+
+test('staging home and captain login UI are separate from production weather',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const home=await fs.readFile(new URL('../public/index.html',import.meta.url),'utf8');
+ const login=await fs.readFile(new URL('../public/captain-login/index.html',import.meta.url),'utf8');
+ const client=await fs.readFile(new URL('../public/captain-login/login.js',import.meta.url),'utf8');
+ for(const path of ['/captain-passport/','/captain-login/','/admin/captains/'])assert.ok(home.includes(path));
+ assert.match(login,/My authorised vessels/);
+ assert.match(client,/api\('request-code'/);
+ assert.match(client,/api\('verify-code'/);
+ assert.match(client,/api\('logout'/);
+ assert.doesNotMatch(client,/INSERT INTO|localStorage|A58|HYGGELIG|LARISSA/);
+ assert.doesNotThrow(()=>new vm.Script(client));
+});

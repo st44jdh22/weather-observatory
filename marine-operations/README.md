@@ -27,3 +27,7 @@ The [Captain Register](docs/CAPTAIN_REGISTER_ADMIN.md) is staged in `public/admi
 ## Registration-to-approval integration
 
 See [staging integration handover](docs/STAGING_INTEGRATION.md). Self-registration is invitation-only, email verified and always subject to administrator review and separate vessel authorisation. No production activation.
+
+## Private staging pilot
+
+See [private staging provisioning and acceptance runbook](docs/PRIVATE_STAGING_RUNBOOK.md). A verified-sender email adapter, SQL-backed end-to-end validation and isolated D1 configuration template have been added. **A private hosted staging URL has not been activated**; do not invite real captains yet.

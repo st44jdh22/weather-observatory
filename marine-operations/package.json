@@ -1,1 +1,13 @@
-{"name":"ibiza-sea-school-operations","private":true,"type":"module","version":"0.1.0","scripts":{"test":"node --test test/*.test.js","dev":"wrangler dev"},"devDependencies":{"wrangler":"^4.0.0"}}
+{
+  "name": "ibiza-sea-school-operations",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "test": "node --experimental-sqlite --test test/*.test.js",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

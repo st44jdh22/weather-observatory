@@ -1,3 +1,4 @@
+import {mailerFromEnv} from './email.js';
 import {authRouter} from './auth.js';
 import {captainAdminRouter} from './admin.js';
 import {registerRouter} from './registration.js';
@@ -5,9 +6,10 @@ const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':
 const json=(v,status)=>new Response(JSON.stringify(v),{status,headers});
 export default {async fetch(request,env){
  const path=new URL(request.url).pathname;
+ const runtime={...env,OTP_MAILER:env.OTP_MAILER||mailerFromEnv(env)};
  if(path==='/api/health'&&request.method==='GET')return json({service:'ibiza-sea-school-operations',status:'development',database:'not_provisioned',delivery:'disabled',login:'disabled'},200);
- if(path.startsWith('/api/registration/'))return registerRouter(request,env,path);
- if(path.startsWith('/api/auth/'))return authRouter(request,env,path);
+ if(path.startsWith('/api/registration/'))return registerRouter(request,runtime,path);
+ if(path.startsWith('/api/auth/'))return authRouter(request,runtime,path);
  if(path.startsWith('/api/admin/'))return captainAdminRouter(request,env,new URL(request.url));
  if(path.startsWith('/api/'))return json({error:'NOT_CONFIGURED',message:'Secure submission is not active.'},503);
  if(request.method!=='GET'&&request.method!=='HEAD')return json({error:'METHOD_NOT_ALLOWED'},405);

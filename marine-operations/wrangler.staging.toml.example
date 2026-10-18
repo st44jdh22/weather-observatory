@@ -1,0 +1,25 @@
+# Staging-only example. Do not deploy with placeholder database ID.
+# Before deployment create a separate D1 database and replace the database_id.
+name = "ibiza-sea-school-operations-staging"
+main = "src/worker.js"
+compatibility_date = "2026-10-18"
+workers_dev = false
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ibiza-sea-school-ops-staging"
+database_id = "REPLACE_WITH_STAGING_D1_DATABASE_ID"
+migrations_dir = "db/migrations"
+
+[vars]
+REGISTRATION_ENABLED = "false"
+ADMIN_ACTIONS_ENABLED = "false"
+
+# Secret values go into private Cloudflare Worker secrets ONLY:
+# AUTH_HMAC_KEY, RESEND_API_KEY, OTP_FROM_EMAIL, OTP_ALLOWED_RECIPIENTS.
+# The last two are kept private as configuration during the pilot.
+# Require Cloudflare Access protection before serving a domain to real users.
