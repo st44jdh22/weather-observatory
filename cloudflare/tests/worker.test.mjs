@@ -186,3 +186,24 @@ test('Ibiza Sea School styling leaves personal observatory and retired legacy re
  const legacy=await fs.readFile(new URL('../../ara/index.html',import.meta.url),'utf8');
  assert.match(legacy,/url=\.\.\/ibiza-sea-school\//);
 });
+
+test('site theme finish preserves accountabilities, removes redundant review and uses honest warnings',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const html=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ assert.match(html,/id="command-report"/);
+ assert.doesNotMatch(html,/id="review"/);
+ assert.doesNotMatch(html,/id="copyReview"/);
+ assert.match(html,/Command, accountability &amp; reporting/);
+ assert.match(html,/class="airport-plane"/);
+ assert.match(html,/\.airport-plane\{color:#d10049!important/);
+ assert.match(html,/\.airport-stat\{background:#f7f9fc!important/);
+ assert.match(html,/\.iss-now-caution\{background:#fff2f5!important/);
+ assert.match(html,/\.day \.day-stat\{background:#f7f9fc!important/);
+ assert.match(html,/#coastalCamera\s*option\{background:#fff;color:#202c76\}/);
+ assert.match(html,/const englishAviso=\(spanish\)=>/);
+ assert.match(html,/Original AEMET Spanish wording/);
+ assert.match(html,/English translation not yet verified/);
+ assert.match(html,/warningParagraph\(aviso\)/);
+ const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(a=>!/\bsrc\s*=/.test(a[1]));
+ for(const [i,a] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(a[2],{filename:'ibiza-script-'+i}));
+});
