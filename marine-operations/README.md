@@ -15,3 +15,7 @@ See the full locally tested starter package attached to the engineering handover
 - `GET /api/auth/me` lists only assigned vessels and active tenant memberships. `POST /api/auth/logout` revokes the session.
 - Code request throttles on hashed email and IP. Before production, review atomic request throttling, bot protection, timing/user enumeration controls, session management, audit and provider delivery feedback. No customer data or real captains seeded.
 - Production submission, photographs and notifications remain closed. Live `ibiza-sea-school/` is unchanged. Never put the email provider API key, OTP HMAC key or real captain addresses in public assets or this repository.
+
+## Captain Passport
+
+A staged self-registration preview and qualification database schema are available under `public/captain-passport/` and `db/migrations/0003_captain_passport.sql`. **No application writes or submissions are enabled.** See [registration and authorisation policy](docs/CAPTAIN_PASSPORT.md).
