@@ -63,3 +63,16 @@ test('XML endpoint failure is explicit and cannot masquerade as all-clear',async
  const body=await r.json();assert.equal(body.marine_avisos.verified,false);
  assert.match(body.marine_avisos.error,/HTTP 503/);
 });
+
+test('staged ARA page parses every inline JavaScript block and keeps maritime warnings independent',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const html=await fs.readFile(new URL('../../ara/index.html',import.meta.url),'utf8');
+ const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+  .filter(x=>!/\bsrc\s*=/.test(x[1])&&!/type\s*=\s*["'](?:application\/json|importmap)/i.test(x[1]));
+ assert.ok(scripts.length>8,'expected existing ARA scripts');
+ for(const [index,script] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(script[2],{filename:'ara-inline-'+index+'.js'}));
+ assert.match(html,/coastalAvisos=d\.marine_avisos\|\|null/);
+ assert.match(html,/const coastal=coastalAvisos/);
+ assert.match(html,/coastal\.expired/);
+ assert.match(html,/CAP colour alerts are supplementary/);
+});
