@@ -37,7 +37,9 @@ test('Captain Passport preview never transmits or grants vessel access',async()=
  assert.match(html,/commercial endorsement/i);
  assert.match(html,/VHF\/SRC certificate/i);
  assert.match(html,/No application submitted/);
- assert.doesNotMatch(script,/fetch\s*\(|XMLHttpRequest|sendBeacon/);
+ assert.match(script,/sendRegistration\('apply'/);
+ assert.match(script,/sendRegistration\('verify-email'/);
+ assert.doesNotMatch(script,/XMLHttpRequest|sendBeacon/);
  assert.match(script,/NOT SUBMITTED — NO VESSEL ACCESS GRANTED/);
  assert.match(migration,/CREATE TABLE captain_applications/);
  assert.match(migration,/CREATE TABLE captain_qualifications/);
@@ -84,4 +86,30 @@ test('Administrator register is tenant-filtered, gated and has no unauthorised p
  assert.match(sql,/CREATE TABLE captain_application_events/);
  assert.match(sql,/ALTER TABLE captain_applications ADD COLUMN tenant_id/);
  assert.match(sql,/ALTER TABLE captain_applications ADD COLUMN email_verified_at/);
+});
+
+test('integrated application registration stays disabled until backend, mailer and explicit gate exist',async()=>{
+ for(const path of ['/api/registration/apply','/api/registration/verify-email']){
+  const response=await worker.fetch(new Request('https://test.invalid'+path,{method:'POST',headers:{Origin:'https://test.invalid'},body:'{}'}),{});
+  assert.equal(response.status,503);
+  assert.equal((await response.json()).error,'REGISTRATION_NOT_CONFIGURED');
+ }
+});
+test('integration enforces invitation, cross-origin rejection and no self-granted fleet access',async()=>{
+ const fs=await import('node:fs/promises');
+ const migration=await fs.readFile(new URL('../db/migrations/0005_registration_onboarding.sql',import.meta.url),'utf8');
+ const registration=await fs.readFile(new URL('../src/registration.js',import.meta.url),'utf8');
+ const admin=await fs.readFile(new URL('../src/admin.js',import.meta.url),'utf8');
+ assert.match(migration,/CREATE TABLE registration_invites/);
+ assert.match(migration,/CREATE TABLE applicant_email_challenges/);
+ assert.match(registration,/registration_invites SET consumed_at/);
+ assert.match(registration,/REGISTRATION_ENABLED/);
+ assert.match(registration,/confirm_accuracy/);
+ assert.match(registration,/email_verified_pending_administrator_review/);
+ assert.doesNotMatch(registration,/INSERT INTO (?:memberships|vessel_access)/);
+ assert.match(admin,/registration-invites/);
+ assert.match(admin,/ADMIN_ACTIONS_ENABLED/);
+ const env={DB:{},AUTH_HMAC_KEY:'a-development-only-test-key',OTP_MAILER:{send:async()=>{throw Error('should not send')}} ,REGISTRATION_ENABLED:'true'};
+ const res=await worker.fetch(new Request('https://test.invalid/api/registration/apply',{method:'POST',headers:{Origin:'https://untrusted.invalid'},body:'{}'}),env);
+ assert.equal(res.status,403);
 });
