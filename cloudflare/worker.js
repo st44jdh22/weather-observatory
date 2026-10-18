@@ -191,7 +191,7 @@ export function parseCoastalAvisos(xml,nowMs=Date.now()){
  const upcoming=avisos.filter(a=>nowMs<madridLocalMs(a.valid_from_local));
  const last=avisos.reduce((best,a)=>!best||madridLocalMs(a.valid_until_local)>madridLocalMs(best.valid_until_local)?a:best,null);
  // AEMET explicitly uses 'No hay avisos' in the same XML field when none are issued.
- const noWarnings=current.length>0&&current.every(a=>/^no hay avisos\\.?$/i.test(a.text));
+ const noWarnings=current.length>0&&current.every(a=>/^no hay avisos\.?$/i.test(a.text));
  return {verified:true,source:'AEMET Costa de Illes Balears coastal XML',source_url:AEMET_COASTAL_XML,area:'Costa de Illes Balears',
   avisos:current,upcoming_avisos:upcoming,no_warnings_current:noWarnings,expired:current.length===0&&upcoming.length===0,
   last_valid_until_local:last.valid_until_local,
