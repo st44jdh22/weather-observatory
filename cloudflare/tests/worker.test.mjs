@@ -107,3 +107,42 @@ test('maritime interface includes an explicit official No hay avisos status',asy
  assert.match(page,/No hay avisos \(no maritime warnings issued\)/);
  assert.match(page,/AEMET coastal maritime warning/);
 });
+
+test('Ibiza Sea School masthead removes private vessel branding and retains edition',async()=>{
+ const fs=await import('node:fs/promises');
+ const html=await fs.readFile(new URL('../../ibiza-sea-school/index.html',import.meta.url),'utf8');
+ assert.match(html,/<title>Ibiza Sea School/);
+ assert.match(html,/<header class="hero">[\s\S]*ibiza-sea-school-logo\.webp/);
+ assert.match(html,/CAPTAIN'S WEATHER &amp; MARITIME DESK/);
+ assert.match(html,/EDITION V5\.25/);
+ for(const forbidden of [/<h1>ARA<\/h1>/i,/WALLYPOWER\s*58/i,/Private vessel operations/i,/assets\/ara-hero\.jpg/i,/ARA Weather App/i])assert.doesNotMatch(html,forbidden);
+ const logo=await fs.readFile(new URL('../../ibiza-sea-school/assets/ibiza-sea-school-logo.webp',import.meta.url));
+ assert.equal(logo.subarray(0,4).toString(),'RIFF');
+ assert.equal(logo.subarray(8,12).toString(),'WEBP');
+});
+test('Ibiza Sea School weather route keeps local app files and valid inline scripts',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const root=new URL('../../ibiza-sea-school/',import.meta.url);
+ const html=await fs.readFile(new URL('index.html',root),'utf8');
+ const scripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(x=>!/\bsrc\s*=/.test(x[1]));
+ for(const [i,tag] of scripts.entries())assert.doesNotThrow(()=>new vm.Script(tag[2],{filename:'iss-'+i}));
+ assert.match(html,/window\.issGetMetForecast/);
+ assert.doesNotMatch(html,/window\.araGetMetForecast/);
+ const app=await fs.readFile(new URL('app.js',root),'utf8');
+ assert.doesNotThrow(()=>new vm.Script(app));
+ assert.doesNotMatch(app,/ARA CAPTAIN WEATHER REVIEW/);
+ const manifest=JSON.parse(await fs.readFile(new URL('manifest.webmanifest',root),'utf8'));
+ assert.match(manifest.name,/Ibiza Sea School/);
+ for(const item of ['app.js','manifest.webmanifest','service-worker.js','assets/ibiza-sea-school-icon.svg'])assert.ok((await fs.stat(new URL(item,root))).isFile(),item);
+});
+test('retired public weather route redirects to branded path and clears old shell',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const legacy=new URL('../../ara/',import.meta.url);
+ const html=await fs.readFile(new URL('index.html',legacy),'utf8');
+ assert.match(html,/<meta http-equiv="refresh" content="0;url=\.\.\/ibiza-sea-school\/"/);
+ assert.match(html,/location\.replace\('\.\.\/ibiza-sea-school\/'\)/);
+ assert.doesNotMatch(html,/WALLYPOWER|Private vessel|<h1>ARA<\/h1>/i);
+ const sw=await fs.readFile(new URL('service-worker.js',legacy),'utf8');
+ assert.doesNotThrow(()=>new vm.Script(sw));
+ assert.match(sw,/caches\.delete/);
+});
