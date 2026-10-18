@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Captain Passport · Ibiza Sea School — Development</title>
+<style>
+:root{font-family:system-ui,-apple-system,Arial,sans-serif;color:#17314b;background:#eef4f9}*{box-sizing:border-box}
+body{max-width:850px;margin:24px auto;padding:0 15px}header{background:#202c76;color:#fff;padding:25px;border-radius:16px}
+h1{margin:0 0 8px;font-size:1.85rem}h2{font-size:1.2rem}p{line-height:1.5}
+form,.notice{margin-top:18px;background:#fff;padding:23px;border-radius:14px;box-shadow:0 2px 18px #1d35501a}
+fieldset{border:1px solid #ced7e4;border-radius:12px;margin:18px 0;padding:15px}legend{font-weight:700}
+label{display:block;margin:12px 0 6px;font-weight:600}input,select,textarea{width:100%;padding:10px;border:1px solid #9eb0c7;border-radius:7px;font:inherit}
+input[type=checkbox]{width:auto;margin-right:8px}.checks label{font-weight:400}
+button{background:#202c76;color:#fff;border:0;border-radius:8px;padding:12px 20px;font-weight:700;cursor:pointer}
+button.secondary{background:#e6eaf4;color:#202c76}button:focus-visible{outline:3px solid #e35b79}
+small{color:#47546a}#status{margin-top:15px;font-weight:700}#review{white-space:pre-wrap;overflow-wrap:anywhere;border-radius:7px;background:#f2f5fb;padding:14px;margin:14px 0}
+</style></head><body>
+<header><h1>⚓ Captain Passport</h1><p>Ibiza Sea School · Captain registration and qualification review</p></header>
+<section class="notice"><strong>Development preview — applications are not being submitted.</strong>
+<p>Complete a draft of your Captain Passport below. We will eventually verify your email and send the application for manual review. Applying does <strong>not</strong> authorise anyone to operate a vessel.</p></section>
+<form id="passport" novalidate>
+<fieldset><legend>1. Captain details</legend>
+<label for="fullName">Full name *</label><input id="fullName" autocomplete="name" maxlength="150" required>
+<label for="email">Email address *</label><input id="email" type="email" autocomplete="email" maxlength="254" required>
+<label for="phone">Contact telephone (optional)</label><input id="phone" type="tel" autocomplete="tel" maxlength="40">
+<label for="experience">Experience and vessels previously operated</label><textarea id="experience" rows="4" maxlength="1800" placeholder="Describe relevant boats, sizes and experience"></textarea>
+</fieldset>
+<fieldset><legend>2. Qualifications</legend>
+<label for="qualification">Highest marine qualification</label><select id="qualification">
+<option value="">Select qualification</option><option>RYA Powerboat Level 2</option><option>RYA Day Skipper</option>
+<option>RYA Coastal Skipper</option><option>Yachtmaster Coastal</option><option>Yachtmaster Offshore</option>
+<option>Yachtmaster Ocean</option><option>Other</option></select>
+<label for="firstAid">Last first-aid course date</label><input id="firstAid" type="date">
+<label for="commercial">Commercial endorsement status</label><select id="commercial"><option value="">Select status</option>
+<option>Held and current</option><option>Held, expired</option><option>Not held</option><option>Not sure</option></select>
+<div class="checks"><label><input id="vhf" type="checkbox">I hold a marine VHF/SRC certificate</label></div>
+<label for="medicalDate">Date of most recent maritime medical (optional)</label><input id="medicalDate" type="date">
+<label for="medicalExpiry">Medical certificate expiry (optional)</label><input id="medicalExpiry" type="date">
+<small>Record dates only, not medical diagnoses or clinical details.</small>
+</fieldset>
+<fieldset><legend>3. Sea time and experience</legend>
+<label for="seaHours">Approximate relevant sea hours</label><input id="seaHours" type="number" min="0" step="1" max="100000" placeholder="e.g. 800">
+<label for="boatClasses">Types and lengths of vessels operated</label><textarea id="boatClasses" rows="3" maxlength="900" placeholder="e.g. twin-engine motor yachts, 10–20 metres"></textarea>
+</fieldset>
+<fieldset><legend>4. Qualification documents — future secure upload</legend>
+<p>Documents will be stored privately when the upload system is activated. <strong>Uploads are disabled in this preview.</strong></p>
+<label for="documents">Qualification certificates (not yet available)</label><input id="documents" type="file" accept=".pdf,image/jpeg,image/png,image/webp" multiple disabled>
+<small>We will accept qualification and endorsement evidence, but not medical records or diagnoses.</small>
+</fieldset>
+<fieldset><legend>5. Vessel authorisation</legend>
+<p>You may describe vessels you would like to be considered for, but only the fleet administrator can approve access.</p>
+<label for="requestVessels">Requested vessel(s), if known</label><textarea id="requestVessels" rows="2" maxlength="600" placeholder="e.g. HYGGELIG, LARISSA"></textarea>
+<div class="checks"><label><input id="consent" type="checkbox" required>I confirm the information is accurate and understand this is an application only, subject to review.</label></div>
+</fieldset>
+<button type="button" id="preview">Review my application</button>
+<button type="reset" class="secondary">Clear form</button>
+<div id="status" role="status">No application submitted.</div><pre id="review" hidden></pre>
+</form>
+<script type="module" src="./passport.js"></script>
+</body></html>

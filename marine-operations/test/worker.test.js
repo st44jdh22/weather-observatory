@@ -23,3 +23,24 @@ test('malformed OTP code cannot create a session',async()=>{
  assert.equal(res.status,400);
  assert.ok(!res.headers.get('set-cookie'));
 });
+
+test('Captain Passport preview never transmits or grants vessel access',async()=>{
+ const fs=await import('node:fs/promises');
+ const html=await fs.readFile(new URL('../public/captain-passport/index.html',import.meta.url),'utf8');
+ const script=await fs.readFile(new URL('../public/captain-passport/passport.js',import.meta.url),'utf8');
+ const migration=await fs.readFile(new URL('../db/migrations/0003_captain_passport.sql',import.meta.url),'utf8');
+ assert.match(html,/Captain Passport/);
+ assert.match(html,/type="file"[^>]*disabled/);
+ assert.match(html,/id="email" type="email"/);
+ assert.match(html,/last first-aid course date/i);
+ assert.match(html,/medical certificate expiry/i);
+ assert.match(html,/commercial endorsement/i);
+ assert.match(html,/VHF\/SRC certificate/i);
+ assert.match(html,/No application submitted/);
+ assert.doesNotMatch(script,/fetch\s*\(|XMLHttpRequest|sendBeacon/);
+ assert.match(script,/NOT SUBMITTED — NO VESSEL ACCESS GRANTED/);
+ assert.match(migration,/CREATE TABLE captain_applications/);
+ assert.match(migration,/CREATE TABLE captain_qualifications/);
+ assert.match(migration,/CREATE TABLE captain_vessel_approvals/);
+ assert.match(migration,/FOREIGN KEY \(tenant_id,vessel_id\) REFERENCES vessels\(tenant_id,id\)/);
+});
