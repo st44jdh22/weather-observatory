@@ -1,5 +1,5 @@
 /* Offline application shell only. Forecast responses must NEVER be served from cache as if current. */
-const CACHE_NAME = 'ibiza-sea-school-weather-v5.30-20261018';
+const CACHE_NAME = 'ibiza-sea-school-weather-v5.31-20261018';
 const SHELL = ['./','./index.html','./app.js','./manifest.webmanifest','./assets/ibiza-sea-school-logo.webp','./assets/ibiza-sea-school-icon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
