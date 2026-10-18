@@ -24,14 +24,24 @@ export async function captainAdminRouter(request,env,url){
  if(request.method!=='GET'&&request.headers.get('origin')!==url.origin)return response({error:'ORIGIN_DENIED'},403);
  const who=await actor(request,env);if(!who)return response({error:'AUTH_REQUIRED'},401);
  const parts=url.pathname.split('/').filter(Boolean);
- // /api/admin/tenants/{tenant}/applications[/id[/action]]
+ if(parts.length===3&&parts.join('/')==='api/admin/tenants'&&request.method==='GET'){
+  const rows=await env.DB.prepare("SELECT t.id,t.name,m.role FROM memberships m JOIN tenants t ON t.id=m.tenant_id WHERE m.user_id=? AND m.role IN ('owner','manager') AND t.status='active'").bind(who.id).all();
+  return response({tenants:rows.results||[]});
+ }
+ // /api/admin/tenants/{tenant}/applications[/id[/action]]; vessels route below.
  if(parts.length<5||parts[0]!=='api'||parts[1]!=='admin'||parts[2]!=='tenants'||!validId(parts[3])||parts[4]!=='applications')
   return response({error:'UNKNOWN_ADMIN_ROUTE'},404);
  const tenant=parts[3];
  if(!await adminFor(env,who.id,tenant))return response({error:'FORBIDDEN'},403);
  if(parts.length===5&&request.method==='GET'){
+  // Application queue only; vessel list is restricted to matching tenant.
+
   const rows=await env.DB.prepare('SELECT id,full_name,email,status,submitted_at,reviewed_at,email_verified_at FROM captain_applications WHERE tenant_id=? ORDER BY submitted_at DESC LIMIT 100').bind(tenant).all();
   return response({applications:rows.results||[]});
+ }
+ if(parts.length===6&&parts[5]==='vessels'&&request.method==='GET'){
+  const rows=await env.DB.prepare('SELECT id,name FROM vessels WHERE tenant_id=? ORDER BY name').bind(tenant).all();
+  return response({vessels:rows.results||[]});
  }
  const application=parts[5];if(!validId(application))return response({error:'NOT_FOUND'},404);
  const a=await env.DB.prepare('SELECT * FROM captain_applications WHERE tenant_id=? AND id=?').bind(tenant,application).first();
