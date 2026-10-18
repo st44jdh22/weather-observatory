@@ -1,6 +1,6 @@
 import test,{afterEach} from 'node:test';
 import assert from 'node:assert/strict';
-import worker from '../worker.js';
+import worker,{parseCoastalAvisos} from '../worker.js';
 
 const base='https://example.workers.dev',origin='https://st44jdh22.github.io';
 const realFetch=globalThis.fetch;afterEach(()=>globalThis.fetch=realFetch);
@@ -18,3 +18,48 @@ test('null, primitives, arrays and malformed input return controlled HTTP 400',a
 test('authenticated AI briefing and restored marine safeguards',async()=>{let payload;globalThis.fetch=async(u,o)=>{if(String(u).includes('api.openai.com')){payload=JSON.parse(o.body);return json({output:[{content:[{type:'output_text',text:'Briefing OK'}]}],model:'test'});}return json({hourly:{time:[]}});};const r=await worker.fetch(request('/','POST',JSON.stringify(trip),{'X-ARA-Access':'test-access'}),env());assert.equal(r.status,200);assert.equal(payload!==undefined,true);assert.equal(JSON.parse(payload.input).selected_exceeds_radius,true);for(const phrase of ['crossing land','strong easterly','permitted radius','not forecast accuracy','do not claim AEMET warnings'])assert.match(payload.instructions,new RegExp(phrase,'i'));});
 test('soft KV daily limit prevents requests at nominal cap',async()=>{const e=env(),key='requests:'+new Date().toISOString().slice(0,10);await e.AI_USAGE.put(key,'30');const r=await worker.fetch(request('/','POST',JSON.stringify(trip),{'X-ARA-Access':'test-access'}),e);assert.equal(r.status,429);});
 test('upstream AI provider failure hides status',async()=>{globalThis.fetch=async u=>String(u).includes('api.openai.com')?new Response('failed',{status:429}):json({hourly:{time:[]}});const r=await worker.fetch(request('/','POST',JSON.stringify(trip),{'X-ARA-Access':'test-access'}),env());assert.equal(r.status,502);assert.deepEqual(await r.json(),{error:'OpenAI request failed'});});
+
+const officialCoastalXml=(text='En Ibiza, Formentera y sur de Mallorca, precipitaciones muy fuertes con tormenta a partir de la madrugada.',end='2026-10-18T20:00:00')=>
+  '<root id="FQXX44"><origen><productor>AEMET</productor></origen><aviso id="A807"><inicio>2026-10-17T20:00:00</inicio><fin>'+end+'</fin><texto>'+text+'</texto></aviso></root>';
+test('extracts exact coastal Avisos text and CET/CEST validity, never CAP summary',()=>{
+ const now=Date.parse('2026-10-18T00:00:00Z');
+ const p=parseCoastalAvisos(officialCoastalXml(),now);
+ assert.equal(p.verified,true);
+ assert.equal(p.expired,false);
+ assert.equal(p.avisos.length,1);
+ assert.match(p.avisos[0].text,/precipitaciones muy fuertes con tormenta/);
+ assert.equal(p.avisos[0].valid_until_local,'2026-10-18T20:00:00');
+ assert.equal(p.source_url,'https://www.aemet.es/xml/maritima/FQXX44MM.xml');
+});
+test('expired coastal warnings cannot appear as active maritime warnings',()=>{
+ const p=parseCoastalAvisos(officialCoastalXml(),Date.parse('2026-10-19T12:00:00Z'));
+ assert.equal(p.expired,true);assert.equal(p.avisos.length,0);
+ assert.equal(p.last_valid_until_local,'2026-10-18T20:00:00');
+});
+test('future coastal Avisos remain upcoming, not current',()=>{
+ const p=parseCoastalAvisos(officialCoastalXml(),Date.parse('2026-10-17T12:00:00Z'));
+ assert.equal(p.avisos.length,0);assert.equal(p.upcoming_avisos.length,1);assert.equal(p.expired,false);
+});
+test('malformed and incomplete coastal XML fail closed',()=>{
+ for(const xml of ['<html>Blocked</html>','<root><origen/></root>','<root><origen></origen><aviso><texto>Storm</texto></aviso></root>']){
+  assert.throws(()=>parseCoastalAvisos(xml,Date.now()));
+ }
+});
+test('coastal warning retrieval is independent of CAP and OpenData failures',async()=>{
+ globalThis.fetch=async u=>String(u).includes('/xml/maritima/FQXX44MM.xml')
+  ?new Response(officialCoastalXml('Aviso oficial de temporal.'),{status:200,headers:{'Content-Type':'application/xml'}})
+  :new Response('Service unavailable',{status:503});
+ const r=await worker.fetch(request('/aemet'),env());assert.equal(r.status,200);
+ const response=await r.json();
+ assert.equal(response.marine_avisos.verified,true);
+ assert.equal(response.marine_avisos.source,'AEMET Costa de Illes Balears coastal XML');
+ assert.equal(response.warnings.verified,false);
+ assert.equal(response.marine.verified,false);
+ assert.equal(response.verified,false);
+});
+test('XML endpoint failure is explicit and cannot masquerade as all-clear',async()=>{
+ globalThis.fetch=async()=>new Response('unavailable',{status:503});
+ const r=await worker.fetch(request('/aemet'),env());assert.equal(r.status,200);
+ const body=await r.json();assert.equal(body.marine_avisos.verified,false);
+ assert.match(body.marine_avisos.error,/HTTP 503/);
+});
