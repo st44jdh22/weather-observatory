@@ -17,7 +17,7 @@ async function init(){
   actionsEnabled=data.actions_enabled===true;
   tenant.replaceChildren(new Option('Select client account',''));
   for(const t of data.tenants||[])tenant.add(new Option(t.name+' ('+t.role+')',t.id));
-  tenant.disabled=false;setStatus('Signed in with an administrator account. Choose a client.');
+  tenant.disabled=false;$('makeInvite').disabled=!actionsEnabled;setStatus('Signed in with an administrator account. Choose a client.');
  }catch(e){setStatus('Administrator access unavailable: '+e.message)}
 }
 async function loadQueue(){
@@ -96,5 +96,14 @@ async function runAction(action,data,question){
   await loadQueue();
  }catch(e){setStatus('Action was not completed: '+e.message)}
 }
-tenant.addEventListener('change',loadQueue);
+$('makeInvite').addEventListener('click',async()=>{
+ if(!actionsEnabled||!tenant.value)return;
+ try{
+  const data=await post('/api/admin/tenants/'+encodeURIComponent(tenant.value)+'/registration-invites',{});
+  const url=new URL('/captain-passport/',location.origin);
+  // Invitation token is shown to the administrator only; don't publish it in links, logs or browser history.
+  $('inviteStatus').textContent='Private one-use invitation (valid 7 days): '+data.invitation+'. Share this separately with the captain, who enters it in Captain Passport.';
+ }catch(e){$('inviteStatus').textContent='No invitation created: '+e.message}
+});
+tenant.addEventListener('change',()=>{$('inviteStatus').textContent='';loadQueue()});
 init();
