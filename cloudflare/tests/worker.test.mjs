@@ -145,4 +145,7 @@ test('retired public weather route redirects to branded path and clears old shel
  const sw=await fs.readFile(new URL('service-worker.js',legacy),'utf8');
  assert.doesNotThrow(()=>new vm.Script(sw));
  assert.match(sw,/caches\.delete/);
+ for(const obsolete of ['app.js','manifest.webmanifest','assets/ara-hero.jpg','assets/icon-180.png','assets/icon-192.png','assets/icon-512.png']){
+  await assert.rejects(fs.stat(new URL(obsolete,legacy)),{code:'ENOENT'},'legacy asset still published: '+obsolete);
+ }
 });
