@@ -26,7 +26,7 @@ export async function captainAdminRouter(request,env,url){
  const parts=url.pathname.split('/').filter(Boolean);
  if(parts.length===3&&parts.join('/')==='api/admin/tenants'&&request.method==='GET'){
   const rows=await env.DB.prepare("SELECT t.id,t.name,m.role FROM memberships m JOIN tenants t ON t.id=m.tenant_id WHERE m.user_id=? AND m.role IN ('owner','manager') AND t.status='active'").bind(who.id).all();
-  return response({tenants:rows.results||[]});
+  return response({tenants:rows.results||[],actions_enabled:env.ADMIN_ACTIONS_ENABLED==='true'});
  }
  // /api/admin/tenants/{tenant}/applications[/id[/action]]; vessels route below.
  if(parts.length<5||parts[0]!=='api'||parts[1]!=='admin'||parts[2]!=='tenants'||!validId(parts[3])||parts[4]!=='applications')
