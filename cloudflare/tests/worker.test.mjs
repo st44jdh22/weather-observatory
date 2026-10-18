@@ -76,3 +76,13 @@ test('staged ARA page parses every inline JavaScript block and keeps maritime wa
  assert.match(html,/coastal\.expired/);
  assert.match(html,/CAP colour alerts are supplementary/);
 });
+test('public coastal warnings remain available without an OpenData API key',async()=>{
+ globalThis.fetch=async u=>String(u).includes('/xml/maritima/FQXX44MM.xml')?new Response(officialCoastalXml(),{status:200}):new Response('unavailable',{status:503});
+ const e=env();delete e.AEMET_API_KEY;
+ const r=await worker.fetch(request('/aemet'),e);
+ const body=await r.json();
+ assert.equal(body.marine_avisos.verified,true);
+ assert.equal(body.marine.verified,false);
+ assert.equal(body.warnings.verified,false);
+ assert.equal(body.marine_avisos.avisos.length>0,true);
+});
