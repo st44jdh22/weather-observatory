@@ -779,7 +779,7 @@ window.addEventListener('load',()=>{
    const line=document.createElement('div');line.textContent=parts.join(' ');box.append(line);
   }
   const note=document.createElement('small');note.style.display='block';note.style.marginTop='6px';
-  note.textContent=en?'CAP colour alerts are supplementary. Official coastal-bulletin Avisos are shown above only when provided by AEMET OpenData. Verify warning validity and zone coverage.':'Los niveles CAP son información adicional. Se muestra el texto literal de Avisos solo cuando AEMET OpenData lo proporciona. Compruebe vigencia y cobertura.';
+  note.textContent=en?'CAP colour alerts are supplementary. Maritime Avisos above come from the separate official AEMET coastal XML bulletin. Verify warning validity and zone coverage.':'Los niveles CAP son información adicional. Los avisos marítimos anteriores proceden del boletín XML costero oficial de AEMET. Compruebe vigencia y cobertura.';
   box.append(note);
   if(ambiguous){const small=document.createElement('small');small.textContent=' '+ambiguous+' alerts lack valid timing.';box.append(small)}
  }
