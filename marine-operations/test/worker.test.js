@@ -113,3 +113,19 @@ test('integration enforces invitation, cross-origin rejection and no self-grante
  const res=await worker.fetch(new Request('https://test.invalid/api/registration/apply',{method:'POST',headers:{Origin:'https://untrusted.invalid'},body:'{}'}),env);
  assert.equal(res.status,403);
 });
+
+test('staging email transport sends only to allowlisted recipients',async()=>{
+ const {mailerFromEnv}=await import('../src/email.js');
+ assert.equal(mailerFromEnv({}),null);
+ const allowed=mailerFromEnv({RESEND_API_KEY:'fake-test-token',OTP_FROM_EMAIL:'no-reply@example.test',OTP_ALLOWED_RECIPIENTS:'captain@example.test'});
+ await assert.rejects(allowed.send({to:'attacker@example.test',subject:'Captain code',text:'123456'}),/RECIPIENT_NOT_APPROVED_FOR_STAGING/);
+ const oldFetch=globalThis.fetch;
+ let outbound=null;
+ globalThis.fetch=async(url,options)=>{outbound={url,options};return new Response(JSON.stringify({id:'email_stub_1'}),{status:200,headers:{'content-type':'application/json'}})};
+ try{
+  const result=await allowed.send({to:'captain@example.test',subject:'Captain code',text:'Your code is 123456'});
+  assert.equal(result.status,'accepted_by_provider');
+  assert.equal(outbound.url,'https://api.resend.com/emails');
+  assert.deepEqual(JSON.parse(outbound.options.body).to,['captain@example.test']);
+ }finally{globalThis.fetch=oldFetch}
+});
