@@ -205,8 +205,13 @@ async function aemetCoastalAvisos(){
 }
 
 async function aemetStatus(env){
- if(!env.AEMET_API_KEY)return {verified:false,error:'AEMET_API_KEY secret missing'};
- const jobs=await Promise.allSettled([aemetResource('/api/prediccion/maritima/costera/costa/44',env),aemetWarnings(env),aemetCoastalAvisos()]);
+ // The coastal XML is public and must remain accessible even if the OpenData API key expires.
+ const keyAvailable=Boolean(env.AEMET_API_KEY);
+ const jobs=await Promise.allSettled([
+  keyAvailable?aemetResource('/api/prediccion/maritima/costera/costa/44',env):Promise.reject(new Error('AEMET_API_KEY secret missing')),
+  keyAvailable?aemetWarnings(env):Promise.reject(new Error('AEMET_API_KEY secret missing')),
+  aemetCoastalAvisos()
+ ]);
  const result={checked_at_utc:new Date().toISOString(),verified:false,marine:{verified:false},warnings:{verified:false}};
  if(jobs[0].status==='fulfilled'){
   const r=jobs[0].value;result.marine={verified:true,area:'Illes Balears coastal waters',bulletin:r.content.slice(0,250000),source:'AEMET OpenData coastal area 44',retrieved_at_utc:result.checked_at_utc};
