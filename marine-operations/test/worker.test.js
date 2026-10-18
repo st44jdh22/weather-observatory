@@ -129,3 +129,17 @@ test('staging email transport sends only to allowlisted recipients',async()=>{
   assert.deepEqual(JSON.parse(outbound.options.body).to,['captain@example.test']);
  }finally{globalThis.fetch=oldFetch}
 });
+
+test('staging home and captain login UI are separate from production weather',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const home=await fs.readFile(new URL('../public/index.html',import.meta.url),'utf8');
+ const login=await fs.readFile(new URL('../public/captain-login/index.html',import.meta.url),'utf8');
+ const client=await fs.readFile(new URL('../public/captain-login/login.js',import.meta.url),'utf8');
+ for(const path of ['/captain-passport/','/captain-login/','/admin/captains/'])assert.ok(home.includes(path));
+ assert.match(login,/My authorised vessels/);
+ assert.match(client,/api\('request-code'/);
+ assert.match(client,/api\('verify-code'/);
+ assert.match(client,/api\('logout'/);
+ assert.doesNotMatch(client,/INSERT INTO|localStorage|A58|HYGGELIG|LARISSA/);
+ assert.doesNotThrow(()=>new vm.Script(client));
+});
