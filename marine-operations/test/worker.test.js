@@ -143,3 +143,29 @@ test('staging home and captain login UI are separate from production weather',as
  assert.doesNotMatch(client,/INSERT INTO|localStorage|A58|HYGGELIG|LARISSA/);
  assert.doesNotThrow(()=>new vm.Script(client));
 });
+
+test('Vessel Passport endpoints fail closed and reject unauthorised requests',async()=>{
+ for(const path of ['/api/admin/tenants/fleet-a/vessels','/api/admin/tenants/fleet-a/vessels/boat-1']){
+  const req=new Request('https://staging.invalid'+path);
+  const result=await worker.fetch(req,{});
+  assert.equal(result.status,503);
+  assert.equal((await result.json()).error,'VESSEL_SERVICE_NOT_CONFIGURED');
+ }
+ const unauth=await worker.fetch(new Request('https://staging.invalid/api/admin/tenants/a/vessels'),{DB:{},AUTH_HMAC_KEY:'local-test'});
+ assert.equal(unauth.status,401);
+ const csrf=await worker.fetch(new Request('https://staging.invalid/api/admin/tenants/a/vessels',{method:'POST',headers:{Origin:'https://evil.invalid'},body:'{}'}),{DB:{},AUTH_HMAC_KEY:'local-test'});
+ assert.equal(csrf.status,403);
+});
+test('Vessel Passport UI exposes details but disables private uploads',async()=>{
+ const fs=await import('node:fs/promises');
+ const html=await fs.readFile(new URL('../public/admin/vessels/index.html',import.meta.url),'utf8');
+ const ui=await fs.readFile(new URL('../public/admin/vessels/vessels.js',import.meta.url),'utf8');
+ const sql=await fs.readFile(new URL('../db/migrations/0006_vessel_passport.sql',import.meta.url),'utf8');
+ for(const field of ['name','loa_metres','beam_metres','insurance_expiry','mmsi','call_sign','hin_cin'])assert.ok(html.includes('id="'+field+'"'));
+ assert.match(html,/aria-label="Future vessel document upload \(disabled\)" disabled/);
+ assert.match(html,/aria-label="Future vessel photo upload \(disabled\)" disabled/);
+ assert.match(ui,/Automatic notifications are not yet active/);
+ assert.match(sql,/FOREIGN KEY\(tenant_id,vessel_id\) REFERENCES vessels\(tenant_id,id\)/);
+ assert.match(sql,/CREATE TABLE vessel_document_reminders/);
+ assert.doesNotMatch(ui,/localStorage|sessionStorage/);
+});

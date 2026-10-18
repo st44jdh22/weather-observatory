@@ -31,3 +31,7 @@ See [staging integration handover](docs/STAGING_INTEGRATION.md). Self-registrati
 ## Private staging pilot
 
 See [private staging provisioning and acceptance runbook](docs/PRIVATE_STAGING_RUNBOOK.md). A verified-sender email adapter, SQL-backed end-to-end validation and isolated D1 configuration template have been added. **A private hosted staging URL has not been activated**; do not invite real captains yet.
+
+## Vessel Passport
+
+The [Vessel Passport design and controls](docs/VESSEL_PASSPORT.md) include tenant-isolated boat registration, principal particulars, a private-document storage model and future insurance/document expiry reminders. Registration is staged behind `VESSEL_WRITE_ENABLED=false` by default. Photo/document upload and scheduled reminders are **not active**. Vessel authorisation remains separate from Captain Passport.
