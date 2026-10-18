@@ -19,3 +19,7 @@ See the full locally tested starter package attached to the engineering handover
 ## Captain Passport
 
 A staged self-registration preview and qualification database schema are available under `public/captain-passport/` and `db/migrations/0003_captain_passport.sql`. **No application writes or submissions are enabled.** See [registration and authorisation policy](docs/CAPTAIN_PASSPORT.md).
+
+## Administrator's Captain Register
+
+The [Captain Register](docs/CAPTAIN_REGISTER_ADMIN.md) is staged in `public/admin/captains/`. Protected API endpoints live in `src/admin.js`; they reject anonymous and cross-tenant access and cannot write without a separate server-side staging approval gate. No new service is deployed.
