@@ -44,3 +44,44 @@ test('Captain Passport preview never transmits or grants vessel access',async()=
  assert.match(migration,/CREATE TABLE captain_vessel_approvals/);
  assert.match(migration,/FOREIGN KEY \(tenant_id,vessel_id\) REFERENCES vessels\(tenant_id,id\)/);
 });
+
+test('Captain Register administration fails closed without secure backend',async()=>{
+ for(const [method,path] of [
+  ['GET','/api/admin/tenants'],['GET','/api/admin/tenants/a/applications'],
+  ['POST','/api/admin/tenants/a/applications/example/approve'],
+  ['POST','/api/admin/tenants/a/applications/example/assign-vessel']
+ ]){
+  const req=new Request('https://test.invalid'+path,{method,headers:method==='POST'?{Origin:'https://test.invalid'}:{},...(method==='POST'?{body:'{}'}:{})});
+  const res=await worker.fetch(req,{});
+  assert.equal(res.status,503,path);
+  assert.equal((await res.json()).error,'ADMIN_NOT_CONFIGURED');
+ }
+});
+test('Captain Register rejects unauthenticated and cross-origin writes',async()=>{
+ const env={DB:{},AUTH_HMAC_KEY:'staging-test-secret'};
+ const anon=await worker.fetch(new Request('https://test.invalid/api/admin/tenants'),env);
+ assert.equal(anon.status,401);
+ const csrf=await worker.fetch(new Request('https://test.invalid/api/admin/tenants/t/applications/a/approve',{method:'POST',headers:{Origin:'https://evil.invalid'},body:'{}'}),env);
+ assert.equal(csrf.status,403);
+});
+test('Administrator register is tenant-filtered, gated and has no unauthorised public grants',async()=>{
+ const fs=await import('node:fs/promises'),vm=await import('node:vm');
+ const js=await fs.readFile(new URL('../src/admin.js',import.meta.url),'utf8');
+ const html=await fs.readFile(new URL('../public/admin/captains/index.html',import.meta.url),'utf8');
+ const ui=await fs.readFile(new URL('../public/admin/captains/register.js',import.meta.url),'utf8');
+ assert.ok(js.includes('export async function captainAdminRouter'));
+ assert.match(js,/role IN \('owner','manager'\)/);
+ assert.match(js,/WHERE tenant_id=\? AND id=\?/);
+ assert.match(js,/ADMIN_ACTIONS_ENABLED/);
+ assert.match(js,/EMAIL_NOT_VERIFIED/);
+ assert.match(js,/NO_VERIFIED_QUALIFICATION/);
+ assert.match(js,/VESSEL_NOT_IN_TENANT/);
+ assert.match(js,/session/);
+ assert.match(html,/Captain Register/);
+ assert.match(ui,/actionsEnabled=data\.actions_enabled===true/);
+ assert.match(ui,/if\(!actionsEnabled\|\|!selectedApplication/);
+ const sql=await fs.readFile(new URL('../db/migrations/0004_admin_review.sql',import.meta.url),'utf8');
+ assert.match(sql,/CREATE TABLE captain_application_events/);
+ assert.match(sql,/ALTER TABLE captain_applications ADD COLUMN tenant_id/);
+ assert.match(sql,/ALTER TABLE captain_applications ADD COLUMN email_verified_at/);
+});
