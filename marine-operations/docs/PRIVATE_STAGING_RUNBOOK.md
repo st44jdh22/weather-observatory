@@ -29,4 +29,8 @@ The Weather Desk continues to publish from the existing repository. This staged 
 
 ## Acceptance definition
 
-A private HTTPS URL, protected by Cloudflare Access, must serve both the Passport and Register UIs, with a staging D1 database and a verified email provider. A synthetic captain must complete the full registration/approval/assignment/revocation flow without permission leakage. Until then, label this as **deploy-preparation**, not **live staging**.
+A private HTTPS URL, protected by Cloudflare Access, must serve the home, Passport, captain login and Register UIs, with a staging D1 database and a verified email provider. A synthetic captain must complete the full registration/approval/assignment/revocation flow without permission leakage. Until then, label this as **deploy-preparation**, not **live staging**.
+
+## Three-screen staging release
+
+The self-contained staging application now includes `/` (launch page), `/captain-passport/` (application plus email-code verification), `/captain-login/` (captain OTP login and authorised-vessel view) and `/admin/captains/` (review, qualification and tenant-scoped approval). The registration and administration screens currently depend on disabled feature gates. No actual captain record is onboarded; a fictional workflow is validated in the real SQLite SQL engine in CI.
