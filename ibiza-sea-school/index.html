@@ -547,6 +547,13 @@ section[id],nav[id]{scroll-margin-top:110px}
 .iss-windguru-container{min-width:0;max-width:100%;overflow:auto;min-height:175px}
 .iss-windguru-open{display:inline-block;padding:12px 16px;background:#202c76;color:#fff!important;border-radius:9px;font-weight:750;text-decoration:none}
 .iss-windguru-open:focus-visible{outline:3px solid #c31a45;outline-offset:2px}
+.iss-wg-scroll{overflow-x:auto;max-width:100%;border:1px solid #c9d3e8;border-radius:8px}
+.iss-wg-table{border-collapse:collapse;white-space:nowrap;min-width:1050px;width:100%;font-size:13px}
+.iss-wg-table th,.iss-wg-table td{border:1px solid #dce4f0;padding:10px;text-align:center}
+.iss-wg-table thead th{background:#202c76;color:#fff}
+.iss-wg-table tbody th{position:sticky;left:0;background:#e7eef8;color:#202c76;z-index:1}
+.iss-wg-table tbody tr:nth-child(even) td{background:#f5f8fc}
+.iss-synthetic-warning{font-weight:800;background:#fff3d8;border:2px solid #bd7b10;padding:12px;border-radius:8px;color:#653d00}
 </style>
 </head>
 <body>
@@ -706,10 +713,18 @@ section[id],nav[id]{scroll-margin-top:110px}
 <section id="iss-barograph" aria-label="Barograph history"><div class="section-head"><h2>Recording barograph</h2><div class="tabs" id="periods"><button type="button" data-hours="24">24 h</button><button type="button" data-hours="48">48 h</button><button type="button" data-hours="72" class="selected">72 h</button><button type="button" data-hours="168">7 days</button></div></div><div class="panel"><div class="baro"><div class="baro-paper-heading"><div>ATMOSPHERIC PRESSURE RECORD</div><small><span id="baro-location">SANT ANTONI · IBIZA</span> · SEA LEVEL PRESSURE (hPa)</small></div><canvas id="barograph" aria-label="Historical model-derived sea level pressure. Fixed vertical range 950 to 1050 hectopascals" role="img"></canvas></div><div class="baro-footer"><span id="baroNote">950–1050 hPa · fixed scale · historical numerical model data only</span><span>BURGUNDY INK / 72-HOUR TRACE</span></div></div></section>
 <section id="iss-detailed-forecast" aria-label="Windguru forecast"><div class="section-head"><h2>Windguru</h2><small>Multi-model forecast · official Windguru source</small></div>
 <div class="panel iss-windguru-container">
- <p><strong>Windguru · Sant Antoni / San Antonio</strong></p>
- <p>View Windguru’s official multi-model forecast, including the available wind and wave models. The complete interactive forecast is currently available on Windguru’s website.</p>
- <p><a class="iss-windguru-open" href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Open Windguru multi-model forecast ↗</a></p>
- <p class="footnote">An embedded, scrollable multi-model forecast will be added here only if Windguru permits embedding or we have a licensed live-data API connection. No simulated data is displayed as live weather.</p>
+ <p><strong>Windguru multi-model forecast laboratory</strong> · Sant Antoni</p>
+ <p class="iss-synthetic-warning" role="status">⚠ SYNTHETIC TEST DATA ONLY. These figures are invented UI fixtures, not actual forecasts and not suitable for marine decisions.</p>
+ <div class="iss-wg-scroll" role="region" aria-label="Scroll three weather forecast models horizontally" tabindex="0">
+  <table class="iss-wg-table"><thead><tr><th rowspan="2" scope="col">Model</th><th colspan="6" scope="colgroup">27 Oct · 10:00 UTC</th><th colspan="6" scope="colgroup">27 Oct · 14:00 UTC</th></tr>
+  <tr><th scope="col">Wind kt</th><th scope="col">Gust kt</th><th scope="col">From</th><th scope="col">Wave m</th><th scope="col">Swell m</th><th scope="col">Period s</th><th scope="col">Wind kt</th><th scope="col">Gust kt</th><th scope="col">From</th><th scope="col">Wave m</th><th scope="col">Swell m</th><th scope="col">Period s</th></tr></thead><tbody>
+  <tr><th scope="row">GFS</th><td>8</td><td>13</td><td>N · 0°</td><td>1.0</td><td>0.5</td><td>6</td><td>10</td><td>15</td><td>NNE · 16°</td><td>1.2</td><td>0.5</td><td>6</td></tr>
+  <tr><th scope="row">IFS-HRES</th><td>3</td><td>7</td><td>S · 180°</td><td>0.7</td><td>0.4</td><td>6</td><td>5</td><td>9</td><td>SSW · 196°</td><td>0.9</td><td>0.4</td><td>6</td></tr>
+  <tr><th scope="row">ICON</th><td>6</td><td>11</td><td>NW · 315°</td><td>0.9</td><td>0.6</td><td>7</td><td>8</td><td>13</td><td>NNW · 331°</td><td>1.1</td><td>0.6</td><td>7</td></tr>
+  </tbody></table>
+ </div>
+ <p class="footnote">Swipe or scroll sideways for later forecast hours. Model names and numbers here are development fixtures only. Live API integration is not active.</p>
+ <p><a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Open official Windguru Sant Antoni forecast ↗</a></p>
 </div></section>
 <section id="iss-model-comparison" hidden aria-hidden="true"><div id="ecmwf"></div><div id="ukmo"></div></section>
 <section id="command-report" hidden aria-hidden="true"></section>
