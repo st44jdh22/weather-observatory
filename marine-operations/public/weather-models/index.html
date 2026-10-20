@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#ffffff">
+<title>Windguru Model Agreement Lab · Ibiza Sea School</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#142a51;background:#eef4fa;font-size:16px;line-height:1.5}
+*{box-sizing:border-box}body{margin:0}button,select{font:inherit}a{color:#182e74}
+header{background:#fff;border-bottom:1px solid #d3e0ed;padding:18px max(22px,calc((100% - 1160px)/2));display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.identity{font-weight:850;letter-spacing:.06em;font-size:1rem}.identity span{display:block;color:#c90b43;letter-spacing:.14em;font-size:.65rem}
+header a{font-size:.9rem}main{max-width:1190px;margin:0 auto;padding:25px 20px 70px}
+h1{font-size:clamp(1.75rem,3.2vw,2.65rem);line-height:1.13;margin:5px 0 9px}h2{font-size:1.33rem;margin:0 0 13px}
+.eyebrow{font-size:.75rem;font-weight:800;letter-spacing:.14em;color:#b51345;text-transform:uppercase}
+.lead{color:#52647e;max-width:760px}.flag{background:#fff2d0;border:1px solid #d89f2c;border-radius:9px;padding:10px 13px;color:#774900;font-weight:720;margin:17px 0}
+.panel,.metric{background:white;border:1px solid #d7e2ec;border-radius:15px;box-shadow:0 5px 22px #0e25530d}
+.panel{padding:22px;margin:18px 0}.filter{display:flex;flex-wrap:wrap;align-items:end;gap:14px}
+.field{flex:1;min-width:220px}.field label{font-size:.78rem;font-weight:790;display:block;margin-bottom:7px;color:#4a5873}
+select{width:100%;border:1px solid #acbfd4;border-radius:9px;background:#fff;padding:12px 13px;color:#142a51}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:17px 0}
+.metric{padding:17px}.metric b{display:block;font-size:clamp(1.15rem,2vw,1.8rem)}.metric small{color:#5d6c84;font-weight:680;font-size:.75rem}
+.soft{color:#586c85;font-size:.86rem}.highlight{color:#0d6e61}.warn{color:#a24e07}
+.tablewrap{overflow-x:auto;border-radius:11px;border:1px solid #dce5ef}
+table{border-collapse:collapse;min-width:790px;width:100%;font-size:.92rem}
+thead{background:#eaf1f8;text-align:left;font-size:.79rem;letter-spacing:.04em}th,td{padding:13px 12px;border-bottom:1px solid #e2e9f1}tr:last-child td{border-bottom:0}
+.model{font-weight:780;color:#202d75}.pill{display:inline-block;padding:3px 10px;border-radius:20px;background:#e9f2fb;font-size:.76rem;font-weight:750}
+.timeline{display:grid;grid-template-columns:1fr 1fr;gap:12px}.timeline p{margin:2px 0}
+.accent{height:4px;background:linear-gradient(90deg,#c90b43 0 25%,#202d75 25% 100%)}
+.foot{font-size:.83rem;color:#607086}
+button{padding:12px 17px;border:0;border-radius:9px;background:#202d75;color:white;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid #cb1646;outline-offset:3px}
+@media(max-width:850px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:550px){header{gap:9px}.panel{padding:15px}.metrics{grid-template-columns:1fr 1fr}.metric{padding:12px}.timeline{grid-template-columns:1fr}h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="accent"></div>
+<header>
+ <div class="identity">IBIZA SEA SCHOOL <span>PRIVATE MARITIME OPERATIONS · DEVELOPMENT</span></div>
+ <nav><a href="/">Marine Operations</a></nav>
+</header>
+<main>
+ <div class="eyebrow">Forecast intelligence · multi-model comparison</div>
+ <h1>Windguru Model Agreement</h1>
+ <p class="lead">Compare model-by-model forecasts for the same exact location and valid hour. Wind and wave differences remain visible, rather than hidden inside a single prediction.</p>
+ <div class="flag" role="status">⚠️ DEMONSTRATION ONLY · All figures are synthetic test data, NOT Windguru forecasts, NOT actual weather. Do not use for navigation or maritime safety. No Windguru API key or live service is connected.</div>
+ <section class="panel" aria-label="Select forecast">
+  <div class="filter">
+   <div class="field"><label for="spot">Forecast area</label><select id="spot"><option value="san">Sant Antoni · Ibiza</option><option value="vedr">Es Vedrà · Ibiza</option><option value="form">Formentera</option><option value="ibiza">Ibiza Town</option></select></div>
+   <div class="field"><label for="hour">Forecast valid time (Ibiza local)</label><select id="hour"></select></div>
+  </div>
+ </section>
+ <section aria-label="Model agreement summary">
+  <div class="metrics">
+   <div class="metric"><small>Wind agreement</small><b id="agreement">—</b><div class="soft" id="similar"></div></div>
+   <div class="metric"><small>Wind speed spread</small><b id="winds">—</b><div class="soft">Knots · minimum to maximum</div></div>
+   <div class="metric"><small>Direction disagreement</small><b id="spread">—</b><div class="soft">Largest angular separation</div></div>
+   <div class="metric"><small>Models at this hour</small><b id="models">—</b><div class="soft">Same place, same valid time</div></div>
+  </div>
+ </section>
+ <section class="panel">
+  <h2>Forecast by model</h2>
+  <div class="tablewrap"><table>
+   <thead><tr><th>Model</th><th>Wind</th><th>Wind from</th><th>Gust</th><th>Waves</th><th>Swell</th><th>Wave period</th><th>Run issued (Ibiza)</th></tr></thead>
+   <tbody id="rows"><tr><td colspan="8">Loading test models…</td></tr></tbody>
+  </table></div>
+  <p class="soft">Each model is shown separately. Values are aligned to a single forecast valid hour and location. The model-run timestamp is distinct from the forecast valid time.</p>
+ </section>
+ <section class="panel">
+  <h2>How to interpret this</h2>
+  <div class="timeline">
+   <div><strong>Agreement is not probability</strong><p class="soft">The headline measures how many pairs of models forecast wind speeds within 5 kn and wind directions within 45°. It is not an 80% likelihood of accurate weather.</p></div>
+   <div><strong>Flag disagreement, don't average it away</strong><p class="soft">Opposing model directions and divergent wind strengths should trigger manual review. Near-calm wind directions have limited meaning.</p></div>
+   <div><strong>Official warnings remain primary</strong><p class="soft">The final Weather Desk will present AEMET official bulletins and notices independently, without replacing them with model consensus.</p></div>
+   <div><strong>Source and permissions</strong><p class="soft">Live Windguru data will be added only through a private server-side API after the beta response format, licence scope and secret storage are verified. Required attribution will be preserved.</p></div>
+  </div>
+ </section>
+ <p class="foot">Engineering preview · isolated from the existing public Weather Desk · Test fixture values intentionally invented · No API purchases, deployments or credentials used.</p>
+</main>
+<script type="module" src="./lab.js"></script>
+</body>
+</html>

@@ -35,3 +35,7 @@ See [private staging provisioning and acceptance runbook](docs/PRIVATE_STAGING_R
 ## Vessel Passport
 
 The [Vessel Passport design and controls](docs/VESSEL_PASSPORT.md) include tenant-isolated boat registration, principal particulars, a private-document storage model and future insurance/document expiry reminders. Registration is staged behind `VESSEL_WRITE_ENABLED=false` by default. Photo/document upload and scheduled reminders are **not active**. Vessel authorisation remains separate from Captain Passport.
+
+## Windguru Model Agreement Lab — safe development preview
+
+The [Windguru model agreement design and release controls](docs/WINDGURU_MODEL_AGREEMENT.md) are implemented as an independent pure-JavaScript comparison engine and a responsive [synthetic model comparison lab](public/weather-models/index.html). Only *invented test data* are present. No provider key, live Windguru API request, public weather change or hosted deployment. The private A58 licensed use case must be confirmed before any real feed, and expansion to public training site requires further written licence clearance.
