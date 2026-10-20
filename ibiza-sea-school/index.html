@@ -555,6 +555,16 @@ section[id],nav[id]{scroll-margin-top:110px}
 .iss-wg-table tbody tr:nth-child(even) td{background:#f5f8fc}
 .iss-synthetic-warning{font-weight:800;background:#fff3d8;border:2px solid #bd7b10;padding:12px;border-radius:8px;color:#653d00}
 </style>
+<style id="iss-nav-finish-and-top">
+/* Let quick links form complete rows instead of ending in clipped half-chips. */
+.iss-section-nav .iss-native-jumps{display:flex!important;flex-wrap:wrap!important;overflow:visible!important;width:100%!important;max-width:100%!important;gap:7px!important;padding:5px 0!important}
+.iss-section-nav .iss-native-jumps a{white-space:normal;max-width:100%;box-sizing:border-box}
+.iss-section-nav{overflow:visible!important;border-radius:12px}
+#iss-back-to-top{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom));z-index:9999;width:48px;height:48px;border:1px solid #aebed5;border-radius:50%;background:#202c76;color:#fff;font-size:26px;font-weight:800;line-height:1;box-shadow:0 3px 12px #10234d40;cursor:pointer;display:none;align-items:center;justify-content:center}
+#iss-back-to-top.iss-top-visible{display:flex}
+#iss-back-to-top:focus-visible{outline:3px solid #c31a45;outline-offset:3px}
+@media(max-width:600px){#iss-back-to-top{width:44px;height:44px;right:12px;bottom:max(14px,env(safe-area-inset-bottom))}}
+</style>
 </head>
 <body>
 <header class="hero">
@@ -1693,6 +1703,15 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
   }
   picker.selectedIndex=0;
  },true);
+})();
+</script>
+<button type="button" id="iss-back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+<script id="iss-back-to-top-script">
+(function(){
+ var button=document.getElementById('iss-back-to-top');if(!button)return;
+ function update(){button.classList.toggle('iss-top-visible',window.scrollY>280);}
+ button.addEventListener('click',function(){window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});
+ window.addEventListener('scroll',update,{passive:true});update();
 })();
 </script>
 </body></html>
