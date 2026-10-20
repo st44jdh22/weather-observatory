@@ -80,15 +80,19 @@ async function copyReview(){const text=prepareReview();if(!text)return;try{await
 function clearReview(){['checkAemet','checkWeather','checkReality'].forEach(id=>$(id).checked=false);$('assess').value='';$('reviewName').value='';$('comments').value='';$('copyStatus').textContent='Checklist cleared. No data is retained by this form.'}
 function setupSectionJump(){
  const picker=$('iss-section-jump');if(!picker)return;
- picker.addEventListener('change',()=>{
-  const target=picker.value;
-  if(!target)return;
+ const navigate=()=>{
+  const target=picker.value;if(!target)return;
   const section=document.getElementById(target);
-  if(section&&!section.hidden){
-   section.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+  if(section){
+   const sticky=document.querySelector('.iss-section-nav');
+   const offset=(sticky?sticky.getBoundingClientRect().height:0)+12;
+   const top=window.scrollY+section.getBoundingClientRect().top-offset;
+   window.scrollTo({top:Math.max(0,top),behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
   }
-  picker.value='';
- });
+  picker.selectedIndex=0;
+ };
+ picker.addEventListener('change',navigate);
+ picker.addEventListener('input',navigate);
 }
 function setup(){setupSectionJump();for(const b of document.querySelectorAll('#periods button'))b.addEventListener('click',()=>{selectedHours=Number(b.dataset.hours);document.querySelectorAll('#periods button').forEach(x=>x.classList.toggle('selected',x===b));drawBarograph()});$('refresh').addEventListener('click',refresh);$('location').addEventListener('change',refresh);window.addEventListener('resize',()=>drawBarograph());$('loadMap').addEventListener('click',showMap);for(const b of document.querySelectorAll('[data-map]'))b.addEventListener('click',()=>{selectedMap=b.dataset.map;document.querySelectorAll('[data-map]').forEach(x=>x.classList.toggle('selected',x===b));if(mapLoaded)showMap()});$('copyReview').addEventListener('click',copyReview);$('resetReview').addEventListener('click',clearReview);
  window.addEventListener('offline',()=>{$('offlineNote').hidden=false;$('dataIndicator').innerHTML='<span class="dot bad"></span> Offline · no current verification';resetWeather();});window.addEventListener('online',()=>{$('offlineNote').hidden=true;refresh()});if(!navigator.onLine)$('offlineNote').hidden=false;
