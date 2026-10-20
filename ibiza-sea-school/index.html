@@ -726,6 +726,7 @@ section[id],nav[id]{scroll-margin-top:110px}
  <p class="footnote">Swipe or scroll sideways for later forecast hours. Model names and numbers here are development fixtures only. Live API integration is not active.</p>
  <p><a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Open official Windguru Sant Antoni forecast ↗</a></p>
 </div></section>
+<div id="hourly" hidden aria-hidden="true"></div>
 <section id="iss-model-comparison" hidden aria-hidden="true"><div id="ecmwf"></div><div id="ukmo"></div></section>
 <section id="command-report" hidden aria-hidden="true"></section>
 <footer class="fineprint"><strong>Ibiza Sea School Weather · V5.39</strong> · Forecast guidance, not operational clearance. Open-Meteo weather is primary; MET Norway Locationforecast is the automatic fallback. Marine wave data remains a separate Open-Meteo feed. These are numerical forecasts, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Primary weather &amp; marine: Open-Meteo</a> · <a href="https://api.met.no/" target="_blank" rel="noopener noreferrer">Backup weather: MET Norway</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
@@ -733,7 +734,7 @@ section[id],nav[id]{scroll-margin-top:110px}
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
 window.ISS_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.workers.dev'; // Set to your deployed existing Cloudflare Worker URL
 </script>
-<script src="app.js?v=5.38.1" defer></script>
+<script src="app.js?v=5.39.0" defer></script>
 
 <script>
 (() => {
