@@ -4,7 +4,9 @@ const SPOTS={
  san:{name:'Sant Antoni · Ibiza',land:[38.9801,1.3036],sea:[38.984,1.247],zone:'Europe/Madrid',caption:'Approx. offshore model grid west of Sant Antoni · not harbour conditions'},
  ibiza:{name:'Ibiza Town · Ibiza',land:[38.9067,1.4206],sea:[38.883,1.465],zone:'Europe/Madrid',caption:'Approx. offshore model grid outside Ibiza harbour · not berth conditions'},
  vedr:{name:'Es Vedrà · Ibiza',land:[38.869,1.196],sea:[38.845,1.173],zone:'Europe/Madrid',caption:'Exposed waters near Es Vedrà · model grid, not observed conditions'},
- form:{name:'Formentera · Balearics',land:[38.6964,1.4531],sea:[38.68,1.464],zone:'Europe/Madrid',caption:'Approx. offshore model grid near Formentera · not harbour conditions'}
+ form:{name:'Formentera · Balearics',land:[38.6964,1.4531],sea:[38.68,1.464],zone:'Europe/Madrid',caption:'Approx. offshore model grid near Formentera · not harbour conditions'},
+ mallorca_sw:{name:'Southwest Mallorca · Puerto Portals',land:[39.535,2.59],sea:[39.51,2.59],zone:'Europe/Madrid',caption:'Approx. coastal forecast grid off Puerto Portals · not marina or berth conditions'},
+ mallorca_n:{name:'North Mallorca · Alcúdia Bay',land:[39.84,3.13],sea:[39.87,3.17],zone:'Europe/Madrid',caption:'Approx. forecast grid in Alcúdia Bay · not harbour conditions'}
 };
 const $=id=>document.getElementById(id);
 const fmt=(v,d=0)=>typeof v==='number'&&Number.isFinite(v)?v.toFixed(d):'—';
