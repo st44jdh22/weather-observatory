@@ -1,0 +1,9 @@
+name = "ibiza-sea-school-operations-dev"
+main = "src/worker.js"
+compatibility_date = "2026-10-18"
+workers_dev = true
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
+# No DB, storage or email provisioned; never deploy to production without review.
