@@ -615,7 +615,7 @@ section[id],nav[id]{scroll-margin-top:110px}
 
 
 </nav>
-<section class="toolbar iss-toolbar" aria-label="Operating location and refresh"><div class="iss-area"><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div><div class="iss-area-controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option></select><div class="iss-utility"><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></div></div><button class="pill iss-signoff" id="captain-review-open" type="button">⚠ Captain's Passage & Weather Declaration</button><button class="pill iss-ai" id="iss-ai-launch" type="button">⚓ Interactive AI Captain</button></section>
+<section class="toolbar iss-toolbar" aria-label="Operating location and refresh"><div class="iss-area"><div class="eyebrow">Selected operating area</div><div class="base-title" id="areaName">Sant Antoni · Ibiza</div><div class="iss-area-controls"><label class="screenreader" for="location">Operating area</label><select class="select" id="location"><option value="san">Sant Antoni · offshore</option><option value="ibiza">Ibiza Town · offshore</option><option value="vedr">Es Vedrà · west coast</option><option value="form">Formentera · offshore</option><option value="mallorca_sw">Southwest Mallorca · Puerto Portals</option><option value="mallorca_n">North Mallorca · Alcúdia Bay</option></select><div class="iss-utility"><button class="pill primary" id="refresh">↻ Refresh</button><button class="pill" id="install" hidden>＋ Install app</button></div></div></div><button class="pill iss-signoff" id="captain-review-open" type="button">⚠ Captain's Passage & Weather Declaration</button><button class="pill iss-ai" id="iss-ai-launch" type="button">⚓ Interactive AI Captain</button></section>
 <p id="cs-caution" class="captain-caution iss-floating-caution" role="status" aria-live="polite"><span class="captain-alert-icon" aria-hidden="true">⚠️</span><span class="captain-caution-message">Captain’s caution: Check local conditions and official AEMET warnings before departure.</span><span class="captain-alert-icon" aria-hidden="true">⚠️</span></p>
 
 <div class="iss-language-bar" aria-label="Website language controls"><div class="global-language" role="group" aria-label="Website language"><button type="button" id="global-en" aria-pressed="false">🇬🇧 EN</button><button type="button" id="global-es" aria-pressed="true">🇪🇸 ES</button></div></div>
@@ -794,7 +794,7 @@ section[id],nav[id]{scroll-margin-top:110px}
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
 window.ISS_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.workers.dev'; // Set to your deployed existing Cloudflare Worker URL
 </script>
-<script src="app.js?v=5.39.0" defer></script>
+<script src="app.js?v=5.39.2" defer></script>
 
 <script>
 (() => {
@@ -1713,7 +1713,9 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
   san:{label:'Sant Antoni · Ibiza',point:'Sant Antoni Marina',lat:38.978,lon:1.301},
   ibiza:{label:'Ibiza Town · Ibiza',point:'Ibiza Town',lat:38.908,lon:1.443},
   vedr:{label:'Es Vedrà · Ibiza',point:'Es Vedrà area (approximate grid point)',lat:38.868,lon:1.195},
-  form:{label:'Formentera',point:'La Savina · Formentera',lat:38.733,lon:1.418}
+  form:{label:'Formentera',point:'La Savina · Formentera',lat:38.733,lon:1.418},
+  mallorca_sw:{label:'Southwest Mallorca · Puerto Portals',point:'Puerto Portals · southwest Mallorca',lat:39.535,lon:2.59},
+  mallorca_n:{label:'North Mallorca · Alcúdia Bay',point:'Port d’Alcúdia · north Mallorca',lat:39.84,lon:3.13}
  };
  const area=document.getElementById('location'),heading=document.getElementById('areaName');
  const panelTitle=document.getElementById('windy-point-title'),description=document.getElementById('windy-point-description');
