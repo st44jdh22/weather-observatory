@@ -1801,7 +1801,8 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
    const normal=trimmed.replaceAll('&amp;','&');
    if(!Object.prototype.hasOwnProperty.call(translations,normal))continue;
    if(!originals.has(node))originals.set(node,raw);
-   node.nodeValue=lang==='es'?raw.replace(trimmed,translations[normal]):raw;
+   const next=lang==='es'?raw.replace(trimmed,translations[normal]):raw;
+   if(node.nodeValue!==next)node.nodeValue=next;
   }
  }
  window.issTranslateSite=translate;
