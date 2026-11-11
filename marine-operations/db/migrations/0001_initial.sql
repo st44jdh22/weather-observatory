@@ -1,0 +1,13 @@
+PRAGMA foreign_keys=ON;
+CREATE TABLE tenants(id TEXT PRIMARY KEY, name TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'active');
+CREATE TABLE users(id TEXT PRIMARY KEY, email TEXT NOT NULL COLLATE NOCASE UNIQUE, name TEXT);
+CREATE TABLE memberships(tenant_id TEXT NOT NULL REFERENCES tenants(id),user_id TEXT NOT NULL REFERENCES users(id),role TEXT NOT NULL CHECK(role IN ('owner','manager','captain','viewer')),PRIMARY KEY(tenant_id,user_id));
+CREATE TABLE vessels(id TEXT PRIMARY KEY,tenant_id TEXT NOT NULL REFERENCES tenants(id),name TEXT NOT NULL,UNIQUE(tenant_id,id));
+CREATE TABLE vessel_access(tenant_id TEXT NOT NULL,vessel_id TEXT NOT NULL,user_id TEXT NOT NULL,PRIMARY KEY(tenant_id,vessel_id,user_id),FOREIGN KEY(tenant_id,vessel_id) REFERENCES vessels(tenant_id,id),FOREIGN KEY(tenant_id,user_id) REFERENCES memberships(tenant_id,user_id));
+CREATE TABLE login_challenges(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),digest TEXT NOT NULL,expires_at TEXT NOT NULL,attempts INTEGER NOT NULL DEFAULT 0,consumed_at TEXT);
+CREATE TABLE sessions(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),digest TEXT NOT NULL UNIQUE,expires_at TEXT NOT NULL,revoked_at TEXT);
+CREATE TABLE declarations(id TEXT PRIMARY KEY,tenant_id TEXT NOT NULL,vessel_id TEXT NOT NULL,user_id TEXT NOT NULL,idempotency_key TEXT NOT NULL,departure_port TEXT NOT NULL,destination TEXT NOT NULL,departure_local TEXT NOT NULL,souls_on_board INTEGER NOT NULL CHECK(souls_on_board>0),weather_ack INTEGER NOT NULL CHECK(weather_ack=1),submitted_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(tenant_id,idempotency_key),FOREIGN KEY(tenant_id,vessel_id) REFERENCES vessels(tenant_id,id),FOREIGN KEY(tenant_id,user_id) REFERENCES memberships(tenant_id,user_id));
+CREATE TABLE attachments(id TEXT PRIMARY KEY,tenant_id TEXT NOT NULL REFERENCES tenants(id),declaration_id TEXT NOT NULL REFERENCES declarations(id),object_key TEXT NOT NULL UNIQUE,mime TEXT NOT NULL,bytes INTEGER NOT NULL CHECK(bytes>0));
+CREATE TABLE recipients(id TEXT PRIMARY KEY,tenant_id TEXT NOT NULL REFERENCES tenants(id),email TEXT NOT NULL,UNIQUE(tenant_id,email));
+CREATE TABLE delivery_outbox(id TEXT PRIMARY KEY,tenant_id TEXT NOT NULL REFERENCES tenants(id),declaration_id TEXT NOT NULL REFERENCES declarations(id),recipient_id TEXT NOT NULL REFERENCES recipients(id),status TEXT NOT NULL DEFAULT 'pending',attempts INTEGER NOT NULL DEFAULT 0,provider_id TEXT,UNIQUE(declaration_id,recipient_id));
+CREATE TABLE audit_events(id TEXT PRIMARY KEY,tenant_id TEXT NOT NULL REFERENCES tenants(id),actor_id TEXT REFERENCES users(id),action TEXT NOT NULL,recorded_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
