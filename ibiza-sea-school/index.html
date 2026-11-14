@@ -594,6 +594,7 @@ section[id],nav[id]{scroll-margin-top:110px}
 #captain-weather-summary .cs-wind-compass{position:relative!important;top:auto!important;right:auto!important;left:auto!important;max-width:30px!important;width:30px!important;height:30px!important;grid-column:1;grid-row:2;pointer-events:none}
 @media(max-width:650px){#captain-weather-summary .captain-summary-grid{align-items:stretch}#captain-weather-summary .captain-summary-card{padding:13px 9px!important;column-gap:6px!important;grid-template-columns:25px minmax(0,1fr)!important}#captain-weather-summary .captain-summary-card strong{font-size:clamp(18px,4.5vw,24px)!important}#captain-weather-summary .captain-summary-card:nth-child(-n+2) strong{font-size:clamp(20px,5vw,25px)!important}}
 </style>
+<style id="iss-weather-link-grid-3x3">.marine-quick-links{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}.marine-quick-links a{min-width:0;overflow-wrap:anywhere}@media(max-width:650px){.marine-quick-links{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.marine-quick-links a{padding:9px 5px!important;font-size:11px!important;line-height:1.25!important}}</style>
 </head>
 <body>
 <header class="hero">
@@ -669,13 +670,14 @@ section[id],nav[id]{scroll-margin-top:110px}
 
 <nav id="iss-source-links" class="marine-quick-links" aria-label="Primary marine weather and vessel resources">
 <a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?opc1=0&amp;opc2=martot&amp;opc3=1&amp;area=bal1" target="_blank" rel="noopener noreferrer">AEMET · Ibiza Coastal Waters ↗</a>
-<a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer" title="Select San Antonio / Sant Antoni on Windguru">Windguru · San Antonio ↗</a>
+<a href="https://www.windguru.cz/501134" target="_blank" rel="noopener noreferrer">Windguru · Ibiza Town ↗</a>
 <a href="https://www.windy.com/38.980/1.300" target="_blank" rel="noopener noreferrer">Windy · Balearic Visual ↗</a>
-
 <a href="https://www.bbc.co.uk/weather/coast-and-sea/shipping-forecast" target="_blank" rel="noopener noreferrer">BBC · Shipping Forecast ↗</a>
-<a href="https://tides4fishing.com/es/islas-baleares/ibiza" target="_blank" rel="noopener noreferrer">Tides4Fishing · Ibiza ↗</a>
+<a href="https://www.windguru.cz/501130" target="_blank" rel="noopener noreferrer">Windguru · San Antonio ↗</a>
 <a href="https://www.passageweather.com/" target="_blank" rel="noopener noreferrer">PassageWeather ↗</a>
-<a href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer" title="Open the official MarineTraffic live AIS vessel map (external website)">MarineTraffic · Live AIS ↗</a>
+<a href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer">MarineTraffic · Live AIS ↗</a>
+<a href="https://www.windguru.cz/1281260" target="_blank" rel="noopener noreferrer">Windguru · Formentera ↗</a>
+<a href="https://tides4fishing.com/es/islas-baleares/ibiza" target="_blank" rel="noopener noreferrer">Tides4Fishing · Ibiza ↗</a>
 </nav>
 <div class="live-line" id="model-source-status"><span id="dataIndicator"><span class="dot"></span> Loading forecasts</span><span id="dataUpdated">Connecting to forecast providers…</span><span id="active-source" class="forecast-source-badge" data-source="loading">Source: checking…</span><span id="offlineNote" class="warning-text" hidden>Internet unavailable · figures must not be assumed current.</span></div>
 <section class="panel airport-panel" id="iss-observations" aria-label="Ibiza Airport observed weather">
