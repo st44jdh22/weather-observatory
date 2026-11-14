@@ -595,6 +595,12 @@ section[id],nav[id]{scroll-margin-top:110px}
 @media(max-width:650px){#captain-weather-summary .captain-summary-grid{align-items:stretch}#captain-weather-summary .captain-summary-card{padding:13px 9px!important;column-gap:6px!important;grid-template-columns:25px minmax(0,1fr)!important}#captain-weather-summary .captain-summary-card strong{font-size:clamp(18px,4.5vw,24px)!important}#captain-weather-summary .captain-summary-card:nth-child(-n+2) strong{font-size:clamp(20px,5vw,25px)!important}}
 </style>
 <style id="iss-weather-link-grid-3x3">.marine-quick-links{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}.marine-quick-links a{min-width:0;overflow-wrap:anywhere}@media(max-width:650px){.marine-quick-links{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.marine-quick-links a{padding:9px 5px!important;font-size:11px!important;line-height:1.25!important}}</style>
+<style id="iss-private-pin-gate-style">
+.iss-inline-pin{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+.iss-inline-pin input{width:90px;max-width:100%;font-size:16px;border:1px solid #8ca4c4;border-radius:7px;padding:8px;color:#202c76;background:#fff}
+.iss-inline-pin button{border-radius:7px;padding:8px 10px;background:#202c76;color:#fff;border:1px solid #202c76;cursor:pointer}
+.iss-inline-pin .iss-pin-status{font-size:12px;color:#202c76}
+</style>
 </head>
 <body>
 <header class="hero">
@@ -873,7 +879,7 @@ panel.innerHTML=`<header><div><h2>⚓ Sr. AI Capitán · V5</h2><div class="sub"
 if(!launch.isConnected)(document.querySelector('.iss-toolbar')||document.body).append(launch);document.body.append(panel);
 const $=s=>panel.querySelector(s),request=$('#iss-ai-request'),status=$('#iss-ai-status'),result=$('#iss-ai-result'),generate=$('#iss-ai-generate');
 const setOpen=v=>{if(!v){result.textContent='';result.classList.add('hidden');$('#iss-ai-summary').classList.remove('visible')}panel.setAttribute('aria-hidden',String(!v));launch.setAttribute('aria-expanded',String(v));document.body.classList.toggle('iss-ai-open',v);if(v)$('#iss-ai-access').focus();else launch.focus()};
-launch.addEventListener('click',()=>setOpen(panel.getAttribute('aria-hidden')==='true'));$('#iss-ai-close').addEventListener('click',()=>setOpen(false));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.getAttribute('aria-hidden')==='false')setOpen(false)});$('#iss-ai-clear').addEventListener('click',()=>{request.value='';result.textContent='';result.classList.add('hidden');$('#iss-ai-summary').classList.remove('visible');status.textContent='Request and briefing cleared.'});
+launch.addEventListener('click',()=>{if(!window.ISS_PRIVATE_ACCESS_VERIFIED){window.issRequestPrivatePin?.(launch);return;}setOpen(panel.getAttribute('aria-hidden')==='true')});$('#iss-ai-close').addEventListener('click',()=>setOpen(false));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.getAttribute('aria-hidden')==='false')setOpen(false)});$('#iss-ai-clear').addEventListener('click',()=>{request.value='';result.textContent='';result.classList.add('hidden');$('#iss-ai-summary').classList.remove('visible');status.textContent='Request and briefing cleared.'});
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;let recognition=null;
 if(SpeechRecognition){recognition=new SpeechRecognition();recognition.lang='en-GB';recognition.continuous=true;recognition.interimResults=true;let base='';recognition.onstart=()=>{base=request.value.trim();$('#iss-ai-mic').disabled=true;$('#iss-ai-stop').disabled=false;status.textContent='Listening… speak naturally.'};recognition.onresult=e=>{let spoken='';for(let i=0;i<e.results.length;i++)spoken+=e.results[i][0].transcript+' ';request.value=[base,spoken.trim()].filter(Boolean).join(' ')};recognition.onerror=e=>{status.textContent='Microphone error: '+e.error+'. You can type instead.'};recognition.onend=()=>{$('#iss-ai-mic').disabled=false;$('#iss-ai-stop').disabled=true;if(status.textContent==='Listening… speak naturally.')status.textContent='Transcription ready.'};$('#iss-ai-mic').addEventListener('click',()=>{try{recognition.start()}catch(e){status.textContent='Unable to start microphone: '+e.message}});$('#iss-ai-stop').addEventListener('click',()=>recognition.stop())}else{$('#iss-ai-mic').disabled=true;status.textContent='Speech recognition is not supported in this browser. Use keyboard dictation or type.'}
 // Date intentionally blank; user selects it.
@@ -1610,7 +1616,7 @@ function open(v){
  drawer.hidden=!v;shade.hidden=!v;document.body.style.overflow=v?'hidden':'';
  if(v&&!$('rv-departure').value){const d=new Date(),local=new Date(d.getTime()-d.getTimezoneOffset()*60000);$('rv-departure').value=local.toISOString().slice(0,16)}
 }
-$('captain-review-open')?.addEventListener('click',()=>open(true));$('captain-review-close')?.addEventListener('click',()=>open(false));shade?.addEventListener('click',()=>open(false));
+$('captain-review-open')?.addEventListener('click',()=>{if(!window.ISS_PRIVATE_ACCESS_VERIFIED){window.issRequestPrivatePin?.($('captain-review-open'));return;}open(true)});$('captain-review-close')?.addEventListener('click',()=>open(false));shade?.addEventListener('click',()=>open(false));
 [['rv-captain','rv-captain-other-wrap','Other Captain'],['rv-vessel','rv-vessel-other-wrap','Other vessel'],['rv-port','rv-port-other-wrap','Other'],['rv-route','rv-route-other-wrap','Other / multiple stops']].forEach(([sel,wrap,value])=>{const update=()=>{$(wrap).hidden=$(sel).value!==value};$(sel)?.addEventListener('change',update);update()});
 
 $('rv-attachment')?.addEventListener('change',()=>{
@@ -1836,6 +1842,29 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
   if(changes.some(change=>!change.target.parentElement?.closest('script,style,iframe,#iss-aemet-bulletin')))schedule();
  });
  observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+})();
+</script>
+<script id="iss-private-pin-gates">
+(function(){
+ // The PIN is NOT stored or compared on this public page.
+ // Access requires an independently verified server-side authentication service.
+ window.ISS_PRIVATE_ACCESS_VERIFIED=false;
+ window.issRequestPrivatePin=function(button){
+  if(!button)return;
+  const parent=button.parentNode;
+  if(!parent)return;
+  const holder=document.createElement('span');holder.className='iss-inline-pin';
+  const label=document.createElement('label');label.textContent='Enter PIN';
+  const input=document.createElement('input');input.type='password';input.inputMode='numeric';input.autocomplete='off';input.maxLength=12;input.setAttribute('aria-label','Private access PIN');
+  const submit=document.createElement('button');submit.type='button';submit.textContent='Unlock';
+  const status=document.createElement('span');status.className='iss-pin-status';status.setAttribute('role','status');
+  const restore=document.createElement('button');restore.type='button';restore.textContent='Cancel';
+  label.append(input);holder.append(label,submit,restore,status);
+  parent.replaceChild(holder,button);input.focus();
+  restore.addEventListener('click',()=>{input.value='';holder.replaceWith(button)});
+  submit.addEventListener('click',()=>{input.value='';status.textContent='Private access is not yet activated. The PIN must be verified by a secure service.'});
+  input.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();submit.click()}});
+ };
 })();
 </script>
 </body></html>
