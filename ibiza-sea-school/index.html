@@ -596,10 +596,13 @@ section[id],nav[id]{scroll-margin-top:110px}
 </style>
 <style id="iss-weather-link-grid-3x3">.marine-quick-links{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}.marine-quick-links a{min-width:0;overflow-wrap:anywhere}@media(max-width:650px){.marine-quick-links{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.marine-quick-links a{padding:9px 5px!important;font-size:11px!important;line-height:1.25!important}}</style>
 <style id="iss-private-pin-gate-style">
-.iss-inline-pin{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
-.iss-inline-pin input{width:90px;max-width:100%;font-size:16px;border:1px solid #8ca4c4;border-radius:7px;padding:8px;color:#202c76;background:#fff}
-.iss-inline-pin button{border-radius:7px;padding:8px 10px;background:#202c76;color:#fff;border:1px solid #202c76;cursor:pointer}
-.iss-inline-pin .iss-pin-status{font-size:12px;color:#202c76}
+/* Keep each original coloured button and its footprint while showing the PIN. */
+#captain-review-open.iss-pin-active,#iss-ai-launch.iss-pin-active{display:inline-flex!important;align-items:center;justify-content:center;gap:7px;white-space:nowrap;min-width:0}
+#captain-review-open .iss-pin-label,#iss-ai-launch .iss-pin-label{color:#fff;font-weight:750;font-size:14px}
+#captain-review-open .iss-pin-field,#iss-ai-launch .iss-pin-field{width:76px;min-width:0;max-width:30vw;height:32px;padding:4px 7px;background:#fff;color:#202c76;border:1px solid #d9e1f2;border-radius:5px;font:600 16px system-ui;box-sizing:border-box}
+#captain-review-open .iss-pin-go,#iss-ai-launch .iss-pin-go{color:#fff;font-size:22px;line-height:1;flex:none}
+#captain-review-open .iss-pin-status,#iss-ai-launch .iss-pin-status{position:absolute;top:100%;left:0;right:0;margin-top:4px;padding:4px 6px;border-radius:5px;background:#fff;color:#202c76;font-size:11px;white-space:normal;box-shadow:0 2px 6px #0002}
+#captain-review-open.iss-pin-active,#iss-ai-launch.iss-pin-active{position:relative}
 </style>
 </head>
 <body>
@@ -1846,24 +1849,22 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
 </script>
 <script id="iss-private-pin-gates">
 (function(){
- // The PIN is NOT stored or compared on this public page.
- // Access requires an independently verified server-side authentication service.
+ // No PIN is stored in the public page. A secure verification service is required to unlock.
  window.ISS_PRIVATE_ACCESS_VERIFIED=false;
  window.issRequestPrivatePin=function(button){
-  if(!button)return;
-  const parent=button.parentNode;
-  if(!parent)return;
-  const holder=document.createElement('span');holder.className='iss-inline-pin';
-  const label=document.createElement('label');label.textContent='Enter PIN';
-  const input=document.createElement('input');input.type='password';input.inputMode='numeric';input.autocomplete='off';input.maxLength=12;input.setAttribute('aria-label','Private access PIN');
-  const submit=document.createElement('button');submit.type='button';submit.textContent='Unlock';
-  const status=document.createElement('span');status.className='iss-pin-status';status.setAttribute('role','status');
-  const restore=document.createElement('button');restore.type='button';restore.textContent='Cancel';
-  label.append(input);holder.append(label,submit,restore,status);
-  parent.replaceChild(holder,button);input.focus();
-  restore.addEventListener('click',()=>{input.value='';holder.replaceWith(button)});
-  submit.addEventListener('click',()=>{input.value='';status.textContent='Private access is not yet activated. The PIN must be verified by a secure service.'});
-  input.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();submit.click()}});
+  if(!button||button.classList.contains('iss-pin-active'))return;
+  const original=button.textContent;
+  button.classList.add('iss-pin-active');
+  button.textContent='';
+  const label=document.createElement('span');label.className='iss-pin-label';label.textContent='PIN';
+  const input=document.createElement('input');input.className='iss-pin-field';input.type='password';input.inputMode='numeric';input.autocomplete='off';input.maxLength=12;input.setAttribute('aria-label','Enter private PIN');
+  const go=document.createElement('span');go.className='iss-pin-go';go.textContent='➜';go.setAttribute('aria-hidden','true');
+  button.append(label,input,go);
+  function submit(){input.value='';let status=button.querySelector('.iss-pin-status');if(!status){status=document.createElement('span');status.className='iss-pin-status';status.setAttribute('role','status');button.append(status)}status.textContent='Private access not yet activated.'}
+  input.addEventListener('click',e=>e.stopPropagation());
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();submit()}else if(e.key==='Escape'){e.stopPropagation();button.classList.remove('iss-pin-active');button.textContent=original}});
+  button.addEventListener('click',function handlePin(e){if(!button.classList.contains('iss-pin-active')){button.removeEventListener('click',handlePin);return;}e.stopImmediatePropagation();if(e.target!==input)submit()},true);
+  input.focus();
  };
 })();
 </script>
