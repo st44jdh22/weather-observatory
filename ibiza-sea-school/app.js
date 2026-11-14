@@ -18,7 +18,7 @@ const sky=x=>codeLabel[x]||'Conditions not classified';
 const clampText=(s,len=160)=>String(s??'').slice(0,len);
 let forecast=null,marine=null,pressureHistory=[],selectedHours=72,selectedMap='wind',mapLoaded=false,requestSeq=0,pendingInstall=null,nowHour=0;
 let lastUpdate=null;
-function currentSpot(){return SPOTS[$('location').value]||SPOTS.san}
+function currentSpot(){return SPOTS[$('location').value]||SPOTS.ibiza}
 function localDay(date){return new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}
 function todayIndex(times,time){let i=times.findIndex(t=>t>=time.slice(0,13)+':00');return i>=0?i:Math.max(0,times.length-1)}
 function safeIndex(arr,i){return Array.isArray(arr)&&i>=0&&i<arr.length?arr[i]:null}
