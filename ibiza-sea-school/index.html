@@ -1860,7 +1860,7 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
   const input=document.createElement('input');input.className='iss-pin-field';input.type='password';input.inputMode='numeric';input.autocomplete='off';input.maxLength=12;input.setAttribute('aria-label','Enter private PIN');
   const go=document.createElement('span');go.className='iss-pin-go';go.textContent='➜';go.setAttribute('aria-hidden','true');
   button.append(label,input,go);
-  function submit(){input.value='';let status=button.querySelector('.iss-pin-status');if(!status){status=document.createElement('span');status.className='iss-pin-status';status.setAttribute('role','status');button.append(status)}status.textContent='Private access not yet activated.'}
+  function submit(){input.value='';input.placeholder='Locked';input.setAttribute('aria-label','Private access not yet activated');input.focus()}
   input.addEventListener('click',e=>e.stopPropagation());
   input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();submit()}else if(e.key==='Escape'){e.stopPropagation();button.classList.remove('iss-pin-active');button.textContent=original}});
   button.addEventListener('click',function handlePin(e){if(!button.classList.contains('iss-pin-active')){button.removeEventListener('click',handlePin);return;}e.stopImmediatePropagation();if(e.target!==input)submit()},true);
