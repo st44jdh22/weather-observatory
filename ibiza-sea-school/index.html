@@ -1153,7 +1153,7 @@ window.addEventListener('load',()=>{
 (async()=>{
  const $=id=>document.getElementById(id),set=(id,v)=>{$(id).textContent=v};
  const clean=v=>String(v??'').replace(/\uFFFD/g,'').replace(/\s+/g,' ').trim();
- let storedLanguage=null;try{storedLanguage=localStorage.getItem('iss-language')}catch{}let language=storedLanguage==='es'?'es':'en',bulletin=null,selectedZone='',warningResponse=null,coastalAvisos=null;let warningAlerts=[];
+ let storedLanguage=null;try{storedLanguage=localStorage.getItem('iss-language')}catch{}let language='en',bulletin=null,selectedZone='',warningResponse=null,coastalAvisos=null;let warningAlerts=[];
  const esToEn=[
  [/Aguas costeras de/gi,'Coastal waters of'],[/Marejadilla/gi,'slight seas'],[/fuerte marejada/gi,'rough seas'],[/marejada/gi,'moderate seas'],[/mar gruesa/gi,'high seas'],[/mar de fondo/gi,'swell'],[/viento/gi,'wind'],[/rachas/gi,'gusts'],[/chubascos/gi,'showers'],[/aguaceros/gi,'heavy showers'],[/precipitaciones/gi,'precipitation'],[/tormentas/gi,'thunderstorms'],[/tormenta/gi,'thunderstorm'],[/lluvias/gi,'rain'],[/lluvia/gi,'rain'],[/desde la madrugada/gi,'from the early hours'],[/durante la madrugada/gi,'during the early hours'],[/por la noche/gi,'overnight'],[/por la tarde/gi,'in the afternoon'],[/por la mañana/gi,'in the morning'],[/arreciando/gi,'strengthening'],[/amainando/gi,'easing'],[/aumentando/gi,'increasing'],[/disminuyendo/gi,'decreasing'],[/localmente/gi,'locally'],[/temporalmente/gi,'temporarily'],[/variable/gi,'variable'],[/rolando/gi,'veering/shifting'],[/a/gi,'a']
  ];
@@ -1827,7 +1827,7 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
  function schedule(){if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;translating=true;try{translate(current)}finally{translating=false}})}
  document.getElementById('global-en')?.addEventListener('click',()=>{current='en';schedule()});
  document.getElementById('global-es')?.addEventListener('click',()=>{current='es';schedule()});
- try{current=localStorage.getItem('iss-language')==='es'?'es':'en'}catch{}
+ current='en'
  schedule();
  // Weather data arrives asynchronously. Translate known UI labels after updates,
  // but never translate raw marine bulletins or forecast measurements.
