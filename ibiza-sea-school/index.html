@@ -1713,6 +1713,7 @@ const warn=$('aemet-status'),row=document.querySelector('.aemet-warning-row');if
  window.issRequestPrivatePin=function(button){
   if(!button||button.classList.contains('iss-pin-active'))return;
   const original=button.textContent;
+  const originalStyle=button.getAttribute('style');
   const rect=button.getBoundingClientRect();
   button.style.width=rect.width+'px';button.style.height=rect.height+'px';button.style.flex='0 0 '+rect.width+'px';
   button.classList.add('iss-pin-active');
@@ -1722,9 +1723,18 @@ const warn=$('aemet-status'),row=document.querySelector('.aemet-warning-row');if
   const go=document.createElement('span');go.className='iss-pin-go';go.textContent='➜';go.setAttribute('aria-hidden','true');
   button.append(label,input,go);
   function submit(){input.value='';input.placeholder='Locked';input.setAttribute('aria-label','Private access not yet activated');input.focus()}
+  function reset(){
+   input.value='';button.classList.remove('iss-pin-active');button.textContent=original;
+   if(originalStyle===null)button.removeAttribute('style');else button.setAttribute('style',originalStyle);
+   document.removeEventListener('pointerdown',outside,true);
+   button.removeEventListener('click',handlePin,true);
+  }
+  function outside(e){if(!button.contains(e.target))reset()}
+  function handlePin(e){e.stopImmediatePropagation();if(e.target!==input)submit()}
+  document.addEventListener('pointerdown',outside,true);
   input.addEventListener('click',e=>e.stopPropagation());
-  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();submit()}else if(e.key==='Escape'){e.stopPropagation();button.classList.remove('iss-pin-active');button.textContent=original}});
-  button.addEventListener('click',function handlePin(e){if(!button.classList.contains('iss-pin-active')){button.removeEventListener('click',handlePin);return;}e.stopImmediatePropagation();if(e.target!==input)submit()},true);
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();submit()}else if(e.key==='Escape'){e.stopPropagation();reset()}});
+  button.addEventListener('click',handlePin,true);
   const status=document.createElement('span');status.className='iss-pin-status';status.setAttribute('role','status');status.textContent='Private access not activated — secure service required.';button.append(status);
   input.focus();
  };
