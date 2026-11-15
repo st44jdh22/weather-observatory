@@ -249,14 +249,14 @@
  color-scheme: light;
  --bg:#ffffff; --bg2:#f7f9fc; --panel:#ffffff; --panel2:#f7f9fc;
  --line:#d9e1f2; --text:#1f2a44; --muted:#576781;
- --teal:#202c76; --gold:#c0274c; --warn:#b01944; --danger:#b01944;
- --good:#08774f; --iss-blue:#202c76; --iss-red:#d10049;
+ --teal:#071F34; --gold:#C62132; --warn:#B22132; --danger:#B22132;
+ --good:#08774f; --iss-blue:#071F34; --iss-red:#F43B4B;
  --iss-paper:#f7f9fc; --iss-shadow:0 7px 22px rgba(32,44,118,.065);
 }
 html,body{background:#fff;color:var(--text)}
 body{background:linear-gradient(#fff 0,#f9faff 420px,#fff 800px)}
 a{color:var(--iss-blue)}
-a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #d10049;outline-offset:2px}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #F43B4B;outline-offset:2px}
 .hero{background:#fff!important;border-bottom:3px solid var(--iss-blue)!important;color:var(--iss-blue)!important;box-shadow:0 5px 19px rgba(32,44,118,.06)!important}
 .hero-inner{background:#fff}
 .iss-logo-panel{border:0;background:#fff;box-shadow:none;padding:0;margin-bottom:18px}
@@ -361,36 +361,36 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 <style id="iss-brand-finish">
 /* Remaining legacy dark components: intentional light-theme overrides for day/night legibility. */
 #iss-outlook,.iss-outlook,.captain-summary,.captain-summary-card,.cs-card,.cs-summary,.cs-metric,.cs-caution,.cs-note,
-#iss-ai-summary,.airport-panel{background:#fff!important;color:#1f2a44!important;border-color:#d9e1f2!important;box-shadow:0 7px 22px #202c7610!important}
-#iss-outlook h2,#iss-outlook h3,.captain-summary h2,.captain-summary h3{color:#202c76!important}
-.captain-summary-grid>*,.captain-summary-card,.cs-card{background:#f7f9fc!important;border:1px solid #d9e1f2!important;color:#202c76!important}
-.captain-summary-grid strong,.captain-summary-grid .cs-value,.captain-summary-card strong{color:#202c76!important}
-.airport-plane{color:#d10049!important;filter:none!important}
-.airport-header h3{color:#202c76!important}
+#iss-ai-summary,.airport-panel{background:#fff!important;color:#1f2a44!important;border-color:#d9e1f2!important;box-shadow:0 7px 22px #071F3410!important}
+#iss-outlook h2,#iss-outlook h3,.captain-summary h2,.captain-summary h3{color:#071F34!important}
+.captain-summary-grid>*,.captain-summary-card,.cs-card{background:#f7f9fc!important;border:1px solid #d9e1f2!important;color:#071F34!important}
+.captain-summary-grid strong,.captain-summary-grid .cs-value,.captain-summary-card strong{color:#071F34!important}
+.airport-plane{color:#F43B4B!important;filter:none!important}
+.airport-header h3{color:#071F34!important}
 .airport-subtitle,.airport-time,.airport-stat-label,.airport-stat-detail,.airport-instrument-foot,.airport-wind-note,.airport-direction-degrees,.airport-wind-unit{color:#576781!important}
 .airport-stat{background:#f7f9fc!important;border:1px solid #d9e1f2!important;box-shadow:none!important}
-.airport-stat::before{background:#d10049!important}
-.airport-stat strong,.airport-wind-reading #airport-wind-value,.airport-direction-reading #airport-direction-cardinal,.airport-instrument-value strong{color:#202c76!important}
-.airport-age{background:#f1f3fa!important;color:#202c76!important;border-color:#c6d0e6!important}
-.airport-age[data-status="fresh"]{background:#eef1fc!important;color:#202c76!important;border-color:#9aadd5!important}
+.airport-stat::before{background:#F43B4B!important}
+.airport-stat strong,.airport-wind-reading #airport-wind-value,.airport-direction-reading #airport-direction-cardinal,.airport-instrument-value strong{color:#071F34!important}
+.airport-age{background:#f1f3fa!important;color:#071F34!important;border-color:#c6d0e6!important}
+.airport-age[data-status="fresh"]{background:#eef1fc!important;color:#071F34!important;border-color:#9aadd5!important}
 .airport-age[data-status="stale"]{background:#fff1e6!important;color:#86460a!important;border-color:#e9bf8c!important}
 .airport-age[data-status="error"]{background:#fff0f2!important;color:#a02042!important;border-color:#edb5c2!important}
 .airport-location-warning,.airport-footer,.airport-footer a{color:#576781!important}
 .airport-compass-ring,.airport-compass-ring-inner{stroke:#c4cde2!important}
-.airport-compass-cardinal{fill:#202c76!important}
-.airport-compass-arrow{stroke:#d10049!important}
+.airport-compass-cardinal{fill:#071F34!important}
+.airport-compass-arrow{stroke:#F43B4B!important}
 .iss-now-caution{background:#fff2f5!important;color:#7e1e3b!important;border:1px solid #e6b2c2!important}
 .day .day-stats>*,.day .day-stat{background:#f7f9fc!important;color:#1f2a44!important;border:1px solid #d9e1f2!important}
-.day .day-stat strong,.day .day-stat.warn strong{color:#202c76!important}
+.day .day-stat strong,.day .day-stat.warn strong{color:#071F34!important}
 .day .day-stat .lbl,.day .day-stat small{color:#576781!important}
 .day .day-source,.day .day-top{border-color:#d9e1f2!important}
 .camera-controls select,#coastalCamera{
- background:#fff!important;color:#202c76!important;border:1px solid #b6c5e4!important;
+ background:#fff!important;color:#071F34!important;border:1px solid #b6c5e4!important;
  appearance:auto!important
 }
-#coastalCamera option{background:#fff;color:#202c76}
+#coastalCamera option{background:#fff;color:#071F34}
 .aemet-original{margin:4px 0 12px;color:#576781;font-size:12px}
-.aemet-original summary{cursor:pointer;color:#202c76;font-weight:650}
+.aemet-original summary{cursor:pointer;color:#071F34;font-weight:650}
 .aemet-original p{padding:8px;background:#f7f9fc;border:1px solid #d9e1f2;border-radius:6px}
 #command-report>.panel{max-width:none}
 </style>
@@ -410,20 +410,20 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 /* Captain's Summary: white background, logo navy hierarchy, restrained red emphasis. */
 #captain-weather-summary{
  background:#fff!important;color:#1f2a44!important;border:1px solid #e3b4c4!important;
- border-top:5px solid #d10049!important;border-radius:16px;
+ border-top:5px solid #F43B4B!important;border-radius:16px;
  box-shadow:0 8px 26px rgba(32,44,118,.09)!important
 }
-#captain-weather-summary .captain-summary-header h2{color:#202c76!important}
-#captain-weather-summary .captain-summary-grid>.captain-summary-card{background:#f7f9fc!important;border:1px solid #d9e1f2!important;border-left:3px solid #202c76!important;color:#1f2a44!important}
-#captain-weather-summary .captain-summary-grid>.captain-summary-confidence{border-left-color:#d10049!important}
-#captain-weather-summary .captain-summary-card strong{color:#202c76!important}
+#captain-weather-summary .captain-summary-header h2{color:#071F34!important}
+#captain-weather-summary .captain-summary-grid>.captain-summary-card{background:#f7f9fc!important;border:1px solid #d9e1f2!important;border-left:3px solid #071F34!important;color:#1f2a44!important}
+#captain-weather-summary .captain-summary-grid>.captain-summary-confidence{border-left-color:#F43B4B!important}
+#captain-weather-summary .captain-summary-card strong{color:#071F34!important}
 #captain-weather-summary .captain-summary-card small,#captain-weather-summary .captain-summary-detail{color:#576781!important}
 #captain-weather-summary .captain-summary-header .iss-outlook-toolbar label{color:#576781!important}
-#captain-weather-summary #iss-outlook-period{background:#fff!important;color:#202c76!important;border:1px solid #c5cde6!important}
+#captain-weather-summary #iss-outlook-period{background:#fff!important;color:#071F34!important;border:1px solid #c5cde6!important}
 #captain-weather-summary .captain-confidence-track{background:#dce3f4!important}
-#captain-weather-summary .captain-confidence-fill{background:#d10049!important}
+#captain-weather-summary .captain-confidence-fill{background:#F43B4B!important}
 #captain-weather-summary .captain-summary-detail,#captain-weather-summary .captain-summary-meta,#captain-weather-summary .captain-summary-footnote{color:#586781!important}
-#captain-weather-summary .captain-summary-warning,#captain-weather-summary .captain-summary-caution{background:#fff4f7!important;color:#832344!important;border-left:3px solid #d10049!important}
+#captain-weather-summary .captain-summary-warning,#captain-weather-summary .captain-summary-caution{background:#fff4f7!important;color:#832344!important;border-left:3px solid #F43B4B!important}
 #captain-weather-summary .captain-summary-evidence,#captain-weather-summary .captain-summary-models{background:#f7f9fc!important;color:#1f2a44!important;border:1px solid #d9e1f2!important}
 @media(max-width:820px){
  .iss-toolbar{grid-template-columns:1fr!important;gap:14px!important}
@@ -432,21 +432,21 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 }
 </style>
 <style id="iss-maritime-layout-refinements">
-.aemet-original-text{margin:6px 0 5px;font-size:1.08em;font-weight:650;line-height:1.55;color:#202c76}
-.aemet-translation{margin:3px 0 16px;padding:9px 12px;background:#f0f3fc;border-left:3px solid #202c76;border-radius:4px;color:#202c76;font-weight:650;line-height:1.55}
-.aemet-translation.unverified{background:#fff5f7;border-left-color:#d10049;color:#9a2347}
-.iss-floating-caution{display:block!important;margin:10px 0 6px!important;padding:13px 15px!important;background:#f1f4ff!important;color:#202c76!important;border:1px solid #bfc9e5!important;border-left:5px solid #d10049!important;border-radius:9px!important;box-shadow:none!important;line-height:1.55;font-weight:650}
+.aemet-original-text{margin:6px 0 5px;font-size:1.08em;font-weight:650;line-height:1.55;color:#071F34}
+.aemet-translation{margin:3px 0 16px;padding:9px 12px;background:#f0f3fc;border-left:3px solid #071F34;border-radius:4px;color:#071F34;font-weight:650;line-height:1.55}
+.aemet-translation.unverified{background:#fff5f7;border-left-color:#F43B4B;color:#9a2347}
+.iss-floating-caution{display:block!important;margin:10px 0 6px!important;padding:13px 15px!important;background:#f1f4ff!important;color:#071F34!important;border:1px solid #bfc9e5!important;border-left:5px solid #F43B4B!important;border-radius:9px!important;box-shadow:none!important;line-height:1.55;font-weight:650}
 #captain-weather-summary .iss-model-footnote{margin:15px 0 0;font-size:11px;color:#52617c;border-top:1px solid #d9e1f2;padding-top:8px}
-#captain-weather-summary .iss-model-footnote summary{cursor:pointer;color:#202c76;font-size:11px}
+#captain-weather-summary .iss-model-footnote summary{cursor:pointer;color:#071F34;font-size:11px}
 #captain-weather-summary .iss-model-footnote p{margin:8px 0 0;line-height:1.45;color:#53637e}
-.airport-location-warning,.airport-location-warning span{color:#202c76!important}
-.airport-location-warning strong{color:#d10049!important}
-.airport-location-warning>span:first-child{color:#d10049!important}
+.airport-location-warning,.airport-location-warning span{color:#071F34!important}
+.airport-location-warning strong{color:#F43B4B!important}
+.airport-location-warning>span:first-child{color:#F43B4B!important}
 </style>
 
 <style id="iss-v528-day-night">
-#captain-weather-summary .iss-shift-label{display:flex;align-items:center;gap:6px;font-weight:600;color:#202c76;font-size:12px;white-space:normal}
-#captain-weather-summary #iss-shift{font-size:12px;background:#fff;color:#202c76;border:1px solid #aebfe1;border-radius:8px;padding:9px 8px;min-height:41px;max-width:215px}
+#captain-weather-summary .iss-shift-label{display:flex;align-items:center;gap:6px;font-weight:600;color:#071F34;font-size:12px;white-space:normal}
+#captain-weather-summary #iss-shift{font-size:12px;background:#fff;color:#071F34;border:1px solid #aebfe1;border-radius:8px;padding:9px 8px;min-height:41px;max-width:215px}
 #captain-weather-summary #iss-outlook-period{white-space:normal;text-align:center;min-width:154px;font-size:11px}
 #captain-weather-summary .captain-summary-wind{position:relative;padding-right:65px!important}
 #captain-weather-summary .cs-wind-compass{position:absolute;top:8px;right:8px;width:51px;height:51px;pointer-events:none}
@@ -454,7 +454,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 #captain-weather-summary .captain-summary-card:nth-child(-n+2) strong{font-size:22px!important;line-height:1.2}
 #captain-weather-summary .captain-summary-card:nth-child(-n+2) small{margin-bottom:10px}
 #airport-panel .airport-header{display:flex;align-items:center;width:100%;gap:15px;flex-wrap:wrap}
-#airport-panel .airport-observed-badge{margin-left:auto;color:#d10049;border:1px solid #d10049;border-radius:8px;padding:9px 13px;font-size:clamp(15px,1.7vw,22px);font-weight:800;letter-spacing:.045em;background:#fff6f9;line-height:1.2}
+#airport-panel .airport-observed-badge{margin-left:auto;color:#F43B4B;border:1px solid #F43B4B;border-radius:8px;padding:9px 13px;font-size:clamp(15px,1.7vw,22px);font-weight:800;letter-spacing:.045em;background:#fff6f9;line-height:1.2}
 #airport-panel .airport-subtitle{color:#596784!important;text-transform:uppercase;font-size:12px}
 @media(max-width:850px){
  #captain-weather-summary .iss-shift-label{flex-wrap:wrap}
@@ -470,7 +470,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 #captain-weather-summary .captain-summary-card strong{font-size:21px!important;font-weight:800!important}
 #captain-weather-summary .captain-summary-card:nth-child(-n+2) strong{font-size:27px!important;line-height:1.2!important;position:relative;top:-3px;left:-.45ch}
 #captain-weather-summary .captain-summary-card:nth-child(-n+2)>div{padding-top:8px!important}
-#captain-weather-summary #cs-wind-force{font-size:14px!important;font-weight:750!important;color:#202c76!important;margin-top:8px!important}
+#captain-weather-summary #cs-wind-force{font-size:14px!important;font-weight:750!important;color:#071F34!important;margin-top:8px!important}
 #captain-weather-summary #cs-temp,#captain-weather-summary #cs-confidence{font-size:23px!important}
 #captain-weather-summary .captain-summary-card:nth-child(-n+2) .captain-summary-icon{align-self:flex-start}
 @media(max-width:600px){#captain-weather-summary .captain-summary-card:nth-child(-n+2) strong{font-size:24px!important}}
@@ -491,46 +491,46 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,te
 #captain-weather-summary .captain-summary-confidence .captain-confidence-track{grid-row:3!important;margin:7px 0 0!important;width:100%!important}
 #captain-weather-summary .captain-summary-wind #cs-wind-compass{z-index:1}
 #captain-weather-summary .captain-summary-wind{padding-right:62px!important}
-.iss-floating-caution{display:flex!important;align-items:center!important;gap:12px!important;font-size:16px!important;font-weight:700!important;padding:16px!important;background:#fff9eb!important;border-color:#e4b63c!important;color:#202c76!important}
+.iss-floating-caution{display:flex!important;align-items:center!important;gap:12px!important;font-size:16px!important;font-weight:700!important;padding:16px!important;background:#fff9eb!important;border-color:#e4b63c!important;color:#071F34!important}
 .captain-alert-icon{font-size:27px;flex:none;line-height:1}
 .captain-caution-message{flex:1}
 .iss-now-weather #sky{font-size:clamp(21px,2.2vw,31px)!important;line-height:1.18!important;overflow-wrap:anywhere!important;word-break:normal!important;hyphens:auto!important;max-width:100%!important;min-width:0!important}
 .iss-now-weather{min-width:0!important;overflow:hidden!important}
-#iss-now-force,#iss-now-gust-force{font-size:clamp(25px,2.7vw,38px)!important;font-weight:780!important;color:#202c76!important;line-height:1.14!important}
+#iss-now-force,#iss-now-gust-force{font-size:clamp(25px,2.7vw,38px)!important;font-weight:780!important;color:#071F34!important;line-height:1.14!important}
 .day .day-weather{font-size:16px!important;font-weight:800!important;color:#bb1548!important;line-height:1.35!important}
 
 @media(max-width:650px){.captain-alert-icon{font-size:23px}.iss-floating-caution{font-size:14px!important}.captain-summary-grid>.captain-summary-card{min-width:0}}
 </style>
 <style id="iss-v532-forecast-readability">
 /* Day cards: stronger text contrast, enlarged weather artwork and compact weather heading. */
-.day .day-date{font-size:20px!important;font-weight:800!important;color:#202c76!important}
+.day .day-date{font-size:20px!important;font-weight:800!important;color:#071F34!important}
 .day .day-coverage{font-size:14px!important;font-weight:700!important;color:#415578!important;margin-top:5px!important}
 .day .day-icon{font-size:55px!important;line-height:1.08!important;filter:drop-shadow(0 3px 7px #20307030)!important}
 .day .day-weather{font-size:19px!important;font-weight:850!important;color:#bf1248!important;position:relative;top:-8px;text-align:center;margin:0 0 8px!important}
 .day .day-stats{gap:10px!important}
 .day .day-stat small{font-size:13px!important;font-weight:700!important;color:#405477!important;margin-bottom:5px!important}
-.day .day-stat strong{font-size:19px!important;font-weight:800!important;color:#202c76!important}
+.day .day-stat strong{font-size:19px!important;font-weight:800!important;color:#071F34!important}
 .day .day-stat.warn strong{color:#a32049!important}
 .day .day-source{font-size:12px!important;font-weight:600!important;color:#465b7e!important;line-height:1.5!important}
 .day .day-top{min-height:72px!important}
 .day{color:#1f2a44!important}
 /* Three-hourly forecast: eliminate pale text and pale yellow direction numerals on white cells. */
-.iss-hourly-table{font-size:14px!important;color:#202c76!important}
+.iss-hourly-table{font-size:14px!important;color:#071F34!important}
 .iss-hourly-table th,.iss-hourly-table td{font-size:14px!important;font-weight:650!important;padding:11px 12px!important;line-height:1.35!important}
-.iss-hourly-table thead th{background:#202c76!important;color:#fff!important;font-weight:800!important}
-.iss-hourly-table tbody th{background:#e9edf8!important;color:#202c76!important;font-weight:800!important;z-index:1}
-.iss-hourly-table tbody td{color:#20345c!important;background:#fff!important}
-.iss-hourly-table tbody tr:nth-child(2n) td{background:#f1f4fb!important;color:#20345c!important}
-.iss-hourly-table tbody td[style]{color:#20345c!important}
+.iss-hourly-table thead th{background:#071F34!important;color:#fff!important;font-weight:800!important}
+.iss-hourly-table tbody th{background:#e9edf8!important;color:#071F34!important;font-weight:800!important;z-index:1}
+.iss-hourly-table tbody td{color:#071F34!important;background:#fff!important}
+.iss-hourly-table tbody tr:nth-child(2n) td{background:#f1f4fb!important;color:#071F34!important}
+.iss-hourly-table tbody td[style]{color:#071F34!important}
 .iss-hourly-table td .direction,.iss-hourly-table .wind-direction{color:#ab2048!important;font-weight:800!important}
 .iss-hourly-table small{color:#425778!important;font-weight:650!important}
 @media(max-width:650px){.day .day-date{font-size:19px!important}.day .day-icon{font-size:49px!important}.iss-hourly-table{font-size:13px!important}}
 </style>
-<style id="rv-v535-attachments">.rv-attachment-label{margin-top:14px}#rv-attachments-status{font-size:12px;color:#405477;line-height:1.45;margin:7px 0 10px}#rv-attachments-preview{display:flex;flex-wrap:wrap;gap:9px}.rv-attachment-item{display:flex;flex-direction:column;gap:5px;background:#f1f4fb;border:1px solid #c9d3e8;color:#202c76;border-radius:9px;padding:7px;font-size:11px;max-width:150px;overflow-wrap:anywhere}.rv-attachment-item img{border-radius:5px}</style><style id="iss-quick-section-nav-v538">
-.iss-section-nav{position:sticky;top:0;z-index:80;display:flex;align-items:center;flex-wrap:wrap;gap:13px;padding:12px 17px;margin:0 0 17px;border:1px solid #b7c9dd;border-radius:10px;background:#f7fbfff5;color:#202d75;box-shadow:0 3px 14px #12234514;backdrop-filter:blur(10px)}
+<style id="rv-v535-attachments">.rv-attachment-label{margin-top:14px}#rv-attachments-status{font-size:12px;color:#405477;line-height:1.45;margin:7px 0 10px}#rv-attachments-preview{display:flex;flex-wrap:wrap;gap:9px}.rv-attachment-item{display:flex;flex-direction:column;gap:5px;background:#f1f4fb;border:1px solid #c9d3e8;color:#071F34;border-radius:9px;padding:7px;font-size:11px;max-width:150px;overflow-wrap:anywhere}.rv-attachment-item img{border-radius:5px}</style><style id="iss-quick-section-nav-v538">
+.iss-section-nav{position:sticky;top:0;z-index:80;display:flex;align-items:center;flex-wrap:wrap;gap:13px;padding:12px 17px;margin:0 0 17px;border:1px solid #b7c9dd;border-radius:10px;background:#f7fbfff5;color:#071F34;box-shadow:0 3px 14px #12234514;backdrop-filter:blur(10px)}
 .iss-section-nav label{font-weight:800;font-size:15px;white-space:nowrap}
 .iss-section-nav select{flex:1;min-width:225px;max-width:520px;border-radius:8px;border:1px solid #98b0ca;background:#fff;color:#172c52;font-size:16px;font-weight:600;padding:10px 34px 10px 12px;min-height:45px;cursor:pointer}
-.iss-section-nav select:focus-visible{outline:3px solid #c31a45;outline-offset:2px}
+.iss-section-nav select:focus-visible{outline:3px solid #C62132;outline-offset:2px}
 .iss-jump-hint{font-size:12px;color:#486184}
 html{scroll-padding-top:110px}
 section[id],nav[id]{scroll-margin-top:110px}
@@ -539,28 +539,28 @@ section[id],nav[id]{scroll-margin-top:110px}
 <style id="iss-native-jumps-style">
 .iss-native-jumps{display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;width:100%;min-width:0;max-width:100%;box-sizing:border-box;padding:2px 0 5px;overscroll-behavior-x:contain}
 .iss-native-jumps a{display:inline-block;flex:none;white-space:nowrap;padding:7px 10px;border-radius:7px;background:#e7eef8;color:#1d3765;font-size:12px;font-weight:700;text-decoration:none;border:1px solid #c0cfe2}
-.iss-native-jumps a:focus-visible,.iss-native-jumps a:hover{outline:2px solid #c31a45}
+.iss-native-jumps a:focus-visible,.iss-native-jumps a:hover{outline:2px solid #C62132}
 .iss-section-nav{min-width:0;max-width:100%;box-sizing:border-box;overflow:hidden}
 .iss-section-nav select{min-width:0}
 </style>
 <style id="iss-v539-windguru-panel">
 .iss-windguru-container{min-width:0;max-width:100%;overflow:auto;min-height:175px}
-.iss-windguru-open{display:inline-block;padding:12px 16px;background:#202c76;color:#fff!important;border-radius:9px;font-weight:750;text-decoration:none}
-.iss-windguru-open:focus-visible{outline:3px solid #c31a45;outline-offset:2px}
+.iss-windguru-open{display:inline-block;padding:12px 16px;background:#071F34;color:#fff!important;border-radius:9px;font-weight:750;text-decoration:none}
+.iss-windguru-open:focus-visible{outline:3px solid #C62132;outline-offset:2px}
 .iss-wg-scroll{overflow-x:auto;max-width:100%;border:1px solid #c9d3e8;border-radius:8px}
 .iss-wg-table{border-collapse:collapse;white-space:nowrap;min-width:1050px;width:100%;font-size:13px}
 .iss-wg-table th,.iss-wg-table td{border:1px solid #dce4f0;padding:10px;text-align:center}
-.iss-wg-table thead th{background:#202c76;color:#fff}
-.iss-wg-table tbody th{position:sticky;left:0;background:#e7eef8;color:#202c76;z-index:1}
+.iss-wg-table thead th{background:#071F34;color:#fff}
+.iss-wg-table tbody th{position:sticky;left:0;background:#e7eef8;color:#071F34;z-index:1}
 .iss-wg-table tbody tr:nth-child(even) td{background:#f5f8fc}
 .iss-synthetic-warning{font-weight:800;background:#fff3d8;border:2px solid #bd7b10;padding:12px;border-radius:8px;color:#653d00}
 .iss-wg-model-stack{max-height:580px;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:16px;padding:4px 2px 12px}
 .iss-wg-model{border:1px solid #c4d0e1;border-radius:9px;overflow:hidden;background:#fff}
-.iss-wg-model h3{margin:0;padding:10px 14px;background:#202c76;color:#fff;font-size:17px}
+.iss-wg-model h3{margin:0;padding:10px 14px;background:#071F34;color:#fff;font-size:17px}
 .iss-wg-model .iss-wg-table{min-width:950px;table-layout:fixed;font-size:12px}
 .iss-wg-model .iss-wg-table th,.iss-wg-model .iss-wg-table td{padding:7px 8px;min-width:78px}
 .iss-wg-model .iss-wg-table tbody th{min-width:145px;text-align:left}
-.iss-wg-model .iss-wg-table thead th{background:#e9edf4;color:#202c76}
+.iss-wg-model .iss-wg-table thead th{background:#e9edf4;color:#071F34}
 .iss-wg-model .wg-wind-0{background:#dceeff}.iss-wg-model .wg-wind-1{background:#78e6e3}.iss-wg-model .wg-wind-2{background:#5bdd86}.iss-wg-model .wg-wind-3{background:#e9e957}.iss-wg-model .wg-wind-4{background:#ffc55c}
 .iss-wg-model .wg-wave{background:#e4e5fa}.iss-wg-model .wg-temp{background:#ffc04b}
 .iss-wg-model .wg-cloud-0{background:#fff}.iss-wg-model .wg-cloud-1{background:#f0f0f0}.iss-wg-model .wg-cloud-2{background:#d8d8d8}.iss-wg-model .wg-cloud-3{background:#bcbcbc}.iss-wg-model .wg-cloud-4{background:#999}
@@ -571,13 +571,13 @@ section[id],nav[id]{scroll-margin-top:110px}
 .iss-section-nav .iss-native-jumps{display:flex!important;flex-wrap:wrap!important;overflow:visible!important;width:100%!important;max-width:100%!important;gap:7px!important;padding:5px 0!important}
 .iss-section-nav .iss-native-jumps a{white-space:normal;max-width:100%;box-sizing:border-box;flex:1 1 auto!important;text-align:center;min-width:max-content}
 .iss-section-nav{overflow:visible!important;border-radius:12px}
-#iss-back-to-top{position:fixed;left:50%;right:auto;top:75%;bottom:auto;transform:translate(-50%,-50%);z-index:9999;width:48px;height:48px;border:1px solid #aebed5;border-radius:50%;background:#202c76;color:#fff;font-size:26px;font-weight:800;line-height:1;box-shadow:0 3px 12px #10234d40;cursor:pointer;display:none;align-items:center;justify-content:center}
+#iss-back-to-top{position:fixed;left:50%;right:auto;top:75%;bottom:auto;transform:translate(-50%,-50%);z-index:9999;width:48px;height:48px;border:1px solid #aebed5;border-radius:50%;background:#071F34;color:#fff;font-size:26px;font-weight:800;line-height:1;box-shadow:0 3px 12px #10234d40;cursor:pointer;display:none;align-items:center;justify-content:center}
 #iss-back-to-top.iss-top-visible{display:flex}
-#iss-back-to-top:focus-visible{outline:3px solid #c31a45;outline-offset:3px}
+#iss-back-to-top:focus-visible{outline:3px solid #C62132;outline-offset:3px}
 @media(max-width:600px){#iss-back-to-top{width:44px;height:44px;left:50%;right:auto;top:75%;bottom:auto}}
 </style>
 <style id="iss-clock-dropdown-only">
-.iss-live-clock{display:table;max-width:100%;margin-top:12px;padding:10px 16px;font-size:clamp(24px,calc(1.2vw + 11px),28px);font-weight:900;letter-spacing:.015em;color:#202c76;background:#fff9eb;border:1px solid #e4b63c;border-left:4px solid #e4b63c;border-radius:6px;line-height:1.4;text-shadow:none;overflow-wrap:anywhere}
+.iss-live-clock{display:table;max-width:100%;margin-top:12px;padding:10px 16px;font-size:clamp(24px,calc(1.2vw + 11px),28px);font-weight:900;letter-spacing:.015em;color:#071F34;background:#fff9eb;border:1px solid #e4b63c;border-left:4px solid #e4b63c;border-radius:6px;line-height:1.4;text-shadow:none;overflow-wrap:anywhere}
 .iss-section-nav{overflow:visible}
 .iss-section-nav select{flex:1 1 240px;max-width:520px}
 @media(max-width:650px){.iss-section-nav select{max-width:100%;min-width:0}}
@@ -599,17 +599,27 @@ section[id],nav[id]{scroll-margin-top:110px}
 /* Keep each original coloured button and its footprint while showing the PIN. */
 #captain-review-open.iss-pin-active,#iss-ai-launch.iss-pin-active{display:inline-flex!important;align-items:center;justify-content:center;gap:7px;white-space:nowrap;min-width:0}
 #captain-review-open .iss-pin-label,#iss-ai-launch .iss-pin-label{color:#fff;font-weight:750;font-size:14px}
-#captain-review-open .iss-pin-field,#iss-ai-launch .iss-pin-field{width:76px;min-width:0;max-width:30vw;height:32px;padding:4px 7px;background:#fff;color:#202c76;border:1px solid #d9e1f2;border-radius:5px;font:600 16px system-ui;box-sizing:border-box}
+#captain-review-open .iss-pin-field,#iss-ai-launch .iss-pin-field{width:76px;min-width:0;max-width:30vw;height:32px;padding:4px 7px;background:#fff;color:#071F34;border:1px solid #d9e1f2;border-radius:5px;font:600 16px system-ui;box-sizing:border-box}
 #captain-review-open .iss-pin-go,#iss-ai-launch .iss-pin-go{color:#fff;font-size:22px;line-height:1;flex:none}
-#captain-review-open .iss-pin-status,#iss-ai-launch .iss-pin-status{position:absolute;top:100%;left:0;right:0;margin-top:4px;padding:4px 6px;border-radius:5px;background:#fff;color:#202c76;font-size:11px;white-space:normal;box-shadow:0 2px 6px #0002}
+#captain-review-open .iss-pin-status,#iss-ai-launch .iss-pin-status{position:absolute;top:100%;left:0;right:0;margin-top:4px;padding:4px 6px;border-radius:5px;background:#fff;color:#071F34;font-size:11px;white-space:normal;box-shadow:0 2px 6px #0002}
 #captain-review-open.iss-pin-active,#iss-ai-launch.iss-pin-active{position:relative}
 </style>
-</head>
+<style id="iss-approved-brand-preview">
+.iss-brand-row{position:relative;display:flex;align-items:center;justify-content:space-between;gap:32px;width:100%;margin-bottom:12px}
+.iss-brand-row .iss-logo-panel{margin:0;flex:0 1 420px}
+.iss-brand-row .iss-logo{width:100%;max-width:420px;height:auto}
+.iss-rya-logo{position:absolute;right:-25px;top:calc(65% - 86px);display:block;width:220px;max-width:none;height:auto;object-fit:contain}
+.hero-sub{color:#4D6070!important}
+.hero .iss-live-clock{background:#F7F9FB;border-color:#CBD4DB;border-left-color:#F43B4B;color:#071F34}
+#captain-review-open{background:#F43B4B!important;border-color:#F43B4B!important;color:#071F34!important}
+#captain-review-open .iss-pin-label,#captain-review-open .iss-pin-go{color:#071F34}
+@media(max-width:650px){.iss-brand-row{gap:16px;align-items:center}.iss-brand-row .iss-logo-panel{flex:0 1 66%;min-width:0}.iss-rya-logo{right:-12px;top:calc(69% - 37px);width:95px;max-width:none}.hero-inner{padding-top:24px}.hero h2{max-width:100%}}
+</style></head>
 <body>
 <header class="hero">
   <div class="hero-inner">
     <h1 class="screenreader">Ibiza Sea School — Captain's Weather &amp; Maritime Desk</h1>
-    <div class="iss-logo-panel"><img class="iss-logo" src="assets/ibiza-sea-school-logo.webp" width="300" height="123" alt="Ibiza Sea School logo"></div>
+    <div class="iss-brand-row"><div class="iss-logo-panel"><img class="iss-logo" src="assets/ibiza-sea-school-logo.svg" width="1752" height="897" alt="Ibiza Sea School logo"></div><img class="iss-rya-logo" src="assets/rya-training-centre.jpg" width="1667" height="1250" alt="RYA Training Centre"></div>
     <h2 data-en="CAPTAIN'S WEATHER &amp; MARITIME DESK" data-es="METEOROLOGÍA Y NAVEGACIÓN MARÍTIMA">CAPTAIN'S WEATHER &amp; MARITIME DESK</h2>
     <span class="hero-sub" data-en="FORECAST INTELLIGENCE · OPERATIONAL AWARENESS" data-es="INTELIGENCIA METEOROLÓGICA · CONCIENCIA OPERATIVA">FORECAST INTELLIGENCE · OPERATIONAL AWARENESS</span>
     <time id="iss-live-clock" class="iss-live-clock" aria-label="Current UK date and time"></time>
@@ -667,7 +677,7 @@ section[id],nav[id]{scroll-margin-top:110px}
  <div class="captain-summary-grid" aria-live="polite">
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌤️</span><div><small>Conditions</small><strong id="cs-conditions">Loading…</strong></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌦️</span><div><small>Weather</small><strong id="cs-weather">—</strong></div></div>
-  <div class="captain-summary-card captain-summary-wind"><span class="captain-summary-icon" aria-hidden="true">💨</span><svg id="cs-wind-compass" class="cs-wind-compass" viewBox="0 0 100 100" role="img" aria-label="Forecast wind direction unavailable"><circle cx="50" cy="50" r="43" fill="none" stroke="#a8b8df" stroke-width="4"/><text x="50" y="17" text-anchor="middle" font-size="13" fill="#202c76">N</text><text x="84" y="54" text-anchor="middle" font-size="12" fill="#202c76">E</text><text x="50" y="90" text-anchor="middle" font-size="12" fill="#202c76">S</text><text x="16" y="54" text-anchor="middle" font-size="12" fill="#202c76">W</text><g id="cs-wind-needle" style="display:none"><path d="M50 17 L57 48 L50 45 L43 48 Z" fill="#d10049"/><path d="M50 83 L57 51 L50 54 L43 51 Z" fill="#202c76"/></g></svg><div><small>Wind</small><strong id="cs-wind">—</strong><span id="cs-wind-force" class="captain-summary-detail">—</span></div></div>
+  <div class="captain-summary-card captain-summary-wind"><span class="captain-summary-icon" aria-hidden="true">💨</span><svg id="cs-wind-compass" class="cs-wind-compass" viewBox="0 0 100 100" role="img" aria-label="Forecast wind direction unavailable"><circle cx="50" cy="50" r="43" fill="none" stroke="#a8b8df" stroke-width="4"/><text x="50" y="17" text-anchor="middle" font-size="13" fill="#071F34">N</text><text x="84" y="54" text-anchor="middle" font-size="12" fill="#071F34">E</text><text x="50" y="90" text-anchor="middle" font-size="12" fill="#071F34">S</text><text x="16" y="54" text-anchor="middle" font-size="12" fill="#071F34">W</text><g id="cs-wind-needle" style="display:none"><path d="M50 17 L57 48 L50 45 L43 48 Z" fill="#F43B4B"/><path d="M50 83 L57 51 L50 54 L43 51 Z" fill="#071F34"/></g></svg><div><small>Wind</small><strong id="cs-wind">—</strong><span id="cs-wind-force" class="captain-summary-detail">—</span></div></div>
   <div class="captain-summary-card"><span class="captain-summary-icon" aria-hidden="true">🌬️</span><div><small id="cs-temp-label">Expected temperature</small><strong id="cs-temp">— °C</strong><span id="cs-temp-time" class="captain-summary-detail">At 14:00 local time</span></div></div>
   <div class="captain-summary-card captain-summary-confidence"><span class="captain-summary-icon" aria-hidden="true">📊</span><div><small>Model agreement*</small><strong id="cs-confidence">—</strong><div class="captain-confidence-track"><div id="cs-confidence-fill"></div></div></div></div>
  </div>
@@ -813,11 +823,11 @@ section[id],nav[id]{scroll-margin-top:110px}
 <section id="iss-model-comparison" hidden aria-hidden="true"><div id="ecmwf"></div><div id="ukmo"></div></section>
 <section id="command-report" hidden aria-hidden="true"></section>
 <footer class="fineprint"><strong>Ibiza Sea School Weather · V5.39</strong> · Forecast guidance, not operational clearance. Open-Meteo weather is primary; MET Norway Locationforecast is the automatic fallback. Marine wave data remains a separate Open-Meteo feed. These are numerical forecasts, not physical onboard observations. Pressure history is historical model-derived data. Offshore marine grid data is not a harbour or berth measurement. Official CAP alerts are retrieved automatically; local area-code coverage is still under validation. Check official AEMET current bulletins and local conditions. Do not use this app for navigation or safety-critical decisions alone. Weather/map content and availability are controlled by their providers.<p><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Primary weather &amp; marine: Open-Meteo</a> · <a href="https://api.met.no/" target="_blank" rel="noopener noreferrer">Backup weather: MET Norway</a> · <a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">Official weather: AEMET</a> · <a href="https://www.windy.com/" target="_blank" rel="noopener noreferrer">Interactive maps: Windy</a>. Commercial API and third-party reuse arrangements must be verified before operational deployment.</p><p id="appVersion">PWA shell: ready for testing · does not currently retain forecast data offline.</p></footer>
-<aside id="captain-review-drawer" role="dialog" aria-modal="true" aria-label="Captain's Passage and Weather Declaration" hidden><div class="review-head"><strong>⚠ Captain's Passage & Weather Declaration</strong><button type="button" id="captain-review-close" aria-label="Close">✕</button></div><div class="review-body"><p>Pre-departure review and passage details. <strong>This preview allows you to prepare an email manually. Secure submission is not active until the backend and private recipient configuration are verified.</strong></p><p class="rv-mode-title" id="rv-mode-title">Choose declaration version</p><label>Declaration access code<input type="password" id="rv-code" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" autocomplete="off" placeholder="4-digit code"></label><button type="button" class="pill primary" id="rv-code-enter">Open declaration</button><p id="rv-code-status" role="status">Select a declaration version with its four-digit code. This only changes the form, not secure authentication.</p><div id="rv-form-fields" hidden><label id="rv-captain-select-wrap">Captain <select id="rv-captain" required><option value="">Select captain</option></select></label><label id="rv-public-captain-wrap" hidden>Captain name<input id="rv-public-captain" maxlength="90" placeholder="Enter captain's name"></label><label id="rv-captain-other-wrap" hidden>Other captain's name<input id="rv-captain-other" maxlength="90" placeholder="Enter captain's name"></label><label id="rv-vessel-select-wrap">Vessel name <select id="rv-vessel" required><option value="">Select vessel</option></select></label><label id="rv-public-vessel-wrap" hidden>Vessel name<input id="rv-public-vessel" maxlength="100" placeholder="Enter vessel name"></label><label id="rv-vessel-other-wrap" hidden>Other vessel name<input id="rv-vessel-other" maxlength="100" placeholder="Enter vessel name"></label><label>Planned departure <input id="rv-departure" type="datetime-local"></label><label>Departure port <select id="rv-port"><option>Sant Antoni</option><option>Ibiza Town</option><option>Marina Botafoch</option><option>Santa Eulària</option><option>Portinatx</option><option>La Savina · Formentera</option><option>Other</option></select></label><label id="rv-port-other-wrap" hidden>Other departure port<input id="rv-port-other" maxlength="100" placeholder="Enter port or anchorage"></label><label>Intended destination / operating area <select id="rv-route"><option value="">Select area</option><option>Formentera · La Savina / Illetes</option><option>Formentera · Es Pujols</option><option>Es Vedrà / Cala d'Hort</option><option>Cala Bassa / Cala Comte</option><option>Benirràs / North coast</option><option>Portinatx / North coast</option><option>Santa Eulària / East coast</option><option>Ibiza Town / South coast</option><option>Es Freus</option><option>Other / multiple stops</option></select></label><label id="rv-route-other-wrap" hidden>Other destination<input id="rv-route-other" maxlength="160" placeholder="Enter destination or area"></label><label>Additional route details (optional)<input id="rv-route-extra" maxlength="180" placeholder="Stops, return route, other destination"></label><div class="rv-section-heading">People on board</div><div class="rv-counts"><label>Captain<input id="rv-count-captain" type="number" min="1" max="2" value="1"></label><label>Crew (excluding captain)<input id="rv-count-crew" type="number" min="0" max="40" value="0"></label><label>Adult guests<input id="rv-count-guests" type="number" min="0" max="50" value="1"></label></div><div class="rv-section-heading">Children under 16</div><p class="rv-age-note">Non-overlapping age groups: under 5 (0–4), 5 to under 12 (5–11), 12 to under 16 (12–15).</p><div class="rv-counts"><label>Under 5 years<input id="rv-age-under5" type="number" min="0" max="30" value="0"></label><label>5–11 years<input id="rv-age-5to11" type="number" min="0" max="30" value="0"></label><label>12–15 years<input id="rv-age-12to15" type="number" min="0" max="30" value="0"></label></div><div id="rv-child-safety" hidden><strong>Children's safety</strong><label class="review-check"><input id="rv-jackets" type="checkbox"> I confirm that correctly sized and fitted lifejackets for every child, including infants where applicable, have been checked and are on board.</label></div><div class="rv-total-panel" aria-live="polite"><span class="rv-total-label">Total souls on board</span><strong id="rv-total-number">2</strong></div><label>Passage and weather assessment <select id="rv-assessment"><option value="">Select assessment</option><option>Reviewed — acceptable subject to ongoing assessment</option><option>Additional precautions required</option><option>Postpone / do not depart</option><option>Decision pending</option></select></label><label>Precautions / notes <textarea id="rv-notes" maxlength="2000" placeholder="Weather, sea state, guests, route restrictions, contingency…"></textarea></label><label class="review-check"><input id="rv-ack" type="checkbox"> I have personally checked official warnings, forecasts, observed conditions and passage implications.</label><label class="rv-attachment-label">Add photo / attachment (optional)<input id="rv-attachment" type="file" accept="image/*,.pdf" multiple></label><div id="rv-attachments-status" role="status">No attachments selected. Files stay on this device; they are not uploaded or included in the email draft.</div><div id="rv-attachments-preview" aria-label="Selected attachment previews"></div><label id="rv-email-other-wrap" hidden>Recipient email for other vessel<input id="rv-email-other" type="email" autocomplete="email" maxlength="200" placeholder="captain@example.com"></label><div class="rv-share-actions"><button type="button" id="rv-submit" class="pill primary" disabled aria-describedby="rv-status">Submit passage declaration — activation pending</button><button type="button" id="rv-copy" class="pill" hidden>Copy report</button><button type="button" id="rv-download" class="pill" hidden>Download report</button><button type="button" id="rv-gmail" class="pill" hidden>Open in Gmail</button><button type="button" id="rv-email" class="pill">✉ Prepare email draft (manual)</button></div><p class="rv-share-caution">Submission is not active yet. A secure server-side destination, access control and email delivery confirmation must be configured first. The email draft is optional and must be sent manually. No WhatsApp messages are sent.</p><p id="rv-status" role="status">No record has been submitted.</p></div></div></aside><div id="review-shade" hidden></div></main>
+</main>
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
 window.ISS_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.workers.dev'; // Set to your deployed existing Cloudflare Worker URL
 </script>
-<script src="app.js?v=5.39.3" defer></script>
+<script src="app.js?v=5.39.4-locked" defer></script>
 
 <script>
 (() => {
@@ -872,25 +882,7 @@ window.ISS_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.worker
   showCamera();
 })();
 </script>
-<script>
-/* Ibiza Sea School Weather Desk — Sr. AI Capitán. No secrets in client-side code. Forecast supplied by backend. */
-(()=>{'use strict';
-const endpoint = window.ISS_AI_BRIEFING_ENDPOINT || null;
-const launch=document.getElementById('iss-ai-launch')||document.createElement('button');launch.id='iss-ai-launch';launch.type='button';launch.textContent='⚓ Interactive AI Captain';launch.setAttribute('aria-controls','iss-ai-panel');launch.setAttribute('aria-expanded','false');
-const panel=document.createElement('aside');panel.id='iss-ai-panel';panel.setAttribute('aria-label','Sr. AI Capitán passage planning');panel.setAttribute('aria-hidden','true');
-panel.innerHTML=`<header><div><h2>⚓ Sr. AI Capitán · V5</h2><div class="sub">Ibiza Sea School Weather Desk · Captain's intelligence · V5</div></div><button id="iss-ai-close" type="button" aria-label="Close panel">×</button></header><main><p><strong>INTERFACE v5 · Forecast-first</strong> — Select the trip details below. The briefing request is optional.</p><label for="iss-ai-request">Optional briefing instructions</label><textarea id="iss-ai-request" placeholder="Who, what, where and how? Optional: describe training, route or special concerns."></textarea><div class="actions"><button id="iss-ai-mic" type="button">🎙 Speak</button><button id="iss-ai-stop" type="button" disabled>Stop</button><button id="iss-ai-clear" type="button">Clear</button></div><div id="iss-ai-status" role="status" aria-live="polite">Ready. Browser microphone support varies.</div><label for="iss-ai-access">Private access code (required)</label><p class="note">Interactive AI Captain is restricted. A valid code must be verified by the briefing service before any briefing is provided. This page does not grant access by itself.</p><input id="iss-ai-access" type="password" autocomplete="off" placeholder="Enter private code (not stored)"><label for="iss-ai-date">Trip date</label><input id="iss-ai-date" type="date"><label for="iss-ai-departure">Departure</label><select id="iss-ai-departure"><option value="" selected disabled>Select departure…</option><option>Sant Antoni Marina — D6</option><option>Ibiza Town</option><option>Santa Eulària</option><option>La Savina</option><option>Other (specify in request)</option></select><label for="iss-ai-duration">Operating period</label><select id="iss-ai-duration"><option value="" selected disabled>Select operating period…</option><option>Morning (08:00–12:00)</option><option>Afternoon (12:00–18:00)</option><option>All day (08:00–18:00)</option><option>Evening / night (18:00–23:00)</option><option>Overnight (23:00–08:00)</option></select><label for="iss-ai-tolerance">People aboard / tolerance</label><select id="iss-ai-tolerance"><option value="" selected disabled>Select crew / tolerance…</option><option>Experienced crew — high tolerance</option><option>Leisure guests — medium tolerance</option><option>Vulnerable/nervous guests — low tolerance</option></select><label for="iss-ai-speed">Planned cruising speed (5–50 knots)</label><input id="iss-ai-speed" type="number" min="5" max="50" step="1" value="25"><label for="iss-ai-radius">Maximum one-way cruising distance (1–70 NM)</label><input id="iss-ai-radius" type="number" min="1" max="70" step="1" value="15"><label for="iss-ai-destination">Destination (optional)</label><select id="iss-ai-destination"><option value="">Undecided — suggest suitable places</option><option>Ses Illetes</option><option>Cala Saona</option><option>Platja de Migjorn</option><option>Es Caló</option><option>Es Pujols</option><option>Cala Jondal</option><option>Ses Salines</option><option>Playa d'en Bossa</option><option>Talamanca</option><option>Santa Eulària</option><option>Tagomago</option><option>Portinatx</option><option>Benirràs</option><option>Cala Xarraca</option><option>Ses Margalides</option><option>Cala Gració</option><option>Sant Antoni</option><option>Cala Bassa</option><option>Cala Conta</option><option>Cala Tarida</option><option>Es Vedrà</option><option>Es Cubells</option><option value="other">Other — specify in instructions</option></select><button id="iss-ai-generate" type="button">✨ Generate Captain's Briefing</button><button id="iss-ai-clear-result" type="button" style="margin-top:9px;width:100%;border:1px solid #66d6d0;background:#164350;color:white;padding:11px;border-radius:9px">Clear briefing</button><div id="iss-ai-summary" aria-live="polite"></div><div id="iss-ai-result" class="hidden" aria-live="polite"></div><p class="note">Operational advice only. Verify official AEMET bulletins, navigational information and current conditions. The captain retains command. Never enter private passenger details on a public site.</p></main>`;
-if(!launch.isConnected)(document.querySelector('.iss-toolbar')||document.body).append(launch);document.body.append(panel);
-const $=s=>panel.querySelector(s),request=$('#iss-ai-request'),status=$('#iss-ai-status'),result=$('#iss-ai-result'),generate=$('#iss-ai-generate');
-const setOpen=v=>{if(!v){result.textContent='';result.classList.add('hidden');$('#iss-ai-summary').classList.remove('visible')}panel.setAttribute('aria-hidden',String(!v));launch.setAttribute('aria-expanded',String(v));document.body.classList.toggle('iss-ai-open',v);if(v)$('#iss-ai-access').focus();else launch.focus()};
-launch.addEventListener('click',()=>{if(!window.ISS_PRIVATE_ACCESS_VERIFIED){window.issRequestPrivatePin?.(launch);return;}setOpen(panel.getAttribute('aria-hidden')==='true')});$('#iss-ai-close').addEventListener('click',()=>setOpen(false));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.getAttribute('aria-hidden')==='false')setOpen(false)});$('#iss-ai-clear').addEventListener('click',()=>{request.value='';result.textContent='';result.classList.add('hidden');$('#iss-ai-summary').classList.remove('visible');status.textContent='Request and briefing cleared.'});
-const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;let recognition=null;
-if(SpeechRecognition){recognition=new SpeechRecognition();recognition.lang='en-GB';recognition.continuous=true;recognition.interimResults=true;let base='';recognition.onstart=()=>{base=request.value.trim();$('#iss-ai-mic').disabled=true;$('#iss-ai-stop').disabled=false;status.textContent='Listening… speak naturally.'};recognition.onresult=e=>{let spoken='';for(let i=0;i<e.results.length;i++)spoken+=e.results[i][0].transcript+' ';request.value=[base,spoken.trim()].filter(Boolean).join(' ')};recognition.onerror=e=>{status.textContent='Microphone error: '+e.error+'. You can type instead.'};recognition.onend=()=>{$('#iss-ai-mic').disabled=false;$('#iss-ai-stop').disabled=true;if(status.textContent==='Listening… speak naturally.')status.textContent='Transcription ready.'};$('#iss-ai-mic').addEventListener('click',()=>{try{recognition.start()}catch(e){status.textContent='Unable to start microphone: '+e.message}});$('#iss-ai-stop').addEventListener('click',()=>recognition.stop())}else{$('#iss-ai-mic').disabled=true;status.textContent='Speech recognition is not supported in this browser. Use keyboard dictation or type.'}
-// Date intentionally blank; user selects it.
-$('#iss-ai-clear-result').addEventListener('click',()=>{result.textContent='';result.classList.add('hidden');$('#iss-ai-summary').classList.remove('visible');status.textContent='Briefing cleared.'});
-generate.addEventListener('click',async()=>{if(!$('#iss-ai-access').value.trim()){result.classList.remove('hidden');result.textContent='Access code required. Enter your authorised private code before requesting an AI briefing.';status.textContent='Access code required';$('#iss-ai-access').focus();return;}const missing=[['#iss-ai-date','trip date'],['#iss-ai-departure','departure'],['#iss-ai-duration','operating period'],['#iss-ai-tolerance','crew/tolerance']].filter(([id])=>!$(id).value).map(([,name])=>name);if(missing.length){result.classList.remove('hidden');result.textContent='Please select: '+missing.join(', ')+'. The written briefing request is optional.';status.textContent='Complete the trip selections.';return;}if(!Number.isFinite(Number($('#iss-ai-speed').value))||Number($('#iss-ai-speed').value)<5||Number($('#iss-ai-speed').value)>50||!Number.isFinite(Number($('#iss-ai-radius').value))||Number($('#iss-ai-radius').value)<1||Number($('#iss-ai-radius').value)>70){result.classList.remove('hidden');result.textContent='Enter a cruising speed of 5–50 knots and maximum distance of 1–70 NM.';return;}if(!endpoint){result.classList.remove('hidden');result.textContent='The voice and planning interface is ready, but the live AI briefing service is not connected yet. No weather assessment has been generated. Your request is preserved above.';status.textContent='AI service awaiting secure connection.';return;}generate.disabled=true;result.classList.remove('hidden');$('#iss-ai-summary').classList.remove('visible');result.textContent='Retrieving forecast data and preparing briefing…';status.textContent='Contacting briefing service…';try{const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','X-Ibiza Sea School-Access':$('#iss-ai-access').value},body:JSON.stringify({request:request.value,date:$('#iss-ai-date').value,departure:$('#iss-ai-departure').value,duration:$('#iss-ai-duration').value,tolerance:$('#iss-ai-tolerance').value,vessel:'User-selected vessel',speed_knots:Number($('#iss-ai-speed').value),max_distance_nm:Number($('#iss-ai-radius').value),destination:$('#iss-ai-destination').value})});const data=await response.json();if(!response.ok)throw Error(data.error||'Briefing service unavailable (HTTP '+response.status+').');if(!data.briefing||typeof data.briefing!=='string')throw Error('Invalid briefing response.');const o=data.outlook||{},c=data.confidence||{};const summary=$('#iss-ai-summary');const esc=x=>String(x??'—').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));summary.dataset.tone=o.tone||'neutral';summary.classList.add('visible');summary.innerHTML='<div class="topline"><span class="pill">'+esc(o.status||'Unknown')+'</span><strong>AI briefing model agreement (ECMWF/GFS): '+esc(c.percentage===null?'Unavailable':c.percentage+'%')+'</strong></div><div class="metrics"><div class="metric"><small>Wind</small><strong>'+esc(o.wind)+'</strong></div><div class="metric"><small>Gusts</small><strong>'+esc(o.gusts)+'</strong></div><div class="metric"><small>Weather</small><strong>'+esc(o.weather)+'</strong></div><div class="metric"><small>Sea at departure</small><strong>'+esc(o.wave)+'</strong></div></div><div class="fineprint">'+esc(c.label||'')+' · '+esc(c.method||'')+'. '+esc(o.summary_basis||'')+'</div>';result.textContent=data.briefing;status.textContent='Model: '+(data.model||'configured model')+' · Forecast: '+(data.forecast_status||'unavailable')+' · AEMET warnings: NOT VERIFIED.'}catch(err){result.textContent='Briefing could not be generated. '+err.message;status.textContent='Briefing failed — please retry.'}finally{generate.disabled=false}});
-})();
 
-</script>
 
 <script>
 /* V5.17: Single-flight, time-limited fallback fetch. No private keys in the page. */
@@ -1591,140 +1583,7 @@ async function baro(){const [lat,lon,name]=sites[$('location').value]||sites.san
 $('location')?.addEventListener('change',baro);document.querySelectorAll('#periods button').forEach(b=>b.addEventListener('click',()=>setTimeout(baro,100)));setTimeout(baro,2500);
 // Warning display enhancement: only visual status; retain existing CAP parser and caveats.
 const warn=$('aemet-status'),row=document.querySelector('.aemet-warning-row');if(warn&&row){new MutationObserver(()=>{const t=(warn.textContent||'').toLowerCase();row.dataset.alert=/official alerts|avisos oficiales|expected|previsto/.test(t)?'yes':/no warnings|sin avisos/.test(t)?'no':'unknown'}).observe(warn,{childList:true,subtree:true,characterData:true})}
-// Captain review: draft only, no backend and no false submission receipt.
-const drawer=$('captain-review-drawer'),shade=$('review-shade');
-function resetRvForm(){
- rvMode=null;
- $('rv-code').value='';
- $('rv-form-fields').hidden=true;
- $('rv-mode-title').textContent='Choose declaration version';
- put('rv-code-status','Enter your four-digit code to open a fresh declaration. This is a form selector, not secure authentication.');
- for(const el of $('rv-form-fields').querySelectorAll('input,select,textarea')){
-  if(el.type==='checkbox'||el.type==='radio')el.checked=false;
-  else if(el.type==='number')el.value='0';
-  else el.value='';
- }
- for(const id of ['rv-captain-other-wrap','rv-vessel-other-wrap','rv-email-other-wrap','rv-port-other-wrap','rv-route-other-wrap'])$(id).hidden=true;
- for(const id of ['rv-public-captain-wrap','rv-public-vessel-wrap'])$(id).hidden=true;
- $('rv-captain-select-wrap').hidden=false;$('rv-vessel-select-wrap').hidden=false;
- $('rv-attachments-preview').replaceChildren();
- put('rv-attachments-status','No attachments selected. Files stay on this device; they are not uploaded or included in the email draft.');
- put('rv-status','No report submitted.');
- for(const id of ['rv-copy','rv-download','rv-gmail'])$(id).hidden=true;
- $('rv-email').hidden=false;
- updatePassengers();
-}
-function open(v){
- if(!v)resetRvForm();
- drawer.hidden=!v;shade.hidden=!v;document.body.style.overflow=v?'hidden':'';
- if(v&&!$('rv-departure').value){const d=new Date(),local=new Date(d.getTime()-d.getTimezoneOffset()*60000);$('rv-departure').value=local.toISOString().slice(0,16)}
-}
-$('captain-review-open')?.addEventListener('click',()=>{if(!window.ISS_PRIVATE_ACCESS_VERIFIED){window.issRequestPrivatePin?.($('captain-review-open'));return;}open(true)});$('captain-review-close')?.addEventListener('click',()=>open(false));shade?.addEventListener('click',()=>open(false));
-[['rv-captain','rv-captain-other-wrap','Other Captain'],['rv-vessel','rv-vessel-other-wrap','Other vessel'],['rv-port','rv-port-other-wrap','Other'],['rv-route','rv-route-other-wrap','Other / multiple stops']].forEach(([sel,wrap,value])=>{const update=()=>{$(wrap).hidden=$(sel).value!==value};$(sel)?.addEventListener('change',update);update()});
-
-$('rv-attachment')?.addEventListener('change',()=>{
- const list=$('rv-attachments-preview');list.replaceChildren();
- const files=Array.from($('rv-attachment').files||[]),limit=5;
- if(files.length>limit){$('rv-attachment').value='';put('rv-attachments-status','Select no more than five files. Nothing was uploaded.');return}
- for(const file of files){
-  const item=document.createElement('div');item.className='rv-attachment-item';
-  const label=document.createElement('span');label.textContent=file.name+' · '+Math.ceil(file.size/1024)+' KB';item.append(label);
-  if(file.type.startsWith('image/')){const img=document.createElement('img');img.alt='Selected image preview: '+file.name;img.width=100;img.height=76;img.style.objectFit='cover';const url=URL.createObjectURL(file);img.onload=()=>URL.revokeObjectURL(url);img.onerror=()=>URL.revokeObjectURL(url);img.src=url;item.append(img)}
-  list.append(item);
- }
- put('rv-attachments-status',files.length?files.length+' file(s) selected locally — NOT uploaded, NOT attached to email draft.':'No attachments selected. Nothing uploaded.');
-});
-const rvPresets={
- '0000':{title:'Public declaration',captains:[],vessels:[]},
- '9999':{title:'A58 fleet declaration',captains:['Dominic','Jaime','007'],vessels:['A58']},
- '4444':{title:'HYGGELIG / LARISSA fleet declaration',captains:['Craig','Stephen','Dominic'],vessels:['HYGGELIG','LARISSA']}
-};
-let rvMode=null;
-const setOptions=(id,values,label,other)=>{
- const el=$(id);el.replaceChildren();
- const blank=document.createElement('option');blank.value='';blank.textContent='Select '+label;el.append(blank);
- for(const value of values){const option=document.createElement('option');option.value=value;option.textContent=value;el.append(option)}
- const opt=document.createElement('option');opt.value=other;opt.textContent=other;el.append(opt);
-};
-function chooseRvMode(code){
- const mode=rvPresets[code]; if(!mode){put('rv-code-status','Code not recognised. No declaration unlocked.');return}
- rvMode=code;
- $('rv-form-fields').hidden=false;
- $('rv-mode-title').textContent=mode.title;
- $('rv-captain-select-wrap').hidden=code==='0000';
- $('rv-vessel-select-wrap').hidden=code==='0000';
- $('rv-public-captain-wrap').hidden=code!=='0000';
- $('rv-public-vessel-wrap').hidden=code!=='0000';
- $('rv-captain-other-wrap').hidden=true;$('rv-vessel-other-wrap').hidden=true;
- $('rv-public-captain').value='';$('rv-public-vessel').value='';
- $('rv-email-other-wrap').hidden=code!=='0000';
- setOptions('rv-captain',mode.captains,'captain','Other Captain');
- setOptions('rv-vessel',mode.vessels,'vessel','Other vessel');
- put('rv-code-status',mode.title+' opened. This code selects a form; it is not secure authentication.');
- $('rv-copy').hidden=code!=='0000';$('rv-download').hidden=code!=='0000';$('rv-gmail').hidden=code!=='0000';$('rv-email').hidden=code==='0000';
- put('rv-status','No report submitted. Automatic delivery is not active.');
-}
-$('rv-code-enter')?.addEventListener('click',()=>chooseRvMode($('rv-code').value.trim()));
-$('rv-code')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();chooseRvMode($('rv-code').value.trim())}});
-const getCaptain=()=>rvMode==='0000'?$('rv-public-captain').value.trim():$('rv-captain').value==='Other Captain'?$('rv-captain-other').value.trim():$('rv-captain').value;
-const getVessel=()=>rvMode==='0000'?$('rv-public-vessel').value.trim():$('rv-vessel').value==='Other vessel'?$('rv-vessel-other').value.trim():$('rv-vessel').value;
-
-const rvnum=id=>Math.max(0,Number($(id)?.value)||0);
-function updatePassengers(){
- const c=rvnum('rv-age-under5')+rvnum('rv-age-5to11')+rvnum('rv-age-12to15');
- $('rv-child-safety').hidden=c===0;
- put('rv-total-number',String(rvnum('rv-count-captain')+rvnum('rv-count-crew')+rvnum('rv-count-guests')+c));
-}
-['rv-count-captain','rv-count-crew','rv-count-guests','rv-age-under5','rv-age-5to11','rv-age-12to15'].forEach(id=>$(id)?.addEventListener('input',updatePassengers));updatePassengers();
-function rvBuildDraft(){
- const captainCount=rvnum('rv-count-captain'),crew=rvnum('rv-count-crew'),guests=rvnum('rv-count-guests');
- const ages=['rv-age-under5','rv-age-5to11','rv-age-12to15'].map(rvnum),c=ages.reduce((x,y)=>x+y,0),total=captainCount+crew+guests+c;
- if(!rvMode||!getCaptain()||!getVessel()||!$('rv-assessment').value||!$('rv-route').value||!$('rv-ack').checked)return {error:'Complete captain, destination, assessment and weather acknowledgement.'};
- if(captainCount<1||total<1)return {error:'At least one captain and one person must be aboard.'};
- if(c>0&&!$('rv-jackets').checked)return {error:'Confirm correctly fitted lifejackets for every child.'};
- if((rvMode!=='0000'&&$('rv-captain').value==='Other Captain'&&!$('rv-captain-other').value.trim())||(rvMode!=='0000'&&$('rv-vessel').value==='Other vessel'&&!$('rv-vessel-other').value.trim())||($('rv-port').value==='Other'&&!$('rv-port-other').value.trim())||($('rv-route').value==='Other / multiple stops'&&!$('rv-route-other').value.trim()))return {error:'Enter the name or location for each Other selection.'};
- const data=`Ibiza Sea School Captain's Passage & Weather Declaration — DRAFT ONLY\nCaptain: ${getCaptain()}\nVessel: ${getVessel()}\nOperating area: ${$('areaName')?.textContent||''}\nDeparture: ${$('rv-departure').value} from ${$('rv-port').value==='Other'?$('rv-port-other').value:$('rv-port').value}\nDestination: ${$('rv-route').value==='Other / multiple stops'?$('rv-route-other').value:$('rv-route').value}\nAdditional route: ${$('rv-route-extra').value}\nCaptain: ${captainCount}; crew: ${crew}; adult guests: ${guests}\nChildren: under 5 (0–4): ${ages[0]}; 5–11: ${ages[1]}; 12–15: ${ages[2]}; total children: ${c}\nTOTAL SOULS ON BOARD: ${total}\nChildren's lifejackets: ${c===0?'Not applicable':'Confirmed checked, fitted and aboard'}\nAssessment: ${$('rv-assessment').value}\nPrecautions: ${$('rv-notes').value}\nForecast source: See dashboard for active forecast provider and retrieval time\nAEMET warning status: ${$('aemet-status')?.textContent||'Unverified'}\nPrepared: ${fmt(new Date())}\nNOT SUBMITTED OR VERIFIED`;
- return {data};
-}
-function publicReport(){
- if(rvMode!=='0000'){put('rv-status','Public export options are available in 0000 mode only.');return null}
- const result=rvBuildDraft();
- if(result.error){put('rv-status',result.error);return null}
- return result.data;
-}
-$('rv-copy')?.addEventListener('click',async()=>{
- const data=publicReport();if(!data)return;
- try{await navigator.clipboard.writeText(data);put('rv-status','Report copied. NOT submitted or filed.')}catch{put('rv-status','Clipboard unavailable. No report saved.')}
-});
-$('rv-download')?.addEventListener('click',()=>{
- const data=publicReport();if(!data)return;
- const file=new Blob([data],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(file);
- const link=document.createElement('a');link.href=url;link.download='ibiza-sea-school-passage-draft.txt';link.click();
- setTimeout(()=>URL.revokeObjectURL(url),10000);
- put('rv-status','Text report downloaded to this device. Photos are NOT included; nothing was submitted.');
-});
-$('rv-gmail')?.addEventListener('click',()=>{
- const data=publicReport();if(!data)return;
- const recipient=$('rv-email-other').value.trim();
- if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient)){put('rv-status','Enter a valid recipient email address.');return}
- const subject='Ibiza Sea School Captain’s Passage & Weather Declaration — DRAFT';
- const url='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(recipient)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(data);
- window.open(url,'_blank','noopener,noreferrer');
- put('rv-status','Gmail compose requested. Log in if necessary, add photos manually and press Send yourself. This website did not send or save anything.');
-});
-
-$('rv-email')?.addEventListener('click',()=>{
- const {data,error}=rvBuildDraft();if(error){put('rv-status',error);return}
- if($('rv-attachment').files?.length){put('rv-status','Selected attachments cannot be included in an email draft automatically. Please attach them manually in your email app.');}
- const subject='Ibiza Sea School Captain’s Passage & Weather Declaration — DRAFT';
- const recipient=rvMode==='0000'?$('rv-email-other').value.trim():'';
- if(rvMode==='0000'&&(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient))){put('rv-status','Enter a valid recipient email for your public declaration.');return}
- window.location.href='mailto:'+encodeURIComponent(recipient)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(data);
- put('rv-status','Email app opened with a draft. You must choose the recipient and send it. Nothing filed here.');
-});
-const updateDeliveryChoice=()=>{$('rv-email-other-wrap').hidden=rvMode!=='0000'&&$('rv-vessel').value!=='Other vessel'};
-$('rv-vessel')?.addEventListener('change',updateDeliveryChoice);updateDeliveryChoice();
-$('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure email delivery has not been activated.'));
+// Private declaration omitted from public distribution.
 
 })();
 </script>
@@ -1850,10 +1709,12 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
 <script id="iss-private-pin-gates">
 (function(){
  // No PIN is stored in the public page. A secure verification service is required to unlock.
- window.ISS_PRIVATE_ACCESS_VERIFIED=false;
+ // No client-side flag can activate private content in this release.
  window.issRequestPrivatePin=function(button){
   if(!button||button.classList.contains('iss-pin-active'))return;
   const original=button.textContent;
+  const rect=button.getBoundingClientRect();
+  button.style.width=rect.width+'px';button.style.height=rect.height+'px';button.style.flex='0 0 '+rect.width+'px';
   button.classList.add('iss-pin-active');
   button.textContent='';
   const label=document.createElement('span');label.className='iss-pin-label';label.textContent='PIN';
@@ -1864,8 +1725,10 @@ $('rv-submit')?.addEventListener('click',()=>put('rv-status','NOT SENT. Secure e
   input.addEventListener('click',e=>e.stopPropagation());
   input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();submit()}else if(e.key==='Escape'){e.stopPropagation();button.classList.remove('iss-pin-active');button.textContent=original}});
   button.addEventListener('click',function handlePin(e){if(!button.classList.contains('iss-pin-active')){button.removeEventListener('click',handlePin);return;}e.stopImmediatePropagation();if(e.target!==input)submit()},true);
+  const status=document.createElement('span');status.className='iss-pin-status';status.setAttribute('role','status');status.textContent='Private access not activated — secure service required.';button.append(status);
   input.focus();
  };
+ ['captain-review-open','iss-ai-launch'].forEach(id=>{const b=document.getElementById(id);b?.addEventListener('click',()=>window.issRequestPrivatePin(b))});
 })();
 </script>
 </body></html>
