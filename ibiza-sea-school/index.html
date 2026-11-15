@@ -834,7 +834,7 @@ section[id],nav[id]{scroll-margin-top:110px}
 <script>/* After deploying a protected Worker, set its HTTPS URL here. Never put an API key in this file. */
 window.ISS_AI_BRIEFING_ENDPOINT = 'https://ara-sr-ai-capitan.stevehullock.workers.dev'; // Set to your deployed existing Cloudflare Worker URL
 </script>
-<script src="app.js?v=5.39.4-locked" defer></script>
+<script src="app.js?v=5.39.5-app-install" defer></script>
 
 <script>
 (() => {
@@ -1313,10 +1313,17 @@ window.addEventListener('load',()=>{
   if(ambiguous){const small=document.createElement('small');small.textContent=' '+ambiguous+' alerts lack valid timing.';box.append(small)}
  }
 
+ let aemetLoading=false,aemetRetryTimer=null,aemetFailures=0;
+ function retryAemet(){aemetFailures++;if(aemetFailures<=3)aemetRetryTimer=setTimeout(loadAemet,[2000,5000,15000][aemetFailures-1])}
+ async function loadAemet(){
+ if(aemetLoading)return;
+ aemetLoading=true;clearTimeout(aemetRetryTimer);
+ const controller=new AbortController(),deadline=setTimeout(()=>controller.abort(),20000);
  try{
-  const r=await fetch('https://ara-sr-ai-capitan.stevehullock.workers.dev/aemet',{cache:'no-store'});
+  const r=await fetch('https://ara-sr-ai-capitan.stevehullock.workers.dev/aemet',{cache:'no-store',signal:controller.signal});
   if(!r.ok)throw Error('HTTP '+r.status);
   const d=await r.json();warningResponse=d.warnings;coastalAvisos=d.marine_avisos||null;
+  if(d.marine?.verified)aemetFailures=0;else retryAemet();
   set('aemet-checked','Last retrieved: '+labelDate(d.checked_at_utc));
   if(d.marine?.verified){
    bulletin=parseBulletin(d.marine.bulletin);
@@ -1329,7 +1336,14 @@ window.addEventListener('load',()=>{
    }
   }else{set('aemet-issue','Official forecast unavailable');set('aemet-ibiza','Marine forecast could not be verified');set('aemet-formentera','Marine forecast could not be verified')}
   warningAlerts=Array.isArray(d.warnings?.alerts)?d.warnings.alerts:[];renderWarnings();
- }catch(e){set('aemet-issue','Official forecast unavailable');set('aemet-checked','AEMET retrieval/display failed: '+String(e.message||'unknown'));set('aemet-status','Warnings unverified');set('aemet-warning-details','Check official AEMET warnings before departure.');set('aemet-ibiza','Forecast unavailable');set('aemet-formentera','Forecast unavailable')}
+ }catch(e){set('aemet-issue','Official forecast unavailable');set('aemet-checked','AEMET retrieval/display failed: '+String(e.message||'unknown'));set('aemet-status','Warnings unverified');set('aemet-warning-details','Check official AEMET warnings before departure.');set('aemet-ibiza','Forecast unavailable');set('aemet-formentera','Forecast unavailable');retryAemet()}
+ finally{clearTimeout(deadline);aemetLoading=false}
+ }
+ const refreshAemet=()=>{aemetFailures=0;loadAemet()};
+ $('refresh')?.addEventListener('click',refreshAemet);
+ window.addEventListener('online',refreshAemet);
+ setInterval(()=>{if(!document.hidden)refreshAemet()},600000);
+ loadAemet();
 })();
 </script>
 <script>
