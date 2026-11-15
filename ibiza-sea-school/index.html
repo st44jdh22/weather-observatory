@@ -618,7 +618,7 @@ section[id],nav[id]{scroll-margin-top:110px}
 .hero-inner{position:relative}
 .iss-consultants-link{position:absolute;right:28px;top:240px;width:160px;display:block}
 .iss-consultants-link img{display:block;width:100%;height:auto}
-@media(max-width:650px){.iss-consultants-link{right:17px;width:85px;top:210px}.hero h2,.hero-sub{max-width:calc(100% - 105px)}}
+@media(max-width:650px){.iss-consultants-link{right:17px;width:85px;top:210px}.hero h2,.hero-sub{max-width:calc(100% - 105px)}.hero .iss-live-clock{max-width:calc(100% - 105px);font-size:20px}}
 </style></head>
 <body>
 <header class="hero">
@@ -627,7 +627,7 @@ section[id],nav[id]{scroll-margin-top:110px}
     <div class="iss-brand-row"><a class="iss-logo-panel" href="https://ibizaseaschool.com/" target="_blank" rel="noopener noreferrer" aria-label="Ibiza Sea School homepage (opens in a new tab)"><img class="iss-logo" src="assets/ibiza-sea-school-logo.svg" width="1752" height="897" alt="Ibiza Sea School logo"></a><a href="https://www.rya.org.uk/training/" target="_blank" rel="noopener noreferrer" aria-label="RYA training (opens in a new tab)"><img class="iss-rya-logo" src="assets/rya-training-centre.jpg" width="1667" height="1250" alt="RYA Training Centre"></a></div>
     <h2 data-en="CAPTAIN'S WEATHER &amp; MARITIME DESK" data-es="METEOROLOGÍA Y NAVEGACIÓN MARÍTIMA">CAPTAIN'S WEATHER &amp; MARITIME DESK</h2>
     <span class="hero-sub" data-en="FORECAST INTELLIGENCE · OPERATIONAL AWARENESS" data-es="INTELIGENCIA METEOROLÓGICA · CONCIENCIA OPERATIVA">FORECAST INTELLIGENCE · OPERATIONAL AWARENESS</span>
-    <a class="iss-consultants-link" href="https://ibizamarineconsultants.com/" target="_blank" rel="noopener noreferrer" aria-label="Ibiza Marine Consultants (opens in a new tab)"><img src="assets/ibiza-marine-consultants-brand.svg" width="900" height="424" alt="Ibiza Marine Consultants"></a>
+    <a class="iss-consultants-link" href="https://ibizamarineconsultants.com/" target="_blank" rel="noopener noreferrer" aria-label="Ibiza Marine Consultants (opens in a new tab)"><img src="assets/ibiza-marine-consultants-clean.svg" width="900" height="424" alt="Ibiza Marine Consultants"></a>
     <time id="iss-live-clock" class="iss-live-clock" aria-label="Current UK date and time"></time>
   </div>
 
@@ -1749,5 +1749,5 @@ const warn=$('aemet-status'),row=document.querySelector('.aemet-warning-row');if
 })();
 </script>
 <script id="iss-partner-logo-alignment">
-(()=>{const link=document.querySelector('.iss-consultants-link'),clock=document.getElementById('iss-live-clock'),host=document.querySelector('.hero-inner');const align=()=>{link.style.top=(clock.getBoundingClientRect().top-host.getBoundingClientRect().top-link.getBoundingClientRect().height-12)+'px'};new ResizeObserver(align).observe(clock);new ResizeObserver(align).observe(host);link.querySelector('img').addEventListener('load',align);align()})();
+(()=>{const link=document.querySelector('.iss-consultants-link'),clock=document.getElementById('iss-live-clock'),host=document.querySelector('.hero-inner');const align=()=>{link.style.top=(clock.getBoundingClientRect().bottom-host.getBoundingClientRect().top-link.getBoundingClientRect().height)+'px'};new ResizeObserver(align).observe(clock);new ResizeObserver(align).observe(host);link.querySelector('img').addEventListener('load',align);align()})();
 </script></body></html>
