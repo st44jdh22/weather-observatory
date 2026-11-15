@@ -449,3 +449,13 @@ test('V5.37 Hotel Gran Sol live sunset webcam is selectable ahead of Formentera'
  assert.match(sw,/ibiza-sea-school-weather-v5\.37-20261018/);
  for(const m of page.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi))if(!/\bsrc\s*=/.test(m[1]))assert.doesNotThrow(()=>new vm.Script(m[2]));
 });
+
+// Custom website domains may read public weather only; private AI POST remains restricted.
+test('custom website origins receive METAR CORS without private access',async()=>{
+ globalThis.fetch=async()=>json([{icaoId:'LEIB',wspd:7,wdir:280,temp:21,obsTime:1794735000}]);
+ for(const Origin of ['https://ibizaseaschool.com','https://www.ibizaseaschool.com','https://ibizamarineconsultants.com','https://www.ibizamarineconsultants.com']){
+  const r=await worker.fetch(request('/metar','GET',null,{Origin}),env());assert.equal(r.status,200);assert.equal(r.headers.get('Access-Control-Allow-Origin'),Origin);assert.equal(r.headers.get('Access-Control-Allow-Methods'),'GET, OPTIONS');
+  const privateRequest=await worker.fetch(request('/','POST','{}',{Origin,'X-ARA-Access':'test-access'}),env());assert.equal(privateRequest.status,403);
+ }
+ const denied=await worker.fetch(request('/metar','GET',null,{Origin:'https://example.com'}),env());assert.equal(denied.status,403);assert.equal(denied.headers.get('Access-Control-Allow-Origin'),null);
+});
