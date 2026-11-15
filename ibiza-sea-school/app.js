@@ -94,7 +94,18 @@ function setupSectionJump(){
 }
 function setup(){setupSectionJump();for(const b of document.querySelectorAll('#periods button'))b.addEventListener('click',()=>{selectedHours=Number(b.dataset.hours);document.querySelectorAll('#periods button').forEach(x=>x.classList.toggle('selected',x===b));drawBarograph()});$('refresh').addEventListener('click',refresh);$('location').addEventListener('change',refresh);window.addEventListener('resize',()=>drawBarograph());$('loadMap').addEventListener('click',showMap);for(const b of document.querySelectorAll('[data-map]'))b.addEventListener('click',()=>{selectedMap=b.dataset.map;document.querySelectorAll('[data-map]').forEach(x=>x.classList.toggle('selected',x===b));if(mapLoaded)showMap()});
  window.addEventListener('offline',()=>{$('offlineNote').hidden=false;$('dataIndicator').innerHTML='<span class="dot bad"></span> Offline · no current verification';resetWeather();});window.addEventListener('online',()=>{$('offlineNote').hidden=true;refresh()});if(!navigator.onLine)$('offlineNote').hidden=false;
- window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();pendingInstall=e;$('install').hidden=false});$('install').addEventListener('click',async()=>{if(pendingInstall){pendingInstall.prompt();await pendingInstall.userChoice;pendingInstall=null;$('install').hidden=true}});
+ const installed=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+ $('install').hidden=installed();
+ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();pendingInstall=e;$('install').hidden=installed()});
+ window.addEventListener('appinstalled',()=>{$('install').hidden=true;pendingInstall=null});
+ $('install').addEventListener('click',async()=>{if(pendingInstall){const prompt=pendingInstall;pendingInstall=null;await prompt.prompt();const choice=await prompt.userChoice;if(choice.outcome==='accepted')$('install').hidden=true;return;}
+ const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+ const android=/Android/.test(navigator.userAgent);
+ $('iss-install-help').textContent=ios?'Open this page in Safari. Tap Share → Add to Home Screen, turn on Open as Web App if shown, then Add. Apple requires you to confirm this step.':android?'In Chrome, open the ⋮ menu and choose Add to Home screen or Install app. Confirm Install.':'In Chrome or Edge, use the install icon in the address bar, or the browser menu → Install this page as an app. On Mac Safari, choose File → Add to Dock.';
+ $('iss-install-dialog').showModal();
+ });
+ $('iss-install-close').addEventListener('click',()=>$('iss-install-dialog').close());
+ $('iss-install-dialog').addEventListener('click',e=>{if(e.target===$('iss-install-dialog')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close()}});
  if('serviceWorker' in navigator && location.protocol==='https:')navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
  refresh();}
 setup();
