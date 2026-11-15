@@ -269,8 +269,12 @@ async function metNorwayForecast(lat,lon){
 }
 
 export default {async fetch(request,env){
- const origin=request.headers.get('Origin');if(origin!==ORIGIN)return json({error:'Origin denied'},403);
- const h=cors();if(request.method==='OPTIONS')return new Response(null,{status:204,headers:h});
+ const origin=request.headers.get('Origin');
+ const publicWeatherPath=new URL(request.url).pathname;
+ const publicWeatherRequest=['GET','OPTIONS'].includes(request.method)&&['/metar','/aemet','/forecast'].includes(publicWeatherPath);
+ const publicWeatherOrigin=['https://ibizaseaschool.com','https://www.ibizaseaschool.com','https://ibizamarineconsultants.com','https://www.ibizamarineconsultants.com'].includes(origin);
+ if(origin!==ORIGIN&&!(publicWeatherRequest&&publicWeatherOrigin))return json({error:'Origin denied'},403);
+ const h=origin===ORIGIN?cors():{'Access-Control-Allow-Origin':origin,'Vary':'Origin','Access-Control-Allow-Methods':'GET, OPTIONS'};if(request.method==='OPTIONS')return new Response(null,{status:204,headers:h});
  const route=new URL(request.url);
  if(request.method==='GET'&&route.pathname==='/aemet'){
   try{return json(await aemetStatus(env),200,{...h,'Cache-Control':'public, max-age=600'});}
